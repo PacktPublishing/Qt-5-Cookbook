@@ -21,20 +21,15 @@ MainWindow::MainWindow(QWidget *parent) :
            []() { QApplication::exit(); });
 
    // Menu bar
-   auto menuBar = new QMenuBar;
-   auto fileMenu = new QMenu(tr("&File"), menuBar);
+   auto fileMenu = menuBar()->addMenu(tr("&File"));
    fileMenu->addAction(exitAction);
-   menuBar->addMenu(fileMenu);
-   setMenuBar(menuBar);
 
    // Tool bar
    auto mainToolBar = addToolBar(tr("Main toolbar"));
    mainToolBar->addAction(exitAction);
 
    // Status bar
-   auto statusBar = new QStatusBar;
-   statusBar->addPermanentWidget(new QLabel(tr("Ready!")), 1);
-   setStatusBar(statusBar);
+   statusBar()->addPermanentWidget(new QLabel(tr("Ready!")), 1);
 
    // Central widget
    auto label = new QLabel;
@@ -42,13 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
    setCentralWidget(label);
 
    // Dock widget
-   auto dockWidget = new QDockWidget;
    auto listWidget = new QListWidget;
    listWidget->addItems({ tr("First item"),
                           tr("Second item"),
                           tr("Third item") });
    for (auto item : listWidget->findItems("*", Qt::MatchWildcard))
       item->setIcon(QIcon(":/icons/qtlogo.svg"));
+   auto dockWidget = new QDockWidget;
    dockWidget->setWidget(listWidget);
    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
 

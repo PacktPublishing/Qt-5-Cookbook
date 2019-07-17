@@ -9,7 +9,7 @@ class MainWindow : public QMainWindow
 
 public:
    explicit MainWindow(QWidget *parent = nullptr);
-   ~MainWindow() override;
+   ~MainWindow() Q_DECL_OVERRIDE;
 };
 
 #endif // MAINWINDOW_H

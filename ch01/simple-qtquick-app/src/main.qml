@@ -13,8 +13,13 @@ ApplicationWindow {
          MenuItem {
             id: fileExitMenuItem
             text: qsTr("E&xit")
-            icon { source: "qrc:/icons/application-exit.svg"; color: "Indigo" }
-            action: Action { shortcut: "Ctrl+Q"; onTriggered: Qt.quit() }
+            icon {
+               source: "qrc:/icons/application-exit.svg"
+               color: "Indigo"
+            }
+            action: Action {
+               shortcut: "Ctrl+Q"; onTriggered: Qt.quit()
+            }
          }
       }
     }
@@ -22,7 +27,9 @@ ApplicationWindow {
    header: ToolBar {
       ToolButton {
          action: fileExitMenuItem.action
-         icon { source: "qrc:/icons/application-exit.svg"; color: "white" }
+         icon {
+            source: "qrc:/icons/application-exit.svg"; color: "white"
+         }
       }
    }
 
@@ -35,12 +42,16 @@ ApplicationWindow {
          id: listView
          SplitView.preferredWidth: 200
          SplitView.maximumWidth: 400
-         model: [ qsTr("First item"), qsTr("Second item"), qsTr("Third item") ]
+         model: [ qsTr("First item"),
+                  qsTr("Second item"),
+                  qsTr("Third item") ]
          clip: true
          delegate: ItemDelegate {
             width: parent.width
             text: modelData
-            icon { source: "qrc:/icons/qtlogo.svg"; color: "transparent" }
+            icon {
+               source: "qrc:/icons/qtlogo.svg"; color: "transparent"
+            }
             highlighted: ListView.isCurrentItem
             onClicked: listView.currentIndex = index
          }

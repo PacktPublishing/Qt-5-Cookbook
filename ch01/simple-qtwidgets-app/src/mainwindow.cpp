@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
                                tr("E&xit"),
                                this);
    exitAction->setShortcut(Qt::CTRL + Qt::Key_Q);
-   connect(exitAction, &QAction::triggered, []() { QApplication::exit(); });
+   connect(exitAction, &QAction::triggered,
+           []() { QApplication::exit(); });
 
    // Menu bar
    auto menuBar = new QMenuBar;

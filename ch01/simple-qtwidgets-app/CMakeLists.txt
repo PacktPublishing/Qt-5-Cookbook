@@ -18,6 +18,5 @@ set(simple-qtwidgets-app_SRC
 
 add_executable(${PROJECT_NAME} ${simple-qtwidgets-app_SRC})
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
-install(TARGETS simple-qtwidgets-app DESTINATION bin)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

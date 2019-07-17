@@ -11,17 +11,13 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
-   // Action
-   auto exitAction = new QAction(QIcon(":/icons/application-exit.svg"),
-                               tr("E&xit"),
-                               this);
-   exitAction->setShortcut(Qt::CTRL + Qt::Key_Q);
-   connect(exitAction, &QAction::triggered,
-           []() { QApplication::exit(); });
-
    // Menu bar
    auto fileMenu = menuBar()->addMenu(tr("&File"));
-   fileMenu->addAction(exitAction);
+   auto exitAction = fileMenu->addAction(QIcon(":/icons/exit.svg"),
+                                         tr("E&xit"),
+                                         qApp, &QApplication::exit,
+                                         Qt::CTRL + Qt::Key_Q
+                                         );
 
    // Tool bar
    auto mainToolBar = addToolBar(tr("Main toolbar"));

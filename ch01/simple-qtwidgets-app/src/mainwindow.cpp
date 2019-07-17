@@ -6,7 +6,6 @@
 #include <QStatusBar>
 #include <QDockWidget>
 #include <QListWidget>
-#include <QStringListModel>
 #include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) :

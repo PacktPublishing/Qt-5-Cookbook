@@ -2,11 +2,11 @@ import QtQuick 2.13
 import QtQuick.Controls 2.13
 
 ApplicationWindow {
-    visible: true
-    width: 640; height: 480
-    title: qsTr("Simple QtQuick Application")
+   visible: true
+   width: 640; height: 480
+   title: qsTr("Simple QtQuick Application")
 
-    menuBar: MenuBar {
+   menuBar: MenuBar {
       Menu {
          title: qsTr("&File")
          MenuItem {
@@ -21,7 +21,7 @@ ApplicationWindow {
             }
          }
       }
-    }
+   }
 
    header: ToolBar {
       ToolButton { action: fileExitMenuItem.action }

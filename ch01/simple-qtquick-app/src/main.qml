@@ -10,9 +10,9 @@ ApplicationWindow {
       Menu {
          title: qsTr("&File")
          MenuItem {
-            id: fileExitMenuItem
             text: qsTr("E&xit")
             action: Action {
+               id: fileExitAction
                icon {
                   source: "qrc:/icons/application-exit.svg"
                   color: "Indigo"
@@ -23,9 +23,7 @@ ApplicationWindow {
       }
    }
 
-   header: ToolBar {
-      ToolButton { action: fileExitMenuItem.action }
-   }
+   header: ToolBar { ToolButton { action: fileExitAction } }
 
    footer: Frame { Label { text: qsTr("Ready!") } }
 

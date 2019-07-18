@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
    app.setWindowIcon(QIcon(":/icons/qtlogo.svg"));
 
    QQmlApplicationEngine engine;
-   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+   engine.load(QUrl("qrc:/main.qml"));
 
    return app.exec();
 }

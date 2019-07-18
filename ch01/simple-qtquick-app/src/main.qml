@@ -12,11 +12,11 @@ ApplicationWindow {
          MenuItem {
             id: fileExitMenuItem
             text: qsTr("E&xit")
-            icon {
-               source: "qrc:/icons/application-exit.svg"
-               color: "Indigo"
-            }
             action: Action {
+               icon {
+                  source: "qrc:/icons/application-exit.svg"
+                  color: "Indigo"
+               }
                shortcut: "Ctrl+Q"; onTriggered: Qt.quit()
             }
          }
@@ -24,23 +24,17 @@ ApplicationWindow {
     }
 
    header: ToolBar {
-      ToolButton {
-         action: fileExitMenuItem.action
-         icon {
-            source: "qrc:/icons/application-exit.svg"; color: "white"
-         }
-      }
+      ToolButton { action: fileExitMenuItem.action }
    }
 
    footer: Frame { Label { text: qsTr("Ready!") } }
 
    SplitView {
       anchors.fill: parent
-      orientation: Qt.Horizontal
+      orientation: Qt.Horizontal // default value
       ListView {
          id: listView
          SplitView.preferredWidth: 200
-         SplitView.maximumWidth: 400
          model: [ qsTr("First item"),
                   qsTr("Second item"),
                   qsTr("Third item") ]
@@ -56,8 +50,6 @@ ApplicationWindow {
          }
       }
       Label {
-         id: label
-         SplitView.fillWidth: true
          horizontalAlignment: Text.AlignHCenter
          verticalAlignment: Text.AlignVCenter
          text: listView.currentItem.text

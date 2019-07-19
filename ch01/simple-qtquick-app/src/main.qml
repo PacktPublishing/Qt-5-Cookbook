@@ -8,6 +8,6 @@ ApplicationWindow {
 
    Label {
       anchors.centerIn: parent
-      text: "Hello from Qt Quick!"
+      text: qsTr("Hello from Qt Quick!")
    }
 }

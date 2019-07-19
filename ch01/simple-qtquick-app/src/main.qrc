@@ -1,10 +1,5 @@
 <RCC>
    <qresource prefix="/">
       <file>main.qml</file>
-
-      <file>icons/qtlogo.svg</file>
-      <file>icons/application-exit.svg</file>
-
-      <file>qtquickcontrols2.conf</file>
    </qresource>
 </RCC>

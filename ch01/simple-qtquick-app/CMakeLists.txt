@@ -15,7 +15,7 @@ set(simple-qtquick-app_SRC
    src/main.qrc
 )
 
-add_executable(${PROJECT_NAME} ${simple-qtquick-app_SRC})
+add_executable(${PROJECT_NAME} WIN32 ${simple-qtquick-app_SRC})
 target_link_libraries(${PROJECT_NAME} Qt5::Gui Qt5::Qml)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

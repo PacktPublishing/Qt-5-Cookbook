@@ -7,6 +7,6 @@ tmp="${dirname#?}"
 if [ "${dirname%$tmp}" != "/" ]; then
    dirname=$PWD/$dirname
 fi
-LD_LIBRARY_PATH=$dirname/lib
-export LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$dirname/lib
+export QML2_IMPORT_PATH=$dirname/qml
 $dirname/$appname "$@"

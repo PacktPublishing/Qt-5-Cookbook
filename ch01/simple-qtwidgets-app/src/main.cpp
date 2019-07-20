@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
    mainWindow.setWindowTitle(
       QObject::tr("Simple Qt Widgets Application")
    );
+   mainWindow.resize(640, 480);
    mainWindow.show();
 
    return QApplication::exec();

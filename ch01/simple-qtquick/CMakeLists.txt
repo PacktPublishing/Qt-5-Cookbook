@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(simple-qtquick-app)
+project(simple-qtquick)
 
 include(FeatureSummary)
 

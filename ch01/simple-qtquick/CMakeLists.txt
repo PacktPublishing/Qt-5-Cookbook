@@ -10,12 +10,12 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Qml
 )
 
-set(simple-qtquick-app_SRC
+set(simple-qtquick_SRC
    src/main.cpp
    src/main.qrc
 )
 
-add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${simple-qtquick-app_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${simple-qtquick_SRC})
 target_link_libraries(${PROJECT_NAME} Qt5::Gui Qt5::Qml)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -5,6 +5,7 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QToolBar>
+#include <QToolButton>
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
@@ -20,22 +21,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));
+   mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
    mainToolBar->addAction(exitAction);
 
    // Secondary tool bar with action groups
-   auto secondaryToolBar = new QToolBar { tr("Secondary toolbar") };
    auto alignHorizontalActionGroup = createActionGroup({
       { QLatin1String(":/icons/horizontal-left.svg"),   tr("Align &left") },
       { QLatin1String(":/icons/horizontal-center.svg"), tr("Align &center") },
       { QLatin1String(":/icons/horizontal-right.svg"),  tr("Align &right") }
    });
-   secondaryToolBar->addActions(alignHorizontalActionGroup->actions());
-   secondaryToolBar->addSeparator();
    auto alignVerticalActionGroup = createActionGroup({
       { QLatin1String(":/icons/vertical-top.svg"),    tr("Align &top") },
       { QLatin1String(":/icons/vertical-center.svg"), tr("Align ce&nter") },
       { QLatin1String(":/icons/vertical-bottom.svg"), tr("Align &bottom") }
    });
+   auto secondaryToolBar = new QToolBar { tr("Secondary toolbar") };
+   secondaryToolBar->addActions(alignHorizontalActionGroup->actions());
+   secondaryToolBar->addSeparator();
    secondaryToolBar->addActions(alignVerticalActionGroup->actions());
    addToolBar(Qt::RightToolBarArea, secondaryToolBar);
 
@@ -44,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
    alignMenu->addActions(alignHorizontalActionGroup->actions());
    alignMenu->addSeparator();
    alignMenu->addActions(alignVerticalActionGroup->actions());
-   mainToolBar->addAction(QIcon(QLatin1String(":/icons/configure.svg")), QStringLiteral("Align"))->setMenu(alignMenu);
+   auto alignAction = mainToolBar->addAction(QIcon(QLatin1String(":/icons/configure.svg")), QStringLiteral("&Align"));
+   alignAction->setMenu(alignMenu);
+   (qobject_cast<QToolButton*>(mainToolBar->widgetForAction(alignAction)))->setPopupMode(QToolButton::MenuButtonPopup);
 
    // Menu with submenu
    auto formatMenu = menuBar()->addMenu(tr("F&ormat"));
@@ -54,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
    statusBar()->addPermanentWidget(new QLabel { tr("Ready!") }, 1);
 
    // Central widget
-   auto label = new QLabel { "Hello with menus and toolbars!" };
+   auto label = new QLabel { QStringLiteral("Hello with menus and toolbars!") };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
    setCentralWidget(label);
 

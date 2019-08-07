@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include <QToolButton>
+
 class QActionGroup;
 
 class MainWindow : public QMainWindow

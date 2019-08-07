@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(qtwidgets-app)
+project(dockwidgets)
 
 include(FeatureSummary)
 
@@ -10,13 +10,14 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Widgets
 )
 
-set(qtwidgets-app_SRC
+set(dockwidgets_SRC
    src/main.cpp
    src/main.qrc
    src/mainwindow.cpp
+   src/orientabletoolbutton.cpp
 )
 
-add_executable(${PROJECT_NAME} ${qtwidgets-app_SRC})
+add_executable(${PROJECT_NAME} ${dockwidgets_SRC})
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -8,6 +8,8 @@
 #include <QListWidget>
 #include <QLabel>
 
+#include "orientabletoolbutton.h"
+
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
@@ -47,8 +49,12 @@ MainWindow::MainWindow(QWidget *parent) :
            label, &QLabel::setText);
    listWidget->setCurrentRow(0);
 
+   auto secondaryToolBar = new QToolBar { tr("Secondary toolbar") };
+   addToolBar(Qt::RightToolBarArea, secondaryToolBar);
+   secondaryToolBar->addWidget(new OrientableToolButton(QIcon(QLatin1String(":/icons/exit.svg")), "Teste", this));
+
    // Set window title
-   setWindowTitle(tr("Simple QtWidgets Application"));
+   setWindowTitle(tr("DockWidgets Application"));
 }
 
 MainWindow::~MainWindow() = default;

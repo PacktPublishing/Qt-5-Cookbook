@@ -11,19 +11,23 @@ int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
 
+   // Main window and widgets
    QMainWindow mainWindow;
    auto spinBox = new QSpinBox;
    auto slider = new QSlider { Qt::Horizontal };
    auto label = new QLabel { QObject::tr("This is a QLabel!") };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
+   // Layout
    auto layout = new QVBoxLayout;
    layout->addWidget(spinBox);
    layout->addWidget(slider);
    layout->addWidget(label);
 
+   // Our QObject
    auto myCounter = new MyCounter { 0, &mainWindow };
 
+   // Connections
    QObject::connect(spinBox, QOverload<int>::of(&QSpinBox::valueChanged),
                     slider, &QSlider::setValue);
    QObject::connect(slider, &QSlider::valueChanged,
@@ -35,15 +39,18 @@ int main(int argc, char *argv[])
                        label->setText("Value changed to " + QString::number(value) + "!");
                     });
 
+   // Set central widget
    auto centralWidget = new QWidget;
    centralWidget->setLayout(layout);
    mainWindow.setCentralWidget(centralWidget);
 
+   // Show main window
    mainWindow.setWindowTitle(
       QObject::tr("Basic Wiring Application")
    );
    mainWindow.resize(640, 480);
    mainWindow.show();
 
+   // Start event loop
    return QApplication::exec();
 }

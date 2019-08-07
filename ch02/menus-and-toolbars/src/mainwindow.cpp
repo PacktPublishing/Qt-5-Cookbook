@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
    alignMenu->addActions(alignVerticalActionGroup->actions());
    auto alignAction = mainToolBar->addAction(QIcon(QLatin1String(":/icons/configure.svg")), QStringLiteral("&Align"));
    alignAction->setMenu(alignMenu);
-   (qobject_cast<QToolButton*>(mainToolBar->widgetForAction(alignAction)))->setPopupMode(QToolButton::MenuButtonPopup);
+   (qobject_cast<QToolButton *>(mainToolBar->widgetForAction(alignAction)))->setPopupMode(QToolButton::MenuButtonPopup);
 
    // Menu with submenu
    auto formatMenu = menuBar()->addMenu(tr("F&ormat"));

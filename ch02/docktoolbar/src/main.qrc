@@ -1,0 +1,10 @@
+<RCC>
+   <qresource prefix="/">
+      <file>icons/qtlogo.svg</file>
+      <file>icons/exit.svg</file>
+      <file>icons/textedit.svg</file>
+      <file>icons/listwidget.svg</file>
+      <file>icons/calendar.svg</file>
+      <file>icons/webengine.svg</file>
+   </qresource>
+</RCC>

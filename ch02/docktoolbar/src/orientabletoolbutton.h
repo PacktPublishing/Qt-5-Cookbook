@@ -8,26 +8,15 @@ class OrientableToolButton : public QToolButton
     Q_OBJECT
 
 public:
-    enum Orientation {
-        Horizontal,
-        VerticalTopToBottom,
-        VerticalBottomToTop
-    };
-
     OrientableToolButton(QWidget *parent = nullptr);
     OrientableToolButton(const QString &text, QWidget *parent = nullptr);
     OrientableToolButton(const QIcon &icon, const QString &text, QWidget *parent = nullptr);
 
-    QSize sizeHint() const;
-
-    OrientableToolButton::Orientation orientation() const;
-    void setOrientation(const OrientableToolButton::Orientation &orientation);
+    QSize sizeHint() const Q_DECL_OVERRIDE;
 
 protected:
-    void paintEvent(QPaintEvent *event);
-
-private:
-    Orientation mOrientation = Horizontal;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // ORIENTABLETOOLBUTTON_H

@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
    // Left dockwidget 1
    auto leftDockWidget1 = new QDockWidget { tr("ListWidget") };
    leftDockWidget1->setWidget(listWidget);
+   connect(leftDockWidget1, &QDockWidget::topLevelChanged,
+           this, &MainWindow::topLevelChanged);
    addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget1);
 
    // Left dockwidget 2
@@ -43,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
    );
    calendarWidgetWrapper->setLayout(layout);
    leftDockWidget2->setWidget(calendarWidgetWrapper);
+   connect(leftDockWidget2, &QDockWidget::topLevelChanged,
+           this, &MainWindow::topLevelChanged);
    addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget2);
 
    // Right dockwidget
@@ -52,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent) :
    auto webEngineView = new QWebEngineView();
    webEngineView->setUrl(QUrl(QStringLiteral("https://www.qt.io")));
    rightDockWidget->setWidget(webEngineView);
+   connect(rightDockWidget, &QDockWidget::topLevelChanged,
+           this, &MainWindow::topLevelChanged);
    addDockWidget(Qt::RightDockWidgetArea, rightDockWidget);
 
    // View menu
@@ -59,10 +65,10 @@ MainWindow::MainWindow(QWidget *parent) :
    viewMenu->addActions(createPopupMenu()->actions());
 
    // Tabify
-   auto tabifyAction = new QAction(tr("&Tabify"), this);
-   tabifyAction->setShortcut(Qt::CTRL + Qt::Key_T);
-   tabifyAction->setCheckable(true);
-   connect(tabifyAction, &QAction::toggled, this,
+   _tabifyAction = new QAction(tr("&Tabify"), this);
+   _tabifyAction->setShortcut(Qt::CTRL + Qt::Key_T);
+   _tabifyAction->setCheckable(true);
+   connect(_tabifyAction, &QAction::toggled, this,
       [leftDockWidget1, leftDockWidget2, rightDockWidget, this]
       (bool checked) {
          if (checked) {
@@ -77,7 +83,27 @@ MainWindow::MainWindow(QWidget *parent) :
          }
    });
    viewMenu->addSeparator();
-   viewMenu->addAction(tabifyAction);
+   viewMenu->addAction(_tabifyAction);
+}
+
+void MainWindow::topLevelChanged(bool topLevel)
+{
+   Q_UNUSED(topLevel)
+   QDockWidget *dockWidget = qobject_cast<QDockWidget *>(sender());
+   if (_tabifyAction->isChecked()) {
+      if (tabifiedDockWidgets(dockWidget).size() < 2) {
+         _tabifyAction->blockSignals(true);
+         _tabifyAction->setChecked(false);
+         _tabifyAction->blockSignals(false);
+      }
+   } else {
+      if (dockWidgetArea(dockWidget) == Qt::LeftDockWidgetArea &&
+          tabifiedDockWidgets(dockWidget).size() == 2) {
+         _tabifyAction->blockSignals(true);
+         _tabifyAction->setChecked(true);
+         _tabifyAction->blockSignals(false);
+      }
+   }
 }
 
 void MainWindow::createStandardWidgets(const QString &title)

@@ -10,8 +10,13 @@ class MainWindow : public QMainWindow
 public:
    explicit MainWindow(QWidget *parent = nullptr);
 
+private Q_SLOTS:
+   void topLevelChanged(bool topLevel);
+
 private:
    void createStandardWidgets(const QString &title);
+
+   QAction *_tabifyAction;
 };
 
 #endif // MAINWINDOW_H

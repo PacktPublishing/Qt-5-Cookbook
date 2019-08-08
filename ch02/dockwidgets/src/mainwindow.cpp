@@ -37,13 +37,12 @@ MainWindow::MainWindow(QWidget *parent) :
    // Left dockwidget 2
    auto leftDockWidget2 = new QDockWidget { tr("Calendar") };
    auto calendarWidgetWrapper = new QWidget;
-   auto layout = new QVBoxLayout;
+   auto layout = new QVBoxLayout { calendarWidgetWrapper };
    layout->addWidget(new QCalendarWidget);
    layout->addItem(
       new QSpacerItem(0, 0,
                       QSizePolicy::Minimum, QSizePolicy::Expanding)
    );
-   calendarWidgetWrapper->setLayout(layout);
    leftDockWidget2->setWidget(calendarWidgetWrapper);
    connect(leftDockWidget2, &QDockWidget::topLevelChanged,
            this, &MainWindow::topLevelChanged);

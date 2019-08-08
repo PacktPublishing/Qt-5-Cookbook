@@ -18,8 +18,12 @@ int main(int argc, char *argv[])
    auto label = new QLabel { QObject::tr("This is a QLabel!") };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
+   // Set central widget
+   auto centralWidget = new QWidget;
+   mainWindow.setCentralWidget(centralWidget);
+
    // Layout
-   auto layout = new QVBoxLayout;
+   auto layout = new QVBoxLayout { centralWidget };
    layout->addWidget(spinBox);
    layout->addWidget(slider);
    layout->addWidget(label);
@@ -44,11 +48,6 @@ int main(int argc, char *argv[])
                         "!");
       }
    );
-
-   // Set central widget
-   auto centralWidget = new QWidget;
-   centralWidget->setLayout(layout);
-   mainWindow.setCentralWidget(centralWidget);
 
    // Show main window
    mainWindow.setWindowTitle(

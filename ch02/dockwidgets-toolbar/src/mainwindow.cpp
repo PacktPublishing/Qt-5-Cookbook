@@ -53,13 +53,12 @@ MainWindow::MainWindow(QWidget *parent) :
       tr("WebEngine"),
       webEngine);
    QWidget *calendarWidget = new QWidget;
-   auto layout = new QVBoxLayout;
+   auto layout = new QVBoxLayout { calendarWidget };
    layout->addWidget(new QCalendarWidget);
-   layout->addItem(new QSpacerItem(20, 40,
+   layout->addItem(new QSpacerItem(0, 0,
                                    QSizePolicy::Minimum,
                                    QSizePolicy::Expanding)
                   );
-   calendarWidget->setLayout(layout);
    rightToolBar->addDockWidget(
       QIcon(QLatin1String(":/icons/calendar.svg")),
       tr("Calendar"),

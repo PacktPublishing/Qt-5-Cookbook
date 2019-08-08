@@ -150,7 +150,7 @@ void MainWindow::writeSettings()
    QSettings settings;
    settings.setValue(QStringLiteral("geometry"), saveGeometry());
    settings.setValue(QStringLiteral("windowState"), saveState());
-   settings.setValue(QStringLiteral("tabify"),
+   settings.setValue(QStringLiteral("menu/tabify"),
                      _tabifyAction->isChecked());
 }
 

@@ -3,10 +3,6 @@
 
 #include <QMainWindow>
 
-#include <QToolButton>
-
-class QActionGroup;
-
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
@@ -15,8 +11,7 @@ public:
    explicit MainWindow(QWidget *parent = nullptr);
 
 private:
-   QActionGroup *createActionGroup(const QVector<QPair<QString,
-                                   QString>> &data);
+   void createStandardWidgets(const QString &title);
 };
 
 #endif // MAINWINDOW_H

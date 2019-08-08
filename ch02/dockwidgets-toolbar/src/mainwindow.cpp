@@ -1,0 +1,97 @@
+#include "mainwindow.h"
+
+#include <QApplication>
+#include <QCalendarWidget>
+#include <QLabel>
+#include <QListWidget>
+#include <QMenuBar>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QtWebEngineWidgets/QWebEngineView>
+
+#include "docktoolbar.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+   QMainWindow(parent)
+{
+   createStandardWidgets(tr("Dock Toolbar Example Application"));
+
+   // A list widget
+   auto listWidget = new QListWidget;
+   listWidget->addItems({ tr("First item"),
+                          tr("Second item"),
+                          tr("Third item") }
+   );
+   const QList<QListWidgetItem *> &items = listWidget->findItems(
+      QStringLiteral("*"),Qt::MatchWildcard
+   );
+   for (auto item : items) {
+      item->setIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
+   }
+
+   // Left toolbar with associated dockwidgets
+   auto leftToolBar = new DockToolBar { tr("Left toolbar") };
+   addToolBar(Qt::LeftToolBarArea, leftToolBar);
+   leftToolBar->addDockWidget(
+      QIcon(QLatin1String(":/icons/listwidget.svg")),
+      tr("ListView"),
+      listWidget
+   );
+   leftToolBar->addDockWidget(
+      QIcon(QLatin1String(":/icons/textedit.svg")),
+      tr("TextEdit"),
+      new QTextEdit { tr("Edit me!") }
+   );
+
+   // Right toolbar with associated dockwidgets
+   auto rightToolBar = new DockToolBar { tr("Right toolbar") };
+   addToolBar(Qt::RightToolBarArea, rightToolBar);
+   auto webEngine = new QWebEngineView;
+   webEngine->load(QUrl(QStringLiteral("https://www.qt.io")));
+   rightToolBar->addDockWidget(
+      QIcon(QLatin1String(":/icons/webengine.svg")),
+      tr("WebEngine"),
+      webEngine);
+   QWidget *calendarWidget = new QWidget;
+   auto layout = new QVBoxLayout;
+   layout->addWidget(new QCalendarWidget);
+   layout->addItem(new QSpacerItem(20, 40,
+                                   QSizePolicy::Minimum,
+                                   QSizePolicy::Expanding)
+                  );
+   calendarWidget->setLayout(layout);
+   rightToolBar->addDockWidget(
+      QIcon(QLatin1String(":/icons/calendar.svg")),
+      tr("Calendar"),
+      calendarWidget
+   );
+
+   // View menu
+   auto viewMenu = menuBar()->addMenu(tr("&View"));
+   viewMenu->addActions(createPopupMenu()->actions());
+}
+
+void MainWindow::createStandardWidgets(const QString &title)
+{
+   // Set window title
+   setWindowTitle(title);
+
+   // Menu with simple menu item
+   auto fileMenu = menuBar()->addMenu(tr("&File"));
+   auto exitAction = fileMenu->addAction(
+      QIcon(QLatin1String(":/icons/exit.svg")),
+      tr("E&xit"),
+      QApplication::instance(), &QApplication::exit,
+      Qt::CTRL + Qt::Key_Q
+   );
+
+   // Main toolbar with simple action
+   auto mainToolBar = addToolBar(tr("Main toolbar"));
+   mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+   mainToolBar->addAction(exitAction);
+
+   // Central widget
+   auto label = new QLabel { title };
+   label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+   setCentralWidget(label);
+}

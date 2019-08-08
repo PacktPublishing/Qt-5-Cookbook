@@ -13,13 +13,16 @@ OrientableToolButton::OrientableToolButton(QWidget *parent)
    setCheckable(true);
 }
 
-OrientableToolButton::OrientableToolButton(const QString &text, QWidget *parent)
+OrientableToolButton::OrientableToolButton(const QString &text,
+                                           QWidget *parent)
    : OrientableToolButton(parent)
 {
    setText(text);
 }
 
-OrientableToolButton::OrientableToolButton(const QIcon &icon, const QString &text, QWidget *parent)
+OrientableToolButton::OrientableToolButton(const QIcon &icon,
+                                           const QString &text,
+                                           QWidget *parent)
    : OrientableToolButton(text, parent)
 {
    setIcon(icon);
@@ -68,7 +71,9 @@ void OrientableToolButton::paintEvent(QPaintEvent *event)
 void OrientableToolButton::mouseReleaseEvent(QMouseEvent *event) {
    QButtonGroup *buttonGroup = group();
 
-   if (buttonGroup && buttonGroup->checkedId() == buttonGroup->id(this) && isDown()) {
+   if (buttonGroup &&
+       buttonGroup->checkedId() == buttonGroup->id(this) &&
+       isDown()) {
       buttonGroup->setExclusive(false);
    }
 

@@ -9,8 +9,11 @@ class OrientableToolButton : public QToolButton
 
 public:
     OrientableToolButton(QWidget *parent = nullptr);
-    OrientableToolButton(const QString &text, QWidget *parent = nullptr);
-    OrientableToolButton(const QIcon &icon, const QString &text, QWidget *parent = nullptr);
+    OrientableToolButton(const QString &text,
+                         QWidget *parent = nullptr);
+    OrientableToolButton(const QIcon &icon,
+                         const QString &text,
+                         QWidget *parent = nullptr);
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 

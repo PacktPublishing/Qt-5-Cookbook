@@ -28,16 +28,22 @@ int main(int argc, char *argv[])
    auto myCounter = new MyCounter { 0, &mainWindow };
 
    // Connections
-   QObject::connect(spinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-                    slider, &QSlider::setValue);
+   QObject::connect(spinBox,
+                    QOverload<int>::of(&QSpinBox::valueChanged),
+                    slider,
+                    &QSlider::setValue);
    QObject::connect(slider, &QSlider::valueChanged,
                     spinBox, &QSpinBox::setValue);
    QObject::connect(slider, &QSlider::valueChanged,
                     myCounter, &MyCounter::setValue);
-   QObject::connect(myCounter, &MyCounter::valueChanged,
-                    label, [label](int value) {
-                       label->setText("Value changed to " + QString::number(value) + "!");
-                    });
+   QObject::connect(
+      myCounter, &MyCounter::valueChanged,
+      label, [label](int value) {
+         label->setText("Value changed to " +
+                        QString::number(value) +
+                        "!");
+      }
+   );
 
    // Set central widget
    auto centralWidget = new QWidget;

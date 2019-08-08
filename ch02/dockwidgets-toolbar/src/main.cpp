@@ -5,7 +5,9 @@
 int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
-   QApplication::setWindowIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
+   QApplication::setWindowIcon(
+      QIcon(QLatin1String(":/icons/qtlogo.svg"))
+   );
    MainWindow w;
    w.showMaximized();
 

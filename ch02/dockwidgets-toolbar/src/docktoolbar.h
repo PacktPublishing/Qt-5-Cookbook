@@ -16,7 +16,9 @@ public:
    DockToolBar(QWidget *parent = nullptr);
    DockToolBar(const QString &title, QWidget *parent = nullptr);
 
-   void addDockWidget(const QIcon &icon, const QString &title, QWidget *widget);
+   void addDockWidget(const QIcon &icon,
+                      const QString &title,
+                      QWidget *widget);
 
 private Q_SLOT:
    void buttonToggled(QAbstractButton *button, bool checked);

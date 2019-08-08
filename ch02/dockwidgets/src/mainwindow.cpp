@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::topLevelChanged(bool topLevel)
 {
    Q_UNUSED(topLevel)
-   QDockWidget *dockWidget = qobject_cast<QDockWidget *>(sender());
+   auto dockWidget = qobject_cast<QDockWidget *>(sender());
    if (_tabifyAction->isChecked()) {
       if (tabifiedDockWidgets(dockWidget).size() < 2) {
          _tabifyAction->blockSignals(true);

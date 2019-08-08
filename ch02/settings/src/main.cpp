@@ -6,9 +6,11 @@ int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
 
-   QApplication::setOrganizationName("PacktPub");
-   QApplication::setOrganizationDomain("packtpub.com");
-   QApplication::setApplicationName("settings");
+   QApplication::setOrganizationName(QStringLiteral("PacktPub"));
+   QApplication::setOrganizationDomain(
+      QStringLiteral("packtpub.com")
+   );
+   QApplication::setApplicationName(QStringLiteral("settings"));
 
    QApplication::setWindowIcon(
       QIcon(QLatin1String(":/icons/qtlogo.svg"))

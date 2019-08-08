@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Left dockwidget 1
    auto leftDockWidget1 = new QDockWidget { tr("ListWidget") };
-   leftDockWidget1->setObjectName("leftDockWidget1");
+   leftDockWidget1->setObjectName(QStringLiteral("leftDockWidget1"));
    leftDockWidget1->setWidget(listWidget);
    connect(leftDockWidget1, &QDockWidget::topLevelChanged,
            this, &MainWindow::topLevelChanged);
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Left dockwidget 2
    auto leftDockWidget2 = new QDockWidget { tr("Calendar") };
-   leftDockWidget2->setObjectName("leftDockWidget2");
+   leftDockWidget2->setObjectName(QStringLiteral("leftDockWidget2"));
    auto calendarWidgetWrapper = new QWidget;
    auto layout = new QVBoxLayout;
    layout->addWidget(new QCalendarWidget);
@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Right dockwidget
    auto rightDockWidget = new QDockWidget { tr("WebEngineView") };
-   rightDockWidget->setObjectName("rightDockWidget");
+   rightDockWidget->setObjectName(QStringLiteral("rightDockWidget"));
    rightDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea |
                                     Qt::RightDockWidgetArea);
    auto webEngineView = new QWebEngineView();
@@ -102,7 +102,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::topLevelChanged(bool topLevel)
 {
    Q_UNUSED(topLevel)
-   QDockWidget *dockWidget = qobject_cast<QDockWidget *>(sender());
+   auto dockWidget = qobject_cast<QDockWidget *>(sender());
    if (_tabifyAction->isChecked()) {
       if (tabifiedDockWidgets(dockWidget).size() < 2) {
          _tabifyAction->blockSignals(true);
@@ -135,7 +135,7 @@ void MainWindow::createStandardWidgets(const QString &title)
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));
-   mainToolBar->setObjectName("mainToolBar");
+   mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
    mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
    mainToolBar->addAction(exitAction);
 
@@ -148,20 +148,25 @@ void MainWindow::createStandardWidgets(const QString &title)
 void MainWindow::writeSettings()
 {
    QSettings settings;
-   settings.setValue("geometry", saveGeometry());
-   settings.setValue("windowState", saveState());
-   settings.setValue("tabify", _tabifyAction->isChecked());
+   settings.setValue(QStringLiteral("geometry"), saveGeometry());
+   settings.setValue(QStringLiteral("windowState"), saveState());
+   settings.setValue(QStringLiteral("tabify"),
+                     _tabifyAction->isChecked());
 }
 
 void MainWindow::readSettings()
 {
    QSettings settings;
    const QByteArray geometry = settings.value(
-            "geometry", QByteArray()
+            QStringLiteral("geometry"), QByteArray()
             ).toByteArray();
    if (!geometry.isEmpty()) {
       restoreGeometry(geometry);
-      restoreState(settings.value("windowState").toByteArray());
+      restoreState(
+         settings.value(QStringLiteral("windowState")).toByteArray()
+      );
    }
-   _tabifyAction->setChecked(settings.value("tabify", false).toBool());
+   _tabifyAction->setChecked(
+      settings.value(QStringLiteral("tabify"), false).toBool()
+   );
 }

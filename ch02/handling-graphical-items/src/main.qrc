@@ -1,6 +1,7 @@
 <RCC>
    <qresource prefix="/">
       <file>icons/qtlogo.svg</file>
+      <file>icons/qtlogo.png</file>
       <file>icons/exit.svg</file>
    </qresource>
 </RCC>

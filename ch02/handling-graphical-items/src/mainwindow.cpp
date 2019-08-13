@@ -1,23 +1,10 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QCheckBox>
-#include <QDockWidget>
-#include <QDoubleSpinBox>
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
-#include <QGroupBox>
-#include <QLabel>
 #include <QMenuBar>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QScrollBar>
-#include <QSlider>
-#include <QTimer>
 #include <QToolBar>
-#include <QVBoxLayout>
-
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
@@ -26,125 +13,58 @@ MainWindow::MainWindow(QWidget *parent) :
       tr("Handling Graphical Items Example Application")
    );
 
-   // Docker widget
-   auto dockerWidget = new QDockWidget { tr("Controls") };
-   dockerWidget->setWidget(new QWidget);
-   auto dockerLayout = new QVBoxLayout { dockerWidget->widget() };
-   addDockWidget(Qt::LeftDockWidgetArea, dockerWidget);
-
-   // Docker widget - selected items
-   auto selectedGroupBox = new QGroupBox { tr("Selected Items") };
-   auto selectedItemLayout = new QVBoxLayout { selectedGroupBox };
-   auto rotateSlider = new QSlider { Qt::Horizontal };
-   rotateSlider->setRange(-360, 360);
-   auto scaleSpinBox = new QDoubleSpinBox;
-   scaleSpinBox->setRange(0.25, 4);
-   scaleSpinBox->setSingleStep(0.25);
-   scaleSpinBox->setValue(1.0);
-   selectedItemLayout->addWidget(new QLabel { tr("Rotate") });
-   selectedItemLayout->addWidget(rotateSlider);
-   selectedItemLayout->addWidget(new QLabel { tr("Scale") });
-   selectedItemLayout->addWidget(scaleSpinBox);
-   dockerLayout->addWidget(selectedGroupBox);
-
-   // Docker widget - fit
-   auto fitGroupBox = new QGroupBox { tr("Center On") };
-   auto centerLayout = new QVBoxLayout { fitGroupBox };
-   auto fit = new QCheckBox { tr("Fit") };
-   auto centerSelected = new QRadioButton { tr("Selected") };
-   auto centerWholeScene = new QRadioButton { tr("Whole Scene") };
-   centerLayout->addWidget(centerSelected);
-   centerLayout->addWidget(centerWholeScene);
-   centerLayout->addWidget(fit);
-   dockerLayout->addWidget(fitGroupBox);
-   dockerLayout->addItem(new QSpacerItem(0, 0,
-                                         QSizePolicy::Minimum,
-                                         QSizePolicy::Expanding));
-
    // GraphicsScene and GraphicsView
    auto graphicsScene = new QGraphicsScene { this };
-   auto graphicsView = new QGraphicsView { graphicsScene };
+   _graphicsView = new QGraphicsView { graphicsScene };
+   _graphicsView->setRenderHints(QPainter::Antialiasing |
+                                 QPainter::SmoothPixmapTransform);
    graphicsScene->setSceneRect(-5000, -5000, 10000, 10000);
-   graphicsScene->addRect(-250, 0, 500, 0);
-   graphicsScene->addRect(0, -250, 0, 500);
-   QGraphicsRectItem *rectItem = graphicsScene->addRect(
-      -50, -50, 100, 100,
-      QPen(), QBrush { Qt::green });
-   rectItem->setFlags(QGraphicsItem::ItemIsMovable |
-                      QGraphicsItem::ItemIsSelectable);
-   QGraphicsRectItem *rectItem2 = graphicsScene->addRect(
-      -50, -50, 100, 100,
-      QPen(), QBrush { Qt::red });
-   rectItem2->setPos(0, -150);
-   rectItem2->setFlags(QGraphicsItem::ItemIsMovable |
-                      QGraphicsItem::ItemIsSelectable);
+   setCentralWidget(_graphicsView);
 
-   // Connections
-   connect(rotateSlider, &QSlider::valueChanged,
-           this, [graphicsScene, rotateSlider]() {
-              const QList<QGraphicsItem *> &items =
-                 graphicsScene->selectedItems();
-              for (auto item : items) {
-                 item->setRotation(rotateSlider->value());
-              }
-           }
-   );
-   connect(scaleSpinBox, QOverload<double>::of(
-              &QDoubleSpinBox::valueChanged
-           ),
-           this, [graphicsScene, scaleSpinBox]() {
-              const QList<QGraphicsItem *> &items =
-                 graphicsScene->selectedItems();
-              for (auto item : items) {
-                 item->setScale(scaleSpinBox->value());
-              }
-           }
-   );
-   connect(centerSelected, &QRadioButton::clicked,
-           this, [graphicsView, graphicsScene, fit](bool checked) {
-      if (checked && !graphicsScene->selectedItems().isEmpty()) {
-         if (fit->isChecked()) {
-            QRectF selectedRect;
-            const QList<QGraphicsItem *> &items =
-               graphicsScene->selectedItems();
-            for(auto selected : items) {
-               selectedRect = selectedRect.united(
-                  selected->sceneBoundingRect()
-               );
-            }
-            graphicsView->fitInView(
-                     selectedRect,
-                     Qt::KeepAspectRatio
-                     );
-         } else {
-            QRectF selectedRect;
-            const QList<QGraphicsItem *> &items =
-               graphicsScene->selectedItems();
-            for(auto selected : items) {
-               selectedRect = selectedRect.united(
-                  selected->sceneBoundingRect()
-               );
-            }
-            graphicsView->centerOn(selectedRect.center());
-         }
-      }
-   });
-   connect(centerWholeScene, &QRadioButton::clicked,
-           this, [graphicsView, graphicsScene, fit](bool checked) {
-      if (checked) {
-         if (fit->isChecked()) {
-            graphicsView->fitInView(
-                     graphicsScene->itemsBoundingRect(),
-                     Qt::KeepAspectRatio
-                     );
-         } else {
-            graphicsView->centerOn(graphicsScene->itemsBoundingRect().center());
-         }
-      }
-   });
+   // Axis
+   graphicsScene->addLine(-250, 0, 250, 0);
+   graphicsScene->addLine(0, -250, 0, 250);
 
-   centerWholeScene->setChecked(true);
-   setCentralWidget(graphicsView);
+   // Central rectangle
+   graphicsScene->addRect(-50, -50, 100, 100,
+                          QPen(), QBrush { Qt::green });
+
+   // Polygon
+   auto polygon = graphicsScene->addPolygon(QVector<QPointF> {
+         {-50, -50}, { 50,  50}, { 50, -50}, {-50,  50}, {-50, -50}
+      },
+      QPen(QBrush(Qt::darkGreen), 3),
+      QPixmap(QStringLiteral(":/icons/qtlogo.png")));
+   polygon->setPos(0, 150);
+
+   // Circle
+   auto ellipse = graphicsScene->addEllipse(
+      -50, -50, 100, 100,
+      QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
+   ellipse->setPos(0, -150);
+
+   // Second rectangle (with marks)
+   auto rect2 = graphicsScene->addRect(
+      -25, -25, 50, 50,
+      QPen(), QBrush { Qt::darkRed });
+   constexpr int markSize = 10;
+   for (int i : { -1, 1}) {
+      for (int j : { -1, 1}) {
+         auto mark = new QGraphicsEllipseItem(
+            -markSize/2., -markSize/2., markSize, markSize, rect2);
+         mark->setBrush(QColor({ 0, 128, 128, 128 }));
+         mark->setPen(Qt::NoPen);
+         mark->setPos(i*rect2->rect().width()/2,
+                      j*rect2->rect().height()/2);
+      }
+   }
+   rect2->setTransform({ 1, 0, 0, -0.25, 2, 0, 150, 150, 1 });
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+   _graphicsView->centerOn(0, 0);
+   QMainWindow::resizeEvent(event);
 }
 
 void MainWindow::createStandardWidgets(const QString &title)

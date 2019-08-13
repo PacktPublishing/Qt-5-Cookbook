@@ -30,22 +30,21 @@ MainWindow::MainWindow(QWidget *parent) :
                           QPen(), QBrush { Qt::green });
 
    // Polygon
-   auto polygon = graphicsScene->addPolygon(QVector<QPointF> {
+   auto polygon = graphicsScene->addPolygon(
+      QVector<QPointF> {
          {-50, -50}, { 50,  50}, { 50, -50}, {-50,  50}, {-50, -50}
       },
       QPen(QBrush(Qt::darkGreen), 3),
-      QPixmap(QStringLiteral(":/icons/qtlogo.png")));
+        QPixmap(QStringLiteral(":/icons/qtlogo.png")));
    polygon->setPos(0, 150);
 
    // Circle
-   auto ellipse = graphicsScene->addEllipse(
-      -50, -50, 100, 100,
+   auto ellipse = graphicsScene->addEllipse(-50, -50, 100, 100,
       QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
    ellipse->setPos(0, -150);
 
    // Second rectangle (with marks)
-   auto rect2 = graphicsScene->addRect(
-      -25, -25, 50, 50,
+   auto rect2 = graphicsScene->addRect(-25, -25, 50, 50,
       QPen(), QBrush { Qt::darkRed });
    constexpr int markSize = 10;
    for (int i : { -1, 1}) {

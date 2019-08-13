@@ -23,8 +23,8 @@ protected:
    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
-   void on_rotateSlider_valueChanged();   
-   void on_graphicsScene_selectionChanged();   
+   void on_rotateSlider_valueChanged();
+   void on_graphicsScene_selectionChanged();
    void on_scaleSpinBox_valueChanged(double value);
    void on_centerSelected_clicked(bool checked);
    void on_centerSceneCenter_clicked(bool checked);

@@ -14,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
-   createStandardWidgets(tr("Dock Toolbar Example Application"));
+   createStandardWidgets(tr("DockWidgets Advanced Example Application"));
 
    // A list widget
    auto listWidget = new QListWidget;

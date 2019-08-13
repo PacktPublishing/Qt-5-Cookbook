@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(dockwidgets-toolbar)
+project(dockwidgets-advanced)
 
 include(FeatureSummary)
 
@@ -11,7 +11,7 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
    WebEngineWidgets
 )
 
-set(dockwidgets-toolbar_SRC
+set(dockwidgets-advanced_SRC
    src/main.cpp
    src/main.qrc
    src/mainwindow.cpp
@@ -19,7 +19,7 @@ set(dockwidgets-toolbar_SRC
    src/docktoolbar.cpp
 )
 
-add_executable(${PROJECT_NAME} ${dockwidgets-toolbar_SRC})
+add_executable(${PROJECT_NAME} ${dockwidgets-advanced_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
    Qt5::WebEngineWidgets

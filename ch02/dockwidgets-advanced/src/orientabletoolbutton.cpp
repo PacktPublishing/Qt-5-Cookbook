@@ -49,7 +49,8 @@ void OrientableToolButton::paintEvent(QPaintEvent *event)
 
    auto toolBar = qobject_cast<QToolBar *>(parent());
    if (toolBar) {
-      auto mainWindow = qobject_cast<QMainWindow *>(toolBar->parent());
+      auto mainWindow = qobject_cast<QMainWindow *>(
+               toolBar->parent());
       if (mainWindow && toolBar->orientation() == Qt::Vertical) {
          if (mainWindow->toolBarArea(toolBar) == Qt::RightToolBarArea)
          {
@@ -70,15 +71,12 @@ void OrientableToolButton::paintEvent(QPaintEvent *event)
 
 void OrientableToolButton::mouseReleaseEvent(QMouseEvent *event) {
    QButtonGroup *buttonGroup = group();
-
    if (buttonGroup &&
        buttonGroup->checkedId() == buttonGroup->id(this) &&
        isDown()) {
       buttonGroup->setExclusive(false);
    }
-
    QToolButton::mouseReleaseEvent(event);
-
    if (buttonGroup) {
       buttonGroup->setExclusive(true);
    }

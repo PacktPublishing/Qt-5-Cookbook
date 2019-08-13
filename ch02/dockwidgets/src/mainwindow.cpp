@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
       tr("First item"), tr("Second item"), tr("Third item")
    });
    const QList<QListWidgetItem *> &items = listWidget->findItems(
-      QStringLiteral("*"),Qt::MatchWildcard
-   );
+            QStringLiteral("*"),Qt::MatchWildcard
+            );
    for (auto item : items) {
       item->setIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
    }
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
    layout->addWidget(new QCalendarWidget);
    layout->addItem(
       new QSpacerItem(0, 0,
-                      QSizePolicy::Minimum, QSizePolicy::Expanding)
+                      QSizePolicy::Minimum,QSizePolicy::Expanding)
    );
    leftDockWidget2->setWidget(calendarWidgetWrapper);
    connect(leftDockWidget2, &QDockWidget::topLevelChanged,
@@ -68,18 +68,18 @@ MainWindow::MainWindow(QWidget *parent) :
    _tabifyAction->setShortcut(Qt::CTRL + Qt::Key_T);
    _tabifyAction->setCheckable(true);
    connect(_tabifyAction, &QAction::toggled, this,
-      [leftDockWidget1, leftDockWidget2, rightDockWidget, this]
-      (bool checked) {
-         if (checked) {
-            addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget1);
-            tabifyDockWidget(leftDockWidget1, leftDockWidget2);
-            tabifyDockWidget(leftDockWidget2, rightDockWidget);
-         }
-         else {
-            addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget1);
-            addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget2);
-            addDockWidget(Qt::RightDockWidgetArea, rightDockWidget);
-         }
+           [leftDockWidget1, leftDockWidget2, rightDockWidget, this]
+           (bool checked) {
+      if (checked) {
+         addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget1);
+         tabifyDockWidget(leftDockWidget1, leftDockWidget2);
+         tabifyDockWidget(leftDockWidget2, rightDockWidget);
+      }
+      else {
+         addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget1);
+         addDockWidget(Qt::LeftDockWidgetArea, leftDockWidget2);
+         addDockWidget(Qt::RightDockWidgetArea, rightDockWidget);
+      }
    });
    viewMenu->addSeparator();
    viewMenu->addAction(_tabifyAction);
@@ -113,11 +113,11 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QLatin1String(":/icons/exit.svg")),
-      tr("E&xit"),
-      QApplication::instance(), &QApplication::exit,
-      Qt::CTRL + Qt::Key_Q
-   );
+            QIcon(QLatin1String(":/icons/exit.svg")),
+            tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q
+            );
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));

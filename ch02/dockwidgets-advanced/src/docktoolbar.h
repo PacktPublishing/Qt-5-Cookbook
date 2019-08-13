@@ -10,7 +10,7 @@ class QDockWidget;
 
 class DockToolBar : public QToolBar
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
    DockToolBar(QWidget *parent = nullptr);

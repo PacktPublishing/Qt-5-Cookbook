@@ -41,18 +41,16 @@ int main(int argc, char *argv[])
    QObject::connect(slider, &QSlider::valueChanged,
                     myCounter, &MyCounter::setValue);
    QObject::connect(
-      myCounter, &MyCounter::valueChanged,
-      label, [label](int value) {
-         label->setText("Value changed to " +
-                        QString::number(value) +
-                        "!");
-      }
+            myCounter, &MyCounter::valueChanged,
+            label, [label](int value) {
+               label->setText("Value changed to " +
+                              QString::number(value) + "!");
+            }
    );
 
    // Show main window
    mainWindow.setWindowTitle(
-      QObject::tr("Basic Wiring Application")
-   );
+            QObject::tr("Basic Wiring Application"));
    mainWindow.resize(640, 480);
    mainWindow.show();
 

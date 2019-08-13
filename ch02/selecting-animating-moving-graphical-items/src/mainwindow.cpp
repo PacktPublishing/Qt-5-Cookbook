@@ -162,11 +162,11 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QLatin1String(":/icons/exit.svg")),
-      tr("E&xit"),
-      QApplication::instance(), &QApplication::exit,
-      Qt::CTRL + Qt::Key_Q
-   );
+            QIcon(QLatin1String(":/icons/exit.svg")),
+            tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q
+            );
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));
@@ -189,27 +189,27 @@ void MainWindow::createGraphicsItems()
         QPixmap(QStringLiteral(":/icons/qtlogo.png")));
    polygon->setPos(0, 150);
    polygon->setFlags(QGraphicsItem::ItemIsMovable |
-                      QGraphicsItem::ItemIsSelectable);
+                     QGraphicsItem::ItemIsSelectable);
 
    // Circle
    auto ellipse = graphicsScene->addEllipse(
-      -50, -50, 100, 100,
-      QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
+            -50, -50, 100, 100,
+            QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
    ellipse->setPos(0, -150);
    ellipse->setFlags(QGraphicsItem::ItemIsMovable |
-                       QGraphicsItem::ItemIsSelectable);
+                     QGraphicsItem::ItemIsSelectable);
 
    // Second rectangle (with marks)
    auto rect2 = graphicsScene->addRect(
-      -25, -25, 50, 50,
-      QPen(), QBrush { Qt::darkRed });
+            -25, -25, 50, 50,
+            QPen(), QBrush { Qt::darkRed });
    rect2->setFlags(QGraphicsItem::ItemIsMovable |
                    QGraphicsItem::ItemIsSelectable);
    constexpr int markSize = 10;
    for (int i : { -1, 1}) {
       for (int j : { -1, 1}) {
          auto mark = new QGraphicsEllipseItem(
-            -markSize/2., -markSize/2., markSize, markSize, rect2);
+               -markSize/2., -markSize/2., markSize, markSize, rect2);
          mark->setBrush(QColor({ 0, 128, 128, 128 }));
          mark->setPen(Qt::NoPen);
          mark->setPos(i*rect2->rect().width()/2,

@@ -14,17 +14,18 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
-   createStandardWidgets(tr("DockWidgets Advanced Example Application"));
+   createStandardWidgets(
+            tr("DockWidgets Advanced Example Application"));
 
    // A list widget
    auto listWidget = new QListWidget;
    listWidget->addItems({ tr("First item"),
                           tr("Second item"),
                           tr("Third item") }
-   );
+                        );
    const QList<QListWidgetItem *> &items = listWidget->findItems(
-      QStringLiteral("*"),Qt::MatchWildcard
-   );
+            QStringLiteral("*"),Qt::MatchWildcard
+            );
    for (auto item : items) {
       item->setIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
    }
@@ -33,15 +34,15 @@ MainWindow::MainWindow(QWidget *parent) :
    auto leftToolBar = new DockToolBar { tr("Left toolbar") };
    addToolBar(Qt::LeftToolBarArea, leftToolBar);
    leftToolBar->addDockWidget(
-      QIcon(QLatin1String(":/icons/listwidget.svg")),
-      tr("ListView"),
-      listWidget
-   );
+            QIcon(QLatin1String(":/icons/listwidget.svg")),
+            tr("ListView"),
+            listWidget
+            );
    leftToolBar->addDockWidget(
-      QIcon(QLatin1String(":/icons/textedit.svg")),
-      tr("TextEdit"),
-      new QTextEdit { tr("Edit me!") }
-   );
+            QIcon(QLatin1String(":/icons/textedit.svg")),
+            tr("TextEdit"),
+            new QTextEdit { tr("Edit me!") }
+            );
 
    // Right toolbar with associated dockwidgets
    auto rightToolBar = new DockToolBar { tr("Right toolbar") };
@@ -49,9 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
    auto webEngine = new QWebEngineView;
    webEngine->load(QUrl(QStringLiteral("https://www.qt.io")));
    rightToolBar->addDockWidget(
-      QIcon(QLatin1String(":/icons/webengine.svg")),
-      tr("WebEngine"),
-      webEngine);
+            QIcon(QLatin1String(":/icons/webengine.svg")),
+            tr("WebEngine"),
+            webEngine);
    QWidget *calendarWidget = new QWidget;
    auto layout = new QVBoxLayout { calendarWidget };
    layout->addWidget(new QCalendarWidget);
@@ -60,10 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
                                    QSizePolicy::Expanding)
                   );
    rightToolBar->addDockWidget(
-      QIcon(QLatin1String(":/icons/calendar.svg")),
-      tr("Calendar"),
-      calendarWidget
-   );
+            QIcon(QLatin1String(":/icons/calendar.svg")),
+            tr("Calendar"),
+            calendarWidget
+            );
 
    // View menu
    auto viewMenu = menuBar()->addMenu(tr("&View"));
@@ -78,11 +79,11 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QLatin1String(":/icons/exit.svg")),
-      tr("E&xit"),
-      QApplication::instance(), &QApplication::exit,
-      Qt::CTRL + Qt::Key_Q
-   );
+            QIcon(QLatin1String(":/icons/exit.svg")),
+            tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q
+            );
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));

@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
    createStandardWidgets(
-      tr("Handling Graphical Items Example Application")
-   );
+            tr("Handling Graphical Items Example Application"));
 
    // GraphicsScene and GraphicsView
    auto graphicsScene = new QGraphicsScene { this };
@@ -31,26 +30,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Polygon
    auto polygon = graphicsScene->addPolygon(
-      QVector<QPointF> {
-         {-50, -50}, { 50,  50}, { 50, -50}, {-50,  50}, {-50, -50}
-      },
-      QPen(QBrush(Qt::darkGreen), 3),
-        QPixmap(QStringLiteral(":/icons/qtlogo.png")));
+         QVector<QPointF> {
+            {-50, -50}, { 50,  50}, { 50, -50}, {-50,  50}, {-50, -50}
+         },
+         QPen(QBrush(Qt::darkGreen), 3),
+         QPixmap(QStringLiteral(":/icons/qtlogo.png")));
    polygon->setPos(0, 150);
 
    // Circle
    auto ellipse = graphicsScene->addEllipse(-50, -50, 100, 100,
-      QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
+                       QPen(), QBrush { Qt::red, Qt::Dense2Pattern });
    ellipse->setPos(0, -150);
 
    // Second rectangle (with marks)
    auto rect2 = graphicsScene->addRect(-25, -25, 50, 50,
-      QPen(), QBrush { Qt::darkRed });
+                                    QPen(), QBrush { Qt::darkRed });
    constexpr int markSize = 10;
    for (int i : { -1, 1}) {
       for (int j : { -1, 1}) {
          auto mark = new QGraphicsEllipseItem(
-            -markSize/2., -markSize/2., markSize, markSize, rect2);
+               -markSize/2., -markSize/2., markSize, markSize, rect2);
          mark->setBrush(QColor({ 0, 128, 128, 128 }));
          mark->setPen(Qt::NoPen);
          mark->setPos(i*rect2->rect().width()/2,
@@ -74,11 +73,11 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QLatin1String(":/icons/exit.svg")),
-      tr("E&xit"),
-      QApplication::instance(), &QApplication::exit,
-      Qt::CTRL + Qt::Key_Q
-   );
+            QIcon(QLatin1String(":/icons/exit.svg")),
+            tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q
+            );
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));

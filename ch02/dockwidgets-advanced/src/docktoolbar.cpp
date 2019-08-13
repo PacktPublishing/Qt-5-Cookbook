@@ -10,14 +10,12 @@ DockToolBar::DockToolBar(QWidget *parent)
      _currentButton(nullptr)
 {
    setMovable(false);
-   connect(
-      &_buttonGroup,
-      QOverload<QAbstractButton *, bool>::of(
-               &QButtonGroup::buttonToggled
-      ),
-      this,
-      &DockToolBar::buttonToggled
-   );
+   connect(&_buttonGroup,
+           QOverload<QAbstractButton *, bool>::of(
+              &QButtonGroup::buttonToggled
+              ),
+           this, &DockToolBar::buttonToggled
+           );
 }
 
 DockToolBar::DockToolBar(const QString &title, QWidget *parent)
@@ -43,8 +41,8 @@ void DockToolBar::addDockWidget(const QIcon &icon,
    dockWidget->setWidget(widget);
    dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
    mainWindow->addDockWidget(
-         static_cast<Qt::DockWidgetArea>(mainWindow->toolBarArea(this)),
-         dockWidget);
+      static_cast<Qt::DockWidgetArea>(mainWindow->toolBarArea(this)),
+      dockWidget);
    dockWidget->hide();
 
    if (_toolButtonDock.isEmpty()) {
@@ -58,7 +56,8 @@ void DockToolBar::addDockWidget(const QIcon &icon,
 
 void DockToolBar::buttonToggled(QAbstractButton *button, bool checked)
 {
-   auto orientableButton = qobject_cast<OrientableToolButton *>(button);
+   auto orientableButton = qobject_cast<OrientableToolButton *>(
+            button);
    auto dockWidget = _toolButtonDock.value(orientableButton);
    if (!orientableButton || !dockWidget) {
       return;

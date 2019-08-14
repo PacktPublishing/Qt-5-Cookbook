@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDockWidget>
 #include <QDoubleSpinBox>
 #include <QGraphicsBlurEffect>
@@ -10,6 +11,8 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QMenuBar>
+#include <QMetaEnum>
+#include <QPropertyAnimation>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollBar>
@@ -18,8 +21,14 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-MainWindow::MainWindow(QWidget *parent) :
-   QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : // NOLINT(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
+   QMainWindow(parent),
+   _scene (new QGraphicsScene { this }),
+   _view (new QGraphicsView { _scene }),
+   _selectedGroupBox (new QGroupBox { tr("Selected Items") }),
+   _rotateSlider (new QSlider { Qt::Horizontal }),
+   _centerSelected (new QRadioButton { tr("Selected") }),
+   _fit (new QCheckBox { tr("Fit") })
 {
    createStandardWidgets(
             tr("Handling Graphical Items Example Application"));
@@ -31,10 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
    addDockWidget(Qt::LeftDockWidgetArea, dockerWidget);
 
    // Docker widget - selected items
-   _selectedGroupBox = new QGroupBox { tr("Selected Items") };
    _selectedGroupBox->setEnabled(false);
    auto selectedItemLayout = new QVBoxLayout { _selectedGroupBox };
-   _rotateSlider = new QSlider { Qt::Horizontal };
    _rotateSlider->setObjectName(QStringLiteral("rotateSlider"));
    _rotateSlider->setRange(-360, 360);
    auto scaleSpinBox = new QDoubleSpinBox;
@@ -48,11 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
    selectedItemLayout->addWidget(scaleSpinBox);
    dockerLayout->addWidget(_selectedGroupBox);
 
-   // Docker widget - fit
+   // Docker widget - center on
    auto fitGroupBox = new QGroupBox { tr("Center On") };
    auto centerLayout = new QVBoxLayout { fitGroupBox };
-   _fit = new QCheckBox { tr("Fit") };
-   _centerSelected = new QRadioButton { tr("Selected") };
    _centerSelected->setObjectName(QStringLiteral("centerSelected"));
    _centerSelected->setEnabled(false);
    auto centerSceneCenter = new QRadioButton { tr("Scene Center") };
@@ -62,14 +67,52 @@ MainWindow::MainWindow(QWidget *parent) :
    centerLayout->addWidget(centerSceneCenter);
    centerLayout->addWidget(_fit);
    dockerLayout->addWidget(fitGroupBox);
+
+   // Docker widget - animate
+   auto animateGroupBox = new QGroupBox { tr("Animate") };
+   auto animateLayout = new QVBoxLayout { animateGroupBox };
+   auto durationSpinBox = new QSpinBox;
+   durationSpinBox->setRange(0, 10);
+   durationSpinBox->setValue(1);
+   auto easingCurve = new QComboBox;
+   auto metaObject = QMetaType::metaObjectForType(
+            QMetaType::type("QEasingCurve"));
+   for (int i = 0; i < metaObject->enumeratorCount(); ++i) {
+      auto metaEnum = metaObject->enumerator(i);
+      if (QString::fromLatin1(metaEnum.name()) ==
+          QLatin1String("Type")) {
+         for (int j = 0; j < metaEnum.keyCount(); ++j) {
+            easingCurve->addItem(
+                     QString::fromLatin1(metaEnum.key(j)));
+         }
+         break;
+      }
+   }
+   easingCurve->setCurrentIndex(QEasingCurve::InOutElastic);
+   auto animateButton = new QPushButton(tr("Animate"));
+   animateLayout->addWidget(new QLabel { tr("Duration (s)" ) });
+   animateLayout->addWidget(durationSpinBox);
+   animateLayout->addWidget(easingCurve);
+   animateLayout->addWidget(animateButton);
+   dockerLayout->addWidget(animateGroupBox);
+   connect(animateButton, &QPushButton::clicked,
+           this, [this, durationSpinBox, easingCurve](){
+      auto animation = new QPropertyAnimation(_textItem, "pos");
+      animation->setDuration(durationSpinBox->value()*1000);
+      animation->setEndValue(
+            QPointF(-_textItem->x()-_textItem->boundingRect().width(),
+                    _textItem->y()));
+      animation->setEasingCurve(static_cast<QEasingCurve::Type>(
+                                   easingCurve->currentIndex()
+                                   ));
+      animation->start();
+   });
    dockerLayout->addItem(new QSpacerItem(0, 0,
                                          QSizePolicy::Minimum,
                                          QSizePolicy::Expanding));
 
    // GraphicsScene and GraphicsView
-   _scene = new QGraphicsScene { this };
    _scene->setObjectName(QStringLiteral("graphicsScene"));
-   _view = new QGraphicsView { _scene };
    _view->setRenderHints(QPainter::Antialiasing |
                          QPainter::SmoothPixmapTransform);
    _scene->setSceneRect(-5000, -5000, 10000, 10000);
@@ -200,16 +243,17 @@ void MainWindow::createGraphicsItems()
                      QGraphicsItem::ItemIsSelectable);
 
    // Second rectangle (with marks)
-   auto rect2 = graphicsScene->addRect(
-            -25, -25, 50, 50,
-            QPen(), QBrush { Qt::darkRed });
+   auto rect2 = new QGraphicsRectItem(-25, -25, 50, 50);
    rect2->setFlags(QGraphicsItem::ItemIsMovable |
                    QGraphicsItem::ItemIsSelectable);
+   rect2->setBrush(QBrush { Qt::darkRed });
+   graphicsScene->addItem(rect2);
    constexpr int markSize = 10;
    for (int i : { -1, 1}) {
       for (int j : { -1, 1}) {
          auto mark = new QGraphicsEllipseItem(
                -markSize/2., -markSize/2., markSize, markSize, rect2);
+
          mark->setBrush(QColor({ 0, 128, 128, 128 }));
          mark->setPen(Qt::NoPen);
          mark->setPos(i*rect2->rect().width()/2,
@@ -217,4 +261,15 @@ void MainWindow::createGraphicsItems()
       }
    }
    rect2->setTransform({ 1, 0, 0, -0.25, 2, 0, 150, 150, 1 });
+
+   // Text item
+   QFont font;
+   font.setPointSize(30);
+   font.setBold(true);
+   _textItem = graphicsScene->addText(tr("Hello GraphicsView"), font);
+   _textItem->setFlags(QGraphicsItem::ItemIsMovable |
+                       QGraphicsItem::ItemIsSelectable);
+   _textItem->setTransformOriginPoint(
+            _textItem->boundingRect().center());
+   _textItem->setPos(75, 15);
 }

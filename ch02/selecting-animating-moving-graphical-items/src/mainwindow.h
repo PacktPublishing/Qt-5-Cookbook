@@ -6,7 +6,9 @@
 // clazy:excludeall=connect-by-name
 
 class QCheckBox;
+class QGraphicsItem;
 class QGraphicsScene;
+class QGraphicsTextItem;
 class QGraphicsView;
 class QGroupBox;
 class QRadioButton;
@@ -30,12 +32,13 @@ private Q_SLOTS:
    void on_centerSceneCenter_clicked(bool checked);
 
 private:
-   QGraphicsView *_view;
    QGraphicsScene *_scene;
-   QSlider *_rotateSlider;
+   QGraphicsView *_view;
    QGroupBox *_selectedGroupBox;
+   QSlider *_rotateSlider;
    QRadioButton *_centerSelected;
    QCheckBox *_fit;
+   QGraphicsTextItem *_textItem;
 
    void createStandardWidgets(const QString &title);
    void createGraphicsItems();

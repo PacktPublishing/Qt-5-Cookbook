@@ -21,7 +21,8 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-MainWindow::MainWindow(QWidget *parent) : // NOLINT(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
+// NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
+MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
    _scene (new QGraphicsScene { this }),
    _view (new QGraphicsView { _scene }),

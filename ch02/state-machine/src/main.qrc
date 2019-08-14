@@ -1,0 +1,15 @@
+<RCC>
+   <qresource prefix="/">
+      <file>icons/qtlogo.svg</file>
+      <file>icons/exit.svg</file>
+      <file>icons/clouds_1.png</file>
+      <file>icons/clouds_2.png</file>
+      <file>icons/clouds_3.png</file>
+      <file>icons/clouds_4.png</file>
+      <file>icons/rocks_1.png</file>
+      <file>icons/rocks_2.png</file>
+      <file>icons/sky.png</file>
+      <file>icons/running.gif</file>
+      <file>icons/jumping.gif</file>
+   </qresource>
+</RCC>

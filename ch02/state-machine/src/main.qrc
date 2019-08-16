@@ -11,5 +11,6 @@
       <file>icons/sky.png</file>
       <file>icons/running.gif</file>
       <file>icons/jumping.gif</file>
+      <file>icons/enemy.gif</file>
    </qresource>
 </RCC>

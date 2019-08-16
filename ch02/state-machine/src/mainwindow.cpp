@@ -1,116 +1,157 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QGraphicsPixmapItem>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsView>
-#include <QGridLayout>
 #include <QLabel>
-#include <QMenuBar>
 #include <QMovie>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
-#include <QSequentialAnimationGroup>
-#include <QTimer>
-#include <QToolBar>
+#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent) :
-   QMainWindow(parent),
-   _movie (new QMovie(QStringLiteral(":/icons/running.gif"))),
-   _parallel (new QParallelAnimationGroup { this })
+   QMainWindow(parent)
 {
-   createStandardWidgets(tr("State Machine Example Application"));
+   setWindowTitle(tr("State Machine Example Application"));
 
-   auto scene = new QGraphicsScene;
-   _sky = scene->addPixmap(QStringLiteral(":/icons/sky.png"));
-   scene->setSceneRect(_sky->boundingRect());
-   auto graphicsView = new QGraphicsView { scene };
-   auto boundingRect = _sky->boundingRect();
-   graphicsView->setFixedSize(boundingRect.size().toSize());
-   graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-   graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-   setCentralWidget(graphicsView);
+   // Configure graphics view
+   _scene = new QGraphicsScene;
+   auto sky = _scene->addPixmap(QStringLiteral(":/icons/sky.png"));
+   _scene->setSceneRect(sky->boundingRect());
+   _view = new QGraphicsView { _scene };
+   _view->setFixedSize(_scene->sceneRect().size().toSize());
+   _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+   _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+   setCentralWidget(_view);
 
+   // Parallax
    std::array<QGraphicsItem *, 6> items = {
-      scene->addPixmap(QStringLiteral(":/icons/clouds_1.png")),
-      scene->addPixmap(QStringLiteral(":/icons/clouds_2.png")),
-      scene->addPixmap(QStringLiteral(":/icons/clouds_3.png")),
-      scene->addPixmap(QStringLiteral(":/icons/rocks_1.png")),
-      scene->addPixmap(QStringLiteral(":/icons/clouds_4.png")),
-      scene->addPixmap(QStringLiteral(":/icons/rocks_2.png"))
+      _scene->addPixmap(QStringLiteral(":/icons/clouds_1.png")),
+      _scene->addPixmap(QStringLiteral(":/icons/clouds_2.png")),
+      _scene->addPixmap(QStringLiteral(":/icons/clouds_3.png")),
+      _scene->addPixmap(QStringLiteral(":/icons/rocks_1.png")),
+      _scene->addPixmap(QStringLiteral(":/icons/clouds_4.png")),
+      _scene->addPixmap(QStringLiteral(":/icons/rocks_2.png"))
    };
 
-   _movie->start();
-   auto frameRect = _movie->frameRect();
-   auto movieLabel = new QLabel;
-   movieLabel->setMovie(_movie);
-   movieLabel->setAttribute(Qt::WA_TranslucentBackground);
-   _player = scene->addWidget(movieLabel);
-   _player->setTransformOriginPoint(frameRect.center());
-   _player->setPos(boundingRect.width()/2.-frameRect.width()/2.,
-                   boundingRect.height()-frameRect.height());
-   _parallel->addAnimation(_jump = new QPropertyAnimation {
-         _player, "pos", this });
-   _jump->setDuration(250);
-   _parallel->addAnimation(_rotate = new QPropertyAnimation {
-         _player, "rotation", this });
-   _rotate->setDuration(128);
-   _rotate->setStartValue(0);
+   // Player
+   _player = createMovieItem(QStringLiteral(":/icons/running.gif"));
+   _playerMovie = qobject_cast<QLabel *>(_player->widget())->movie();
+   _ground = QPointF{_view->width()/2.-_player->geometry().width()/2.,
+                     _view->height()-_player->geometry().height()-20};
+   _player->setPos(_ground);
 
-   connect(&_timer, &QTimer::timeout, this, [items, boundingRect](){
+   // Player jump/rotate animation
+   _jump = new QPropertyAnimation { _player, "pos" };
+   _jump->setDuration(1000);
+   _jump->setEndValue(_ground);
+   _rotate = new QPropertyAnimation { _player, "rotation" };
+   _rotate->setDuration(1000);
+   _rotate->setStartValue(0);
+   _playerAnim = new QParallelAnimationGroup { this };
+   _playerAnim->addAnimation(_jump);
+   _playerAnim->addAnimation(_rotate);
+
+   // Enemy
+   _enemy = createMovieItem(QStringLiteral(":/icons/enemy.gif"));
+   _enemyMovie = qobject_cast<QLabel *>(_enemy->widget())->movie();
+
+   // Enemy move animation
+   _enemyAnim = new QPropertyAnimation { _enemy, "pos" , this };
+   _enemyAnim->setStartValue(QPointF { _view->width()*1.,
+                                       _ground.y() });
+   _enemyAnim->setEndValue(QPointF { -_enemy->geometry().width(),
+                                     _ground.y() });
+   _enemyAnim->setDuration(2000);
+   _enemy->setPos(_enemyAnim->startValue().toPointF());
+
+   // Enemy's appearance
+   QTimer::singleShot(QRandomGenerator::global()->bounded(5000), // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
+      _enemyAnim, [this](){ _enemyAnim->start(); });
+   connect(_enemyAnim, &QPropertyAnimation::finished, this, [this](){
+      _enemyAnim->setDuration(_enemyAnim->duration() > 0 ?
+                                 _enemyAnim->duration()-200:2000);
+      QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
+         _enemyAnim, [this](){ _enemyAnim->start(); });
+   });
+
+   // Step timer
+   connect(&_stepTimer, &QTimer::timeout, this, [this, items](){
+      if (_scene->collidingItems(_player).contains(_enemy)) {
+         if (_playerAnim->state() == QAbstractAnimation::Running) {
+            _playerAnim->setPaused(true);
+         }
+         _playerMovie->stop();
+         _enemyAnim->stop();
+         _enemyMovie->stop();
+         _stepTimer.stop();
+      }
       for (quint64 i = 0; i < 6; ++i) {
-         items[i]->setX(items[i]->x() > -boundingRect.width() ?
-                           items[i]->x()-static_cast<qreal>((i+1)):0.);
+         items[i]->setX(items[i]->x() > -width() ?   // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
+                           items[i]->x()-(i+1.):0.); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
       }
    });
-   _timer.start(1000 / 33);
+   _stepTimer.start(1000 / 33);
+
+   // Fix mainwindow size
+   setFixedSize(sizeHint());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
    if (event->key() == Qt::Key_Space) {
-      _parallel->stop();
-      auto oldPos = _player->pos();
-      _jump->setStartValue(oldPos);
-      _jump->setEndValue(QPointF(oldPos.x(), oldPos.y()-100));
-      _rotate->setEndValue(
-               event->modifiers().testFlag(Qt::ControlModifier) ?
-                  360:0);
-      _parallel->setDirection(QAbstractAnimation::Forward);
-      _parallel->start();
-      connect(_parallel, &QPropertyAnimation::finished,
-              this, [this](){
-         if (_parallel->direction() == QAbstractAnimation::Forward) {
-            _parallel->setDirection(QAbstractAnimation::Backward);
-            _jump->setStartValue(QPointF(_sky->boundingRect().width()/2.-_movie->frameRect().width()/2.,
-                                _sky->boundingRect().height()-_movie->frameRect().height()));
-            _parallel->start();
+      if (_stepTimer.isActive()) {
+         setItemMovieFileName(_player,
+                              QStringLiteral(":/icons/jumping.gif"));
+         _playerAnim->stop();
+         _jump->setStartValue(_player->pos());
+         _jump->setKeyValueAt(0.5, QPointF(_player->pos().x(),
+                                           _player->pos().y()-200));
+         _rotate->setEndValue(
+            event->modifiers().testFlag(Qt::ControlModifier) ? 360:0);
+         _playerAnim->start();
+         connect(_playerAnim, &QPropertyAnimation::finished,
+                 this, [this](){
+            setItemMovieFileName(_player,
+               QStringLiteral(":/icons/running.gif"));
+         });
+      } else {
+         setItemMovieFileName(_player,
+                              QStringLiteral(":/icons/running.gif"));
+         if (_playerAnim->state() == QAbstractAnimation::Paused) {
+            _playerAnim->setPaused(false);
          }
-      });
+         _enemy->setPos(_enemyAnim->startValue().toPointF());
+         _enemyAnim->setDuration(2000);
+         _enemyMovie->start();
+         _stepTimer.start();
+         QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
+            _enemyAnim, [this](){ _enemyAnim->start(); });
+      }
    }
 }
 
-void MainWindow::createStandardWidgets(const QString &title)
+QGraphicsProxyWidget *MainWindow::createMovieItem(
+      const QString &movieFile) const
 {
-   // Set window title
-   setWindowTitle(title);
+   auto movieLabel = new QLabel;
+   movieLabel->setMovie(
+            new QMovie { movieFile, QByteArray(), movieLabel });
+   movieLabel->setAttribute(Qt::WA_TranslucentBackground);
+   movieLabel->movie()->start();
+   auto item = _scene->addWidget(movieLabel);
+   item->resize(movieLabel->movie()->frameRect().size());
+   item->setTransformOriginPoint(item->boundingRect().center());
 
-   // Menu with simple menu item
-   auto fileMenu = menuBar()->addMenu(tr("&File"));
-   auto exitAction = fileMenu->addAction(
-            QIcon(QLatin1String(":/icons/exit.svg")),
-            tr("E&xit"),
-            QApplication::instance(), &QApplication::exit,
-            Qt::CTRL + Qt::Key_Q
-            );
+   return item;
+}
 
-   // Main toolbar with simple action
-   auto mainToolBar = addToolBar(tr("Main toolbar"));
-   mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-   mainToolBar->addAction(exitAction);
-
-   // Central widget
-   auto label = new QLabel { title };
-   label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-   setCentralWidget(label);
+void MainWindow::setItemMovieFileName(QGraphicsProxyWidget *item,
+                                      const QString &movieFile)
+{
+   auto movie = qobject_cast<QLabel *>(item->widget())->movie();
+   movie->stop();
+   movie->setFileName(movieFile);
+   movie->start();
+   item->resize(movie->frameRect().size());
 }

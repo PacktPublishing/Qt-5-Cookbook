@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(state-machine)
+project(handling-graphical-items)
 
 include(FeatureSummary)
 
@@ -10,13 +10,13 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Widgets
 )
 
-set(state-machine_SRC
+set(handling-graphical-items_SRC
    src/main.cpp
    src/main.qrc
    src/mainwindow.cpp
 )
 
-add_executable(${PROJECT_NAME} ${state-machine_SRC})
+add_executable(${PROJECT_NAME} ${handling-graphical-items_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
 )

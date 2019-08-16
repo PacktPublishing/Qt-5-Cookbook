@@ -12,7 +12,7 @@
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)
 {
-   setWindowTitle(tr("State Machine Example Application"));
+   setWindowTitle(tr("Animating Graphical Item Example Application"));
 
    // Configure graphics view
    _scene = new QGraphicsScene;

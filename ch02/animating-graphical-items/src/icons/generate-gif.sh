@@ -9,9 +9,14 @@ done
 
 mkdir crop
 convert -composite *.png composite.png
+ls -1 *.png | while read IMG; do
+   convert -composite $IMG composite.png composite.png
+done
+
 OUTPUT=$(convert composite.png -verbose -trim composite.png)
 NEWSIZE=$(echo $OUTPUT | sed -n 's/.*=>\([0-9]*x[0-9]*\).*/\1/p')
 OFFSET=$(echo $OUTPUT | sed -n 's/.*\(+[0-9]*+[0-9]*\).*/\1/p')
+rm -rf composite.png
 
 mogrify -path ./crop -background transparent -crop "$NEWSIZE$OFFSET" +repage *.png
 
@@ -23,5 +28,4 @@ fi
 
 convert -set dispose background -loop 0 -delay 3 ./crop/*.png $OUTPUT
 
-#rm composite.png
-#rm -r crop
+rm -r crop

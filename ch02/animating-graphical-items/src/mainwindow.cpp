@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Player
    _player = createMovieItem(QStringLiteral(":/icons/running.gif"));
-   _playerMovie = qobject_cast<QLabel *>(_player->widget())->movie();
    _ground = QPointF{_view->width()/2.-_player->geometry().width()/2.,
                      _view->height()-_player->geometry().height()-20};
    _player->setPos(_ground);
@@ -46,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
    _rotate = new QPropertyAnimation { _player, "rotation" };
-   _rotate->setDuration(1000);
    _rotate->setStartValue(0);
+   _rotate->setDuration(1000);
    _playerAnim = new QParallelAnimationGroup { this };
    _playerAnim->addAnimation(_jump);
    _playerAnim->addAnimation(_rotate);
@@ -60,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
    _enemyAnim = new QPropertyAnimation { _enemy, "pos" , this };
    _enemyAnim->setStartValue(QPointF { _view->width()*1.,
                                        _ground.y() });
+   _enemyAnim->setDuration(2000);
    _enemyAnim->setEndValue(QPointF { -_enemy->geometry().width(),
                                      _ground.y() });
-   _enemyAnim->setDuration(2000);
    _enemy->setPos(_enemyAnim->startValue().toPointF());
 
    // Enemy's appearance
@@ -78,13 +77,14 @@ MainWindow::MainWindow(QWidget *parent) :
    // Step timer
    connect(&_stepTimer, &QTimer::timeout, this, [this, items](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
-         if (_playerAnim->state() == QAbstractAnimation::Running) {
-            _playerAnim->setPaused(true);
-         }
-         _playerMovie->stop();
          _enemyAnim->stop();
          _enemyMovie->stop();
          _stepTimer.stop();
+         _playerAnim->stop();
+         _player->setRotation(0);
+         _player->setY(_ground.y()-16);
+         setItemMovieFileName(_player,
+                              QStringLiteral(":/icons/dying.gif"));
       }
       for (quint64 i = 0; i < 6; ++i) {
          items[i]->setX(items[i]->x() > -width() ?   // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -118,6 +118,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
       } else {
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/running.gif"));
+         _player->setPos(_ground);
          if (_playerAnim->state() == QAbstractAnimation::Paused) {
             _playerAnim->setPaused(false);
          }

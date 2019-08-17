@@ -33,7 +33,6 @@ private:
    QPropertyAnimation *_enemyAnim;
    QParallelAnimationGroup *_playerAnim;
    QPointF _ground;
-   QMovie *_playerMovie;
    QMovie *_enemyMovie;
 };
 

@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent) :
          _player->setY(_ground.y()-16);
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/dying.gif"));
-         displayMessage(QStringLiteral("<center>Game Over<br/>press &lt;space&gt; to restart</center>"));
+         displayMessage(QStringLiteral("<center>GAME OVER<br/>press &lt;space&gt; to restart</center>"));
       }
       for (quint64 i = 0; i < 6; ++i) {
          items[i]->setX(items[i]->x() > -width() ?   // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)

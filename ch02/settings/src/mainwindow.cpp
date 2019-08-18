@@ -2,7 +2,6 @@
 
 #include <QApplication>
 #include <QCalendarWidget>
-#include <QCloseEvent>
 #include <QDockWidget>
 #include <QLabel>
 #include <QListWidget>
@@ -10,7 +9,7 @@
 #include <QSettings>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include <QtWebEngineWidgets/QWebEngineView>
+#include <QWebEngineView>
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),

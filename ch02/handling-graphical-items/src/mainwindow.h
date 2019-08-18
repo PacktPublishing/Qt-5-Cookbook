@@ -6,7 +6,6 @@
 // clazy:excludeall=connect-by-name
 
 class QCheckBox;
-class QGraphicsItem;
 class QGraphicsScene;
 class QGraphicsTextItem;
 class QGraphicsView;

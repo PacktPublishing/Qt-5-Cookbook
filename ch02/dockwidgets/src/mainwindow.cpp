@@ -8,7 +8,7 @@
 #include <QMenuBar>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include <QtWebEngineWidgets/QWebEngineView>
+#include <QWebEngineView>
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)

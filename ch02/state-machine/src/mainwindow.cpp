@@ -1,11 +1,9 @@
 #include "mainwindow.h"
 
-#include <QApplication>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsView>
 #include <QLabel>
 #include <QMovie>
-#include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include <QStateMachine>
@@ -47,9 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
    _rotate = new QPropertyAnimation { _player, "rotation" };
-   _rotate->setStartValue(0);
+   _rotate->setKeyValues({ {0., 0.}, {1., 360.} });
    _rotate->setDuration(1000);
-   _rotate->setEndValue(360);
 
    // Enemy
    _enemy = createMovieItem();
@@ -89,9 +86,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Message animation
    _messageAnim = new QVariantAnimation { this };
-   _messageAnim->setStartValue(0.0);
+   _messageAnim->setKeyValues({ {0., 0.}, {1., 1.} });
    _messageAnim->setDuration(1000);
-   _messageAnim->setEndValue(1.0);
    _messageAnim->setEasingCurve(QEasingCurve::OutElastic);
    connect(_messageAnim, &QVariantAnimation::valueChanged,
    this, [rect](const QVariant &value){
@@ -241,6 +237,7 @@ void MainWindow::on_dead_exited()
 
    // Reset enemy animation duration
    _enemyAnim->setDuration(2000);
+   (qobject_cast<QLabel *>(_enemy->widget()))->movie()->start();
 }
 
 void MainWindow::scheduleEnemyAppearance()

@@ -15,9 +15,7 @@
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QRadioButton>
-#include <QScrollBar>
 #include <QSlider>
-#include <QTimer>
 #include <QToolBar>
 #include <QVBoxLayout>
 

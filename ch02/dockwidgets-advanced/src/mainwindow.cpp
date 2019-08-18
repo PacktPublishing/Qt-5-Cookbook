@@ -7,7 +7,7 @@
 #include <QMenuBar>
 #include <QTextEdit>
 #include <QVBoxLayout>
-#include <QtWebEngineWidgets/QWebEngineView>
+#include <QWebEngineView>
 
 #include "docktoolbar.h"
 

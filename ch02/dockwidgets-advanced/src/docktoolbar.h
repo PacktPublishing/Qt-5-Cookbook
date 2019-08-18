@@ -4,9 +4,9 @@
 #include <QToolBar>
 #include <QButtonGroup>
 
-#include "orientabletoolbutton.h"
-
 class QDockWidget;
+
+class OrientableToolButton;
 
 class DockToolBar : public QToolBar
 {

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-#include <QApplication>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsView>
 #include <QLabel>
@@ -8,8 +7,6 @@
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
-
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent)

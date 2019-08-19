@@ -20,7 +20,7 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QLatin1String(":/icons/exit.svg")),
+            QIcon(QStringLiteral(":/icons/exit.svg")),
             tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
             Qt::CTRL + Qt::Key_Q

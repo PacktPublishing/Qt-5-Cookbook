@@ -24,22 +24,21 @@ MainWindow::MainWindow(QWidget *parent) :
                           tr("Third item") }
                         );
    const QList<QListWidgetItem *> &items = listWidget->findItems(
-            QStringLiteral("*"),Qt::MatchWildcard
-            );
+            QStringLiteral("*"), Qt::MatchWildcard);
    for (auto item : items) {
-      item->setIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
+      item->setIcon(QIcon(QStringLiteral(":/icons/qtlogo.svg")));
    }
 
    // Left toolbar with associated dockwidgets
    auto leftToolBar = new DockToolBar { tr("Left toolbar") };
    addToolBar(Qt::LeftToolBarArea, leftToolBar);
    leftToolBar->addDockWidget(
-            QIcon(QLatin1String(":/icons/listwidget.svg")),
+            QIcon(QStringLiteral(":/icons/listwidget.svg")),
             tr("ListView"),
             listWidget
             );
    leftToolBar->addDockWidget(
-            QIcon(QLatin1String(":/icons/textedit.svg")),
+            QIcon(QStringLiteral(":/icons/textedit.svg")),
             tr("TextEdit"),
             new QTextEdit { tr("Edit me!") }
             );
@@ -48,9 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
    auto rightToolBar = new DockToolBar { tr("Right toolbar") };
    addToolBar(Qt::RightToolBarArea, rightToolBar);
    auto webEngine = new QWebEngineView;
-   webEngine->load(QUrl(QStringLiteral("https://www.qt.io")));
+   webEngine->load(QStringLiteral("https://www.qt.io"));
    rightToolBar->addDockWidget(
-            QIcon(QLatin1String(":/icons/webengine.svg")),
+            QIcon(QStringLiteral(":/icons/webengine.svg")),
             tr("WebEngine"),
             webEngine);
    QWidget *calendarWidget = new QWidget;
@@ -61,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                    QSizePolicy::Expanding)
                   );
    rightToolBar->addDockWidget(
-            QIcon(QLatin1String(":/icons/calendar.svg")),
+            QIcon(QStringLiteral(":/icons/calendar.svg")),
             tr("Calendar"),
             calendarWidget
             );
@@ -79,7 +78,7 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QLatin1String(":/icons/exit.svg")),
+            QIcon(QStringLiteral(":/icons/exit.svg")),
             tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
             Qt::CTRL + Qt::Key_Q

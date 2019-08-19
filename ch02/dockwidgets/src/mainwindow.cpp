@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QStringLiteral("*"),Qt::MatchWildcard
             );
    for (auto item : items) {
-      item->setIcon(QIcon(QLatin1String(":/icons/qtlogo.svg")));
+      item->setIcon(QIcon(QStringLiteral(":/icons/qtlogo.svg")));
    }
 
    // Left dockwidget 1
@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
    rightDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea |
                                     Qt::RightDockWidgetArea);
    auto webEngineView = new QWebEngineView();
-   webEngineView->setUrl(QUrl(QStringLiteral("https://www.qt.io")));
+   webEngineView->setUrl(QStringLiteral("https://www.qt.io"));
    rightDockWidget->setWidget(webEngineView);
    connect(rightDockWidget, &QDockWidget::topLevelChanged,
            this, &MainWindow::topLevelChanged);
@@ -113,7 +113,7 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QLatin1String(":/icons/exit.svg")),
+            QIcon(QStringLiteral(":/icons/exit.svg")),
             tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
             Qt::CTRL + Qt::Key_Q

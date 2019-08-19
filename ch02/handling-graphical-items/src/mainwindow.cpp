@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
    for (int i = 0; i < metaObject->enumeratorCount(); ++i) {
       auto metaEnum = metaObject->enumerator(i);
       if (QString::fromLatin1(metaEnum.name()) ==
-          QLatin1String("Type")) {
+          QStringLiteral("Type")) {
          for (int j = 0; j < metaEnum.keyCount(); ++j) {
             easingCurve->addItem(
                      QString::fromLatin1(metaEnum.key(j)));
@@ -204,7 +204,7 @@ void MainWindow::createStandardWidgets(const QString &title)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QLatin1String(":/icons/exit.svg")),
+            QIcon(QStringLiteral(":/icons/exit.svg")),
             tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
             Qt::CTRL + Qt::Key_Q

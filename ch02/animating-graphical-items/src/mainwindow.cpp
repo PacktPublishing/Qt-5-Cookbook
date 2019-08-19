@@ -152,7 +152,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                QStringLiteral(":/icons/running.gif"));
          });
       } else {
-         displayMessage(QLatin1String(""), 0);
+         displayMessage(QStringLiteral(""), 0);
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/running.gif"));
          _player->setPos(_ground);

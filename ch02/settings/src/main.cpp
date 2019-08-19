@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
    QApplication::setApplicationName(QStringLiteral("settings"));
 
    QApplication::setWindowIcon(
-      QIcon(QLatin1String(":/icons/qtlogo.svg"))
+      QIcon(QStringLiteral(":/icons/qtlogo.svg"))
    );
    MainWindow w;
    w.show();

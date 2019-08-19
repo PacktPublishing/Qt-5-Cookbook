@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QLatin1String(":/icons/exit.svg")),
+      QIcon(QStringLiteral(":/icons/exit.svg")),
       tr("E&xit"),
       QApplication::instance(), &QApplication::exit,
       Qt::CTRL + Qt::Key_Q
@@ -37,14 +37,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Secondary tool bar with action groups
    auto alignHActionGroup = createActionGroup({
-      { QLatin1String(":/icons/h-left.svg"),   tr("Align &left") },
-      { QLatin1String(":/icons/h-center.svg"), tr("Align &center") },
-      { QLatin1String(":/icons/h-right.svg"),  tr("Align &right") }
+      { QStringLiteral(":/icons/h-left.svg"),   tr("Align &left") },
+      { QStringLiteral(":/icons/h-center.svg"), tr("Align &center") },
+      { QStringLiteral(":/icons/h-right.svg"),  tr("Align &right") }
    });
    auto alignVActionGroup = createActionGroup({
-      { QLatin1String(":/icons/v-top.svg"),    tr("Align &top") },
-      { QLatin1String(":/icons/v-center.svg"), tr("Align ce&nter") },
-      { QLatin1String(":/icons/v-bottom.svg"), tr("Align &bottom") }
+      { QStringLiteral(":/icons/v-top.svg"),    tr("Align &top") },
+      { QStringLiteral(":/icons/v-center.svg"), tr("Align ce&nter") },
+      { QStringLiteral(":/icons/v-bottom.svg"), tr("Align &bottom") }
    });
    auto secondaryToolBar = new QToolBar { tr("Secondary toolbar") };
    secondaryToolBar->addActions(alignHActionGroup->actions());
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
    alignMenu->addSeparator();
    alignMenu->addActions(alignVActionGroup->actions());
    auto alignAction = mainToolBar->addAction(
-      QIcon(QLatin1String(":/icons/configure.svg")),
+      QIcon(QStringLiteral(":/icons/configure.svg")),
       QStringLiteral("&Align"));
    alignAction->setMenu(alignMenu);
    (qobject_cast<QToolButton *>(

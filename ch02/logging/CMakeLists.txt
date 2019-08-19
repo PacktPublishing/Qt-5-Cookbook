@@ -12,6 +12,7 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
 
 set(logging_SRC
    src/main.cpp
+   src/mycoordinate.cpp
 )
 
 add_executable(${PROJECT_NAME} ${logging_SRC})

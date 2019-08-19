@@ -6,6 +6,7 @@ Q_LOGGING_CATEGORY(component1, "myapp.component1")
 QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate)
 {
    QDebugStateSaver saver(dbg);
+   dbg.resetFormat();
    dbg.nospace() << "(" <<
                     myCoordinate.x() << ", " << myCoordinate.y() <<
                     ")";

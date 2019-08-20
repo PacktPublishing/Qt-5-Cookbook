@@ -1,0 +1,6 @@
+<RCC>
+   <qresource prefix="/l10n">
+      <file>i18n-l10n.en_US.qm</file>
+      <file>i18n-l10n.pt_BR.qm</file>
+   </qresource>
+</RCC>

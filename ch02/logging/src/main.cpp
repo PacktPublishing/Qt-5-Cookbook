@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
    parser.addHelpOption();
    QCommandLineOption verbosity {
       { QStringLiteral("v"), QStringLiteral("verbosity") },
-      QObject::tr("Adjust verbosity level."),
+      QObject::tr("Adjusts verbosity level."),
       QStringLiteral("verbosity"),
       QStringLiteral("0") };
    parser.addOption(verbosity);

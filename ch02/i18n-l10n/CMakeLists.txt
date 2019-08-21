@@ -19,9 +19,11 @@ set(i18n-l10n_SRC
    src/mainwindow.cpp
 )
 
+add_definitions(-DQT_NO_CAST_FROM_ASCII)
+
 qt5_create_translation(i18n-l10n_QM ${i18n-l10n_SRC}
-   l10n/${PROJECT_NAME}.en_US.ts
-   l10n/${PROJECT_NAME}.pt_BR.ts
+   l10n/${PROJECT_NAME}_en_US.ts
+   l10n/${PROJECT_NAME}_pt_BR.ts
 )
 configure_file(src/l10n.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 qt5_add_resources(i18n-l10n_SRC ${CMAKE_CURRENT_BINARY_DIR}/l10n.qrc)

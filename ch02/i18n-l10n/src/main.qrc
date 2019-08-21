@@ -1,6 +1,11 @@
 <RCC>
    <qresource prefix="/">
       <file>icons/qtlogo.svg</file>
+      <file>icons/bgcolor.svg</file>
       <file>icons/exit.svg</file>
+      <file>icons/flag.png</file>
+   </qresource>
+   <qresource prefix="/" lang="pt_BR">
+      <file alias="icons/flag.png">icons/flag_pt_BR.png</file>
    </qresource>
 </RCC>

@@ -2,16 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLocale>
 
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
 
 public:
-   explicit MainWindow(QWidget *parent = nullptr);
+   explicit MainWindow(const QLocale &locale, QWidget *parent = nullptr);
 
 private:
-   void createStandardWidgets(const QString &title);
+   QLocale _locale;
+   int _messagesSent;
 };
 
 #endif // MAINWINDOW_H

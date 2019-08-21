@@ -17,7 +17,7 @@ set(dockwidgets_SRC
    src/mainwindow.cpp
 )
 
-add_executable(${PROJECT_NAME} ${dockwidgets_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${dockwidgets_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
    Qt5::WebEngineWidgets

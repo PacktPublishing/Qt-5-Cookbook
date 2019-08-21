@@ -28,7 +28,7 @@ qt5_create_translation(i18n-l10n_QM ${i18n-l10n_SRC}
 configure_file(src/l10n.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 qt5_add_resources(i18n-l10n_SRC ${CMAKE_CURRENT_BINARY_DIR}/l10n.qrc)
 
-add_executable(${PROJECT_NAME} ${i18n-l10n_SRC} ${i18n-l10n_QM})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${i18n-l10n_SRC} ${i18n-l10n_QM})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
 )

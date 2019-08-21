@@ -16,7 +16,7 @@ set(state-machine_SRC
    src/mainwindow.cpp
 )
 
-add_executable(${PROJECT_NAME} ${state-machine_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${state-machine_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
 )

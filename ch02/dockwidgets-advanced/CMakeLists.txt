@@ -19,7 +19,7 @@ set(dockwidgets-advanced_SRC
    src/docktoolbar.cpp
 )
 
-add_executable(${PROJECT_NAME} ${dockwidgets-advanced_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${dockwidgets-advanced_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
    Qt5::WebEngineWidgets

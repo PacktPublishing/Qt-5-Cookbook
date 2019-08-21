@@ -25,7 +25,7 @@ qt5_add_statecharts(scxml-state-machine_SRC
 )
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(${PROJECT_NAME} ${scxml-state-machine_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${scxml-state-machine_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
    Qt5::Scxml

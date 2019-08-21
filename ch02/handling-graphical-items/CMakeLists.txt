@@ -16,7 +16,7 @@ set(handling-graphical-items_SRC
    src/mainwindow.cpp
 )
 
-add_executable(${PROJECT_NAME} ${handling-graphical-items_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${handling-graphical-items_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
 )

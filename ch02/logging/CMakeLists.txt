@@ -15,7 +15,7 @@ set(logging_SRC
    src/mycoordinate.cpp
 )
 
-add_executable(${PROJECT_NAME} ${logging_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${logging_SRC})
 target_link_libraries(${PROJECT_NAME}
    Qt5::Core
 )

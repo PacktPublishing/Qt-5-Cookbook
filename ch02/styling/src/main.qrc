@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/qtlogo.svg</file>
+        <file>icons/exit.svg</file>
+        <file>icons/configure.svg</file>
+        <file>icons/h-left.svg</file>
+        <file>icons/h-center.svg</file>
+        <file>icons/h-right.svg</file>
+        <file>icons/v-bottom.svg</file>
+        <file>icons/v-center.svg</file>
+        <file>icons/v-top.svg</file>
+        <file>icons/combo-drop-arrow.png</file>
+        <file>icons/slider-handle.png</file>
+        <file>icons/toolbar-handle.png</file>
+
+        <file>style.qss</file>
+    </qresource>
+</RCC>

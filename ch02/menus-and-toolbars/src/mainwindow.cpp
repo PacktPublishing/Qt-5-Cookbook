@@ -7,8 +7,7 @@
 #include <QToolBar>
 #include <QToolButton>
 
-MainWindow::MainWindow(QWidget *parent) :
-   QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
    // Set window attributes
    setWindowTitle(tr("Menus and Toolbars Example Application"));
@@ -17,11 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-      QIcon(QStringLiteral(":/icons/exit.svg")),
-      tr("E&xit"),
-      QApplication::instance(), &QApplication::exit,
-      Qt::CTRL + Qt::Key_Q
-   );
+            QIcon(QStringLiteral(":/icons/exit.svg")), tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q);
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));
@@ -30,8 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // Central widget
    auto label = new QLabel {
-      QStringLiteral("Menus and Toolbars Example Application")
-   };
+         QStringLiteral("Menus and Toolbars Example Application")};
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
    setCentralWidget(label);
 
@@ -58,12 +54,12 @@ MainWindow::MainWindow(QWidget *parent) :
    alignMenu->addSeparator();
    alignMenu->addActions(alignVActionGroup->actions());
    auto alignAction = mainToolBar->addAction(
-      QIcon(QStringLiteral(":/icons/configure.svg")),
-      QStringLiteral("&Align"));
+            QIcon(QStringLiteral(":/icons/configure.svg")),
+            QStringLiteral("&Align"));
    alignAction->setMenu(alignMenu);
    (qobject_cast<QToolButton *>(
-      mainToolBar->widgetForAction(alignAction))
-   )->setPopupMode(QToolButton::MenuButtonPopup);
+            mainToolBar->widgetForAction(alignAction))
+         )->setPopupMode(QToolButton::MenuButtonPopup);
 
    // Menu with submenu
    auto formatMenu = menuBar()->addMenu(tr("F&ormat"));

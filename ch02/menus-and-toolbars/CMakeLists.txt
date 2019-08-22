@@ -16,7 +16,9 @@ set(menus-and-toolbars_SRC
    src/mainwindow.cpp
 )
 
-add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${menus-and-toolbars_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+   ${menus-and-toolbars_SRC}
+)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

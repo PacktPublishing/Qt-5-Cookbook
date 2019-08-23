@@ -13,8 +13,8 @@ public:
    explicit MainWindow(QWidget *parent = nullptr);
 
 private:
-   QActionGroup *createActionGroup(const QVector<QPair<QString,
-                                   QString>> &data);
+   QActionGroup *createActionGroup(
+         const QVector<QPair<QString, QString>> &data);
 };
 
 #endif // MAINWINDOW_H

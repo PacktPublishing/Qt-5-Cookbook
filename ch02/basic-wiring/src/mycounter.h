@@ -8,7 +8,7 @@ class MyCounter : public QObject
    Q_OBJECT
 
 public:
-   MyCounter(int value = 0, QObject *parent = nullptr);
+   explicit MyCounter(int value = 0, QObject *parent = nullptr);
 
 public Q_SLOTS:
    void setValue(int value);

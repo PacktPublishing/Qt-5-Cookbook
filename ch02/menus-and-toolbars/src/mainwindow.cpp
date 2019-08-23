@@ -7,7 +7,7 @@
 #include <QToolBar>
 #include <QToolButton>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
    // Set window attributes
    setWindowTitle(tr("Menus and Toolbars Example Application"));
@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QStringLiteral(":/icons/exit.svg")), tr("E&xit"),
+            QIcon {QStringLiteral(":/icons/exit.svg")}, tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
             Qt::CTRL + Qt::Key_Q);
 
@@ -33,16 +33,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
    // Secondary tool bar with action groups
    auto alignHActionGroup = createActionGroup({
-      { QStringLiteral(":/icons/h-left.svg"),   tr("Align &left") },
-      { QStringLiteral(":/icons/h-center.svg"), tr("Align &center") },
-      { QStringLiteral(":/icons/h-right.svg"),  tr("Align &right") }
+      {QStringLiteral(":/icons/h-left.svg"),   tr("Align &left")},
+      {QStringLiteral(":/icons/h-center.svg"), tr("Align &center")},
+      {QStringLiteral(":/icons/h-right.svg"),  tr("Align &right")}
    });
    auto alignVActionGroup = createActionGroup({
-      { QStringLiteral(":/icons/v-top.svg"),    tr("Align &top") },
-      { QStringLiteral(":/icons/v-center.svg"), tr("Align ce&nter") },
-      { QStringLiteral(":/icons/v-bottom.svg"), tr("Align &bottom") }
+      {QStringLiteral(":/icons/v-top.svg"),    tr("Align &top")},
+      {QStringLiteral(":/icons/v-center.svg"), tr("Align ce&nter")},
+      {QStringLiteral(":/icons/v-bottom.svg"), tr("Align &bottom")}
    });
-   auto secondaryToolBar = new QToolBar { tr("Secondary toolbar") };
+   auto secondaryToolBar = new QToolBar {tr("Secondary toolbar")};
    secondaryToolBar->addActions(alignHActionGroup->actions());
    secondaryToolBar->addSeparator();
    secondaryToolBar->addActions(alignVActionGroup->actions());
@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    alignMenu->addSeparator();
    alignMenu->addActions(alignVActionGroup->actions());
    auto alignAction = mainToolBar->addAction(
-            QIcon(QStringLiteral(":/icons/configure.svg")),
+            QIcon {QStringLiteral(":/icons/configure.svg")},
             QStringLiteral("&Align"));
    alignAction->setMenu(alignMenu);
    (qobject_cast<QToolButton *>(
@@ -66,15 +66,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    formatMenu->addMenu(alignMenu);
 
    // Status bar
-   statusBar()->addPermanentWidget(new QLabel { tr("Ready!") }, 1);
+   statusBar()->addPermanentWidget(new QLabel {tr("Ready!")}, 1);
 }
 
 QActionGroup *MainWindow::createActionGroup(
-   const QVector<QPair<QString, QString>> &data)
+      const QVector<QPair<QString, QString>> &data)
 {
-   auto actionGroup = new QActionGroup { this };
+   auto actionGroup = new QActionGroup {this};
    for (const auto &pair : data) {
-      actionGroup->addAction(QIcon(pair.first),
+      actionGroup->addAction(QIcon {pair.first},
                              pair.second)->setCheckable(true);
    }
    actionGroup->actions().constFirst()->setChecked(true);

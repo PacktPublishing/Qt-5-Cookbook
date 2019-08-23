@@ -6,44 +6,32 @@
 #include <QStylePainter>
 #include <QToolBar>
 
-OrientableToolButton::OrientableToolButton(QWidget *parent)
-   : QToolButton(parent)
+OrientableToolButton::OrientableToolButton(const QIcon &icon,
+                                           const QString &text,
+                                           QWidget *parent)
+   : QToolButton {parent}
 {
+   setIcon(icon);
+   setText(text);
    setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
    setCheckable(true);
 }
 
-OrientableToolButton::OrientableToolButton(const QString &text,
-                                           QWidget *parent)
-   : OrientableToolButton(parent)
-{
-   setText(text);
-}
-
-OrientableToolButton::OrientableToolButton(const QIcon &icon,
-                                           const QString &text,
-                                           QWidget *parent)
-   : OrientableToolButton(text, parent)
-{
-   setIcon(icon);
-}
-
 QSize OrientableToolButton::sizeHint() const
 {
-   QSize sh = QToolButton::sizeHint();
+   QSize sizeHint = QToolButton::sizeHint();
    auto toolBar = qobject_cast<QToolBar *>(parent());
    if (toolBar && toolBar->orientation() != Qt::Horizontal) {
-      sh.transpose();
+      sizeHint.transpose();
    }
 
-   return sh;
+   return sizeHint;
 }
 
 void OrientableToolButton::paintEvent(QPaintEvent *event)
 {
    Q_UNUSED(event)
-
-   QStylePainter painter(this);
+   QStylePainter painter {this};
    QStyleOptionToolButton option;
    initStyleOption(&option);
 

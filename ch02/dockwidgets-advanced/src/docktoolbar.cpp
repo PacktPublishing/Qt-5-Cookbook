@@ -5,23 +5,15 @@
 
 #include "orientabletoolbutton.h"
 
-DockToolBar::DockToolBar(QWidget *parent)
-   : QToolBar(parent),
-     _currentButton(nullptr)
+DockToolBar::DockToolBar(const QString &title, QWidget *parent)
+   : QToolBar {parent}, _currentButton {nullptr}
 {
+   setWindowTitle(title);
    setMovable(false);
    connect(&_buttonGroup,
            QOverload<QAbstractButton *, bool>::of(
-              &QButtonGroup::buttonToggled
-              ),
-           this, &DockToolBar::buttonToggled
-           );
-}
-
-DockToolBar::DockToolBar(const QString &title, QWidget *parent)
-   : DockToolBar(parent)
-{
-   setWindowTitle(title);
+              &QButtonGroup::buttonToggled),
+           this, &DockToolBar::buttonToggled);
 }
 
 void DockToolBar::addDockWidget(const QIcon &icon,
@@ -33,11 +25,11 @@ void DockToolBar::addDockWidget(const QIcon &icon,
       return;
    }
 
-   auto toolButton = new OrientableToolButton { icon, title, this };
+   auto toolButton = new OrientableToolButton {icon, title, this};
    _buttonGroup.addButton(toolButton);
    addWidget(toolButton);
 
-   QDockWidget *dockWidget = new QDockWidget { title };
+   QDockWidget *dockWidget = new QDockWidget {title};
    dockWidget->setWidget(widget);
    dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
    mainWindow->addDockWidget(

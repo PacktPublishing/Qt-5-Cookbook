@@ -1,8 +1,8 @@
 #ifndef DOCKTOOLBAR_H
 #define DOCKTOOLBAR_H
 
-#include <QToolBar>
 #include <QButtonGroup>
+#include <QToolBar>
 
 class QDockWidget;
 
@@ -13,8 +13,8 @@ class DockToolBar : public QToolBar
    Q_OBJECT
 
 public:
-   DockToolBar(QWidget *parent = nullptr);
-   DockToolBar(const QString &title, QWidget *parent = nullptr);
+   explicit DockToolBar(const QString &title = QString {},
+                        QWidget *parent = nullptr);
 
    void addDockWidget(const QIcon &icon,
                       const QString &title,

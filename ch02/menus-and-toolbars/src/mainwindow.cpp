@@ -70,8 +70,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 }
 
 QActionGroup *MainWindow::createActionGroup(
-   const QVector<QPair<QString, QString>> &data
-)
+   const QVector<QPair<QString, QString>> &data)
 {
    auto actionGroup = new QActionGroup { this };
    for (const auto &pair : data) {

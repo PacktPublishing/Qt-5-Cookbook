@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-   QApplication app(argc, argv);
+   QApplication app { argc, argv };
 
    // Main window and widgets
    QMainWindow mainWindow;

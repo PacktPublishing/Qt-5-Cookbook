@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
       }
    }
    easingCurve->setCurrentIndex(QEasingCurve::InOutElastic);
-   auto animateButton = new QPushButton(tr("Animate"));
+   auto animateButton = new QPushButton { tr("Animate") };
    animateLayout->addWidget(new QLabel { tr("Duration (s)" ) });
    animateLayout->addWidget(durationSpinBox);
    animateLayout->addWidget(easingCurve);
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
    dockerLayout->addWidget(animateGroupBox);
    connect(animateButton, &QPushButton::clicked,
            this, [this, durationSpinBox, easingCurve](){
-      auto animation = new QPropertyAnimation(_textItem, "pos");
+      auto animation = new QPropertyAnimation { _textItem, "pos" };
       animation->setDuration(durationSpinBox->value()*1000);
       animation->setEndValue(
             QPointF(-_textItem->x()-_textItem->boundingRect().width(),
@@ -106,9 +106,9 @@ MainWindow::MainWindow(QWidget *parent) :
                                    ));
       animation->start();
    });
-   dockerLayout->addItem(new QSpacerItem(0, 0,
-                                         QSizePolicy::Minimum,
-                                         QSizePolicy::Expanding));
+   dockerLayout->addItem(new QSpacerItem { 0, 0,
+                                           QSizePolicy::Minimum,
+                                           QSizePolicy::Expanding });
 
    // GraphicsScene and GraphicsView
    _scene->setObjectName(QStringLiteral("graphicsScene"));
@@ -152,7 +152,7 @@ void MainWindow::on_graphicsScene_selectionChanged()
       item->setScale(item->isSelected() ? 1.2:1);
       item->setGraphicsEffect(
                item->isSelected() | _scene->selectedItems().isEmpty()
-               ? nullptr:new QGraphicsBlurEffect(this));
+               ? nullptr:new QGraphicsBlurEffect { this });
    }
 }
 
@@ -242,7 +242,7 @@ void MainWindow::createGraphicsItems()
                      QGraphicsItem::ItemIsSelectable);
 
    // Second rectangle (with marks)
-   auto rect2 = new QGraphicsRectItem(-25, -25, 50, 50);
+   auto rect2 = new QGraphicsRectItem { -25, -25, 50, 50 };
    rect2->setFlags(QGraphicsItem::ItemIsMovable |
                    QGraphicsItem::ItemIsSelectable);
    rect2->setBrush(QBrush { Qt::darkRed });
@@ -250,8 +250,8 @@ void MainWindow::createGraphicsItems()
    constexpr int markSize = 10;
    for (int i : { -1, 1}) {
       for (int j : { -1, 1}) {
-         auto mark = new QGraphicsEllipseItem(
-               -markSize/2., -markSize/2., markSize, markSize, rect2);
+         auto mark = new QGraphicsEllipseItem {
+               -markSize/2., -markSize/2., markSize, markSize, rect2 };
 
          mark->setBrush(QColor({ 0, 128, 128, 128 }));
          mark->setPen(Qt::NoPen);

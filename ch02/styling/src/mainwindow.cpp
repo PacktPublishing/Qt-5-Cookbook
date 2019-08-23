@@ -27,15 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
       QApplication::instance(), &QApplication::exit);
    auto alignMenu = menuBar()->addMenu(tr("&Align"));
    alignMenu->addActions({
-                            new QAction(tr("Align &left")),
-                            new QAction(tr("Align &center")),
-                            new QAction(tr("Align &right"))
+                            new QAction { tr("Align &left") },
+                            new QAction { tr("Align &center") },
+                            new QAction { tr("Align &right") }
                          });
    alignMenu->addSeparator();
    alignMenu->addActions({
-                            new QAction(tr("Align &top")),
-                            new QAction(tr("Align ce&nter")),
-                            new QAction(tr("Align &bottom"))
+                            new QAction { tr("Align &top") },
+                            new QAction { tr("Align ce&nter") },
+                            new QAction { tr("Align &bottom") }
                          });
 
    // Main toolbar with simple action
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
    // ComboBox and Slider
    auto horizontalLayout1 = new QHBoxLayout;
    auto comboBox = new QComboBox;
-   comboBox->setItemDelegate(new QStyledItemDelegate(comboBox));
+   comboBox->setItemDelegate(new QStyledItemDelegate { comboBox });
    comboBox->addItems({ tr("One"), tr("Two"), tr("Three"), tr("Four")});
    horizontalLayout1->addWidget(comboBox);
    auto slider = new QSlider { Qt::Horizontal };

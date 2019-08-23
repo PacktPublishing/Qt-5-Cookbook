@@ -114,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // State machine
    _stateMachine = new QStateMachine { this };
-   auto parallel = new QState(QState::ParallelStates);
+   auto parallel = new QState { QState::ParallelStates };
 
    auto status = new QState { parallel };
    auto running = new QState { status };

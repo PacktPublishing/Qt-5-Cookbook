@@ -55,9 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
    QWidget *calendarWidget = new QWidget;
    auto layout = new QVBoxLayout { calendarWidget };
    layout->addWidget(new QCalendarWidget);
-   layout->addItem(new QSpacerItem(0, 0,
+   layout->addItem(new QSpacerItem { 0, 0,
                                    QSizePolicy::Minimum,
-                                   QSizePolicy::Expanding)
+                                   QSizePolicy::Expanding }
                   );
    rightToolBar->addDockWidget(
             QIcon(QStringLiteral(":/icons/calendar.svg")),

@@ -37,9 +37,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    auto calendarWidgetWrapper = new QWidget;
    auto layout = new QVBoxLayout { calendarWidgetWrapper };
    layout->addWidget(new QCalendarWidget);
-   layout->addItem(new QSpacerItem(0, 0,
-                                   QSizePolicy::Minimum,
-                                   QSizePolicy::Expanding));
+   layout->addItem(new QSpacerItem { 0, 0,
+                                     QSizePolicy::Minimum,
+                                     QSizePolicy::Expanding });
    _leftDockWidget2->setWidget(calendarWidgetWrapper);
    connect(_leftDockWidget2, &QDockWidget::topLevelChanged,
            this, &MainWindow::topLevelChanged);

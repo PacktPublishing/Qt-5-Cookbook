@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
    QMainWindow(parent),
-   _tabifyAction(new QAction(tr("&Tabify"), this))
+   _tabifyAction(new QAction { tr("&Tabify"), this })
 {
    createStandardWidgets(tr("Settings Example Application"));
 
@@ -43,10 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
    auto calendarWidgetWrapper = new QWidget;
    auto layout = new QVBoxLayout { calendarWidgetWrapper };
    layout->addWidget(new QCalendarWidget);
-   layout->addItem(
-      new QSpacerItem(0, 0,
-                      QSizePolicy::Minimum, QSizePolicy::Expanding)
-   );
+   layout->addItem(new QSpacerItem { 0, 0,
+                                     QSizePolicy::Minimum,
+                                     QSizePolicy::Expanding });
    leftDockWidget2->setWidget(calendarWidgetWrapper);
    connect(leftDockWidget2, &QDockWidget::topLevelChanged,
            this, &MainWindow::topLevelChanged);
@@ -57,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
    rightDockWidget->setObjectName(QStringLiteral("rightDockWidget"));
    rightDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea |
                                     Qt::RightDockWidgetArea);
-   auto webEngineView = new QWebEngineView();
+   auto webEngineView = new QWebEngineView;
    webEngineView->setUrl(QStringLiteral("https://www.qt.io"));
    rightDockWidget->setWidget(webEngineView);
    connect(rightDockWidget, &QDockWidget::topLevelChanged,

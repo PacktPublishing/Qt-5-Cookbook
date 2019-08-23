@@ -129,8 +129,8 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    centralLayout->addWidget(comboBox1);
    centralLayout->addWidget(numberLabel);
    centralLayout->addWidget(imageLabel);
-   centralLayout->addSpacerItem(new QSpacerItem(0, 0,
-                     QSizePolicy::Minimum, QSizePolicy::Expanding));
+   centralLayout->addSpacerItem(new QSpacerItem { 0, 0,
+                     QSizePolicy::Minimum, QSizePolicy::Expanding });
 
    resize(640, 480);
 }

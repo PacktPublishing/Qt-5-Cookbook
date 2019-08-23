@@ -1,7 +1,7 @@
 #include "mycounter.h"
 
 MyCounter::MyCounter(int value, QObject *parent)
-   : QObject(parent), _value(value)
+   : QObject {parent}, _value {value}
 {
 }
 

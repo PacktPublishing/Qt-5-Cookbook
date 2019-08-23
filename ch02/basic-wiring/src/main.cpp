@@ -9,13 +9,13 @@
 
 int main(int argc, char *argv[])
 {
-   QApplication app { argc, argv };
+   QApplication app {argc, argv};
 
    // Main window and widgets
    QMainWindow mainWindow;
    auto spin = new QSpinBox;
-   auto slider = new QSlider { Qt::Horizontal };
-   auto label = new QLabel { QObject::tr("This is a QLabel!") };
+   auto slider = new QSlider {Qt::Horizontal};
+   auto label = new QLabel {QObject::tr("This is a QLabel!")};
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
    // Set central widget
@@ -23,13 +23,13 @@ int main(int argc, char *argv[])
    mainWindow.setCentralWidget(centralWidget);
 
    // Layout
-   auto layout = new QVBoxLayout { centralWidget };
+   auto layout = new QVBoxLayout {centralWidget};
    layout->addWidget(spin);
    layout->addWidget(slider);
    layout->addWidget(label);
 
    // Our QObject
-   auto myCounter = new MyCounter { 0, &mainWindow };
+   auto myCounter = new MyCounter {0, &mainWindow};
 
    // Connections
    QObject::connect(spin, QOverload<int>::of(&QSpinBox::valueChanged),

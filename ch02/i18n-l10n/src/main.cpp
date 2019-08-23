@@ -7,17 +7,17 @@
 
 int main(int argc, char *argv[])
 {
-   QApplication app(argc, argv);
+   QApplication app {argc, argv};
    QApplication::setWindowIcon(
-      QIcon(QStringLiteral(":/icons/qtlogo.svg")));
+            QIcon {QStringLiteral(":/icons/qtlogo.svg")});
 
    // Parse arguments
    QCommandLineParser parser;
    parser.addHelpOption();
    QCommandLineOption languageOption {
-      { QStringLiteral("l"), QStringLiteral("language") },
-        QStringLiteral("Adjusts application language."),
-        QStringLiteral("language") };
+      {QStringLiteral("l"), QStringLiteral("language")},
+       QStringLiteral("Adjusts application language."),
+       QStringLiteral("language")};
    parser.addOption(languageOption);
    parser.process(app);
    QString language = parser.value(languageOption);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
                         QStringLiteral("_"));
    QApplication::installTranslator(&myappTranslator);
 
-   MainWindow w { locale };
+   MainWindow w {locale};
    w.show();
 
    return QApplication::exec();

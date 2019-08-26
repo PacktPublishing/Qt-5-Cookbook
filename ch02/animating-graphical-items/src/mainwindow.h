@@ -7,7 +7,6 @@
 class QGraphicsScene;
 class QGraphicsTextItem;
 class QGraphicsView;
-class QParallelAnimationGroup;
 class QPropertyAnimation;
 class QVariantAnimation;
 
@@ -22,8 +21,10 @@ protected:
    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private:
-   QGraphicsProxyWidget *createMovieItem(const QString &movieFile) const;
-   void setItemMovieFileName(QGraphicsProxyWidget *item, const QString &movieFile);
+   QGraphicsProxyWidget *createMovieItem(
+         const QString &movieFile) const;
+   void setItemMovieFileName(QGraphicsProxyWidget *item,
+                             const QString &movieFile);
    void displayMessage(const QString &message, int timeout = -1);
 
    QGraphicsScene *_scene;
@@ -36,7 +37,6 @@ private:
    QPropertyAnimation *_jump;
    QPropertyAnimation *_rotate;
    QPropertyAnimation *_enemyAnim;
-   QParallelAnimationGroup *_playerAnim;
    QVariantAnimation *_messageAnim;
    QPointF _ground;
    QMovie *_enemyMovie;

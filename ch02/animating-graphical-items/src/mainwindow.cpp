@@ -4,12 +4,10 @@
 #include <QGraphicsView>
 #include <QLabel>
 #include <QMovie>
-#include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 
-MainWindow::MainWindow(QWidget *parent) :
-   QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
    setWindowTitle(tr("Animating Graphical Item Example Application"));
 
@@ -17,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
    _scene = new QGraphicsScene;
    auto sky = _scene->addPixmap(QStringLiteral(":/icons/sky.png"));
    _scene->setSceneRect(sky->boundingRect());
-   _view = new QGraphicsView { _scene };
+   _view = new QGraphicsView {_scene};
    _view->setFixedSize(_scene->sceneRect().size().toSize());
    _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
    _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -40,27 +38,24 @@ MainWindow::MainWindow(QWidget *parent) :
    _player->setPos(_ground);
 
    // Player jump/rotate animation
-   _jump = new QPropertyAnimation { _player, "pos" };
+   _jump = new QPropertyAnimation {_player, "pos"};
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
-   _rotate = new QPropertyAnimation { _player, "rotation" };
-   _rotate->setStartValue(0);
+   _rotate = new QPropertyAnimation {_player, "rotation"};
+   _rotate->setKeyValues({{0., 0.}, {1., 360.}});
    _rotate->setDuration(1000);
-   _playerAnim = new QParallelAnimationGroup { this };
-   _playerAnim->addAnimation(_jump);
-   _playerAnim->addAnimation(_rotate);
 
    // Enemy
    _enemy = createMovieItem(QStringLiteral(":/icons/enemy.gif"));
    _enemyMovie = qobject_cast<QLabel *>(_enemy->widget())->movie();
 
    // Enemy move animation
-   _enemyAnim = new QPropertyAnimation { _enemy, "pos" , this };
-   _enemyAnim->setStartValue(QPointF { _view->width()*1.,
-                                       _ground.y() });
+   _enemyAnim = new QPropertyAnimation {_enemy, "pos" , this};
+   _enemyAnim->setStartValue(QPointF {_view->width()*1.,
+                                      _ground.y()});
    _enemyAnim->setDuration(2000);
-   _enemyAnim->setEndValue(QPointF { -_enemy->geometry().width(),
-                                     _ground.y() });
+   _enemyAnim->setEndValue(QPointF {-_enemy->geometry().width(),
+                                    _ground.y()});
    _enemy->setPos(_enemyAnim->startValue().toPointF());
 
    // Enemy's appearance
@@ -70,57 +65,72 @@ MainWindow::MainWindow(QWidget *parent) :
       _enemyAnim->setDuration(_enemyAnim->duration() > 0 ?
                                  _enemyAnim->duration()-200:2000);
       QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
-         _enemyAnim, [this](){ _enemyAnim->start(); });
+                        _enemyAnim, [this](){ _enemyAnim->start(); });
    });
 
    // Message text and rectangle
-   _message = _scene->addText(QStringLiteral("default\nvalue"), { QStringLiteral("DejaVu Sans"), 18, 100 });
+   _message = _scene->addText(QStringLiteral("default\nvalue"),
+                          {QStringLiteral("DejaVu Sans"), 18, 100});
    _message->setTextWidth(420);
    _message->setDefaultTextColor(Qt::white);
    QPainterPath path;
    constexpr int margin = 10;
-   path.addRoundedRect(_message->boundingRect().marginsAdded({margin, margin, margin, margin}), 15, 15);
-   auto rect = _scene->addPath(path, Qt::NoPen, QColor(89, 60, 81, 192));
-   rect->setPos(_scene->sceneRect().width()/2-rect->boundingRect().width()/2+margin, 45);
+   path.addRoundedRect(_message->boundingRect().marginsAdded(
+                           {margin, margin, margin, margin}), 15, 15);
+   auto rect = _scene->addPath(path, Qt::NoPen,
+                               QColor(89, 60, 81, 192));
+   rect->setPos(_scene->sceneRect().width()/2-
+                  rect->boundingRect().width()/2+margin,
+                45);
    rect->setTransformOriginPoint(rect->boundingRect().center());
    rect->setScale(0);
    _message->setParentItem(rect);
 
    // Message animation
-   _messageAnim = new QVariantAnimation { this };
-   _messageAnim->setStartValue(0.0);
+   _messageAnim = new QVariantAnimation {this};
+   _messageAnim->setKeyValues({{0., 0.}, {1., 1.}});
    _messageAnim->setDuration(1000);
-   _messageAnim->setEndValue(1.0);
    _messageAnim->setEasingCurve(QEasingCurve::OutElastic);
    connect(_messageAnim, &QVariantAnimation::valueChanged,
-   this, [rect](const QVariant &value){
-      rect->setScale(value.toReal());});
+           this, [rect](const QVariant &value){
+              rect->setScale(value.toReal());
+   });
 
    // Message removal timer
    _bannerTimer.setSingleShot(true);
    connect(&_bannerTimer, &QTimer::timeout,
            this, [this]() {
-      _messageAnim->setDirection(QAbstractAnimation::Backward);
-      _messageAnim->start();
+             _messageAnim->setDirection(QAbstractAnimation::Backward);
+             _messageAnim->start();
    });
 
-   displayMessage(tr("&lt;space&gt; = jump\n&lt;ctrl+space&gt; = jump+rotate"), 5000);
+   displayMessage(tr("<center>&lt;space&gt; = jump<br/>"
+                     "&lt;r&gt; = rotate</center>"), 5000);
 
    // Step timer
    connect(&_stepTimer, &QTimer::timeout, this, [this, items, rect](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
+         // Remove message
          rect->setScale(0);
          _bannerTimer.stop();
          _messageAnim->stop();
+         // Stop enemy
          _enemyAnim->stop();
          _enemyMovie->stop();
+         // Stop simulation
          _stepTimer.stop();
-         _playerAnim->stop();
+         // Stop player
+         _jump->stop();
+         _rotate->stop();
+         // Reset player position and rotation
          _player->setRotation(0);
          _player->setY(_ground.y()-16);
+         // Change animation
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/dying.gif"));
-         displayMessage(QStringLiteral("<center>GAME OVER<br/>press &lt;space&gt; to restart</center>"));
+         // Display new message
+         displayMessage(QStringLiteral("<center>GAME OVER<br/>"
+                        "press &lt;space&gt; to restart</center>"));
       }
       for (quint64 i = 0; i < 6; ++i) {
          items[i]->setX(items[i]->x() > -width() ?   // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -139,26 +149,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
       if (_stepTimer.isActive()) {
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/jumping.gif"));
-         _playerAnim->stop();
+         _jump->stop();
          _jump->setStartValue(_player->pos());
-         _jump->setKeyValueAt(0.5, QPointF(_player->pos().x(),
-                                           _player->pos().y()-200));
-         _rotate->setEndValue(
-            event->modifiers().testFlag(Qt::ControlModifier) ? 360:0);
-         _playerAnim->start();
-         connect(_playerAnim, &QPropertyAnimation::finished,
+         _jump->setKeyValueAt(0.5, QPointF {_player->pos().x(),
+                                            _player->pos().y()-200});
+         _jump->start();
+         connect(_jump, &QPropertyAnimation::finished,
                  this, [this](){
             setItemMovieFileName(_player,
                QStringLiteral(":/icons/running.gif"));
          });
       } else {
-         displayMessage(QStringLiteral(""), 0);
+         displayMessage(tr("<center>&lt;space&gt; = jump<br/>"
+                           "&lt;r&gt; = rotate</center>"), 5000);
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/running.gif"));
          _player->setPos(_ground);
-         if (_playerAnim->state() == QAbstractAnimation::Paused) {
-            _playerAnim->setPaused(false);
-         }
          _enemy->setPos(_enemyAnim->startValue().toPointF());
          _enemyAnim->setDuration(2000);
          _enemyMovie->start();
@@ -166,6 +172,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
          QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
             _enemyAnim, [this](){ _enemyAnim->start(); });
       }
+   } else if (event->key() == Qt::Key_R) {
+      _rotate->start();
    }
 }
 

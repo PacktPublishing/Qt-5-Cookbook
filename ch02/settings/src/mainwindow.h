@@ -15,12 +15,16 @@ protected:
 
 private Q_SLOTS:
    void topLevelChanged(bool topLevel);
+   void tabifyActionToogled(bool checked);
 
 private:
    void createStandardWidgets(const QString &title);
    void writeSettings();
    void readSettings();
 
+   QDockWidget *_leftDockWidget1;
+   QDockWidget *_leftDockWidget2;
+   QDockWidget *_rightDockWidget;
    QAction *_tabifyAction;
 };
 

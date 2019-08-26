@@ -31,6 +31,9 @@ private Q_SLOTS:
    void on_centerSceneCenter_clicked(bool checked);
 
 private:
+   void createStandardWidgets(const QString &title);
+   void createGraphicsItems();
+
    QGraphicsScene *_scene;
    QGraphicsView *_view;
    QGroupBox *_selectedGroupBox;
@@ -38,9 +41,6 @@ private:
    QRadioButton *_centerSelected;
    QCheckBox *_fit;
    QGraphicsTextItem *_textItem;
-
-   void createStandardWidgets(const QString &title);
-   void createGraphicsItems();
 };
 
 #endif // MAINWINDOW_H

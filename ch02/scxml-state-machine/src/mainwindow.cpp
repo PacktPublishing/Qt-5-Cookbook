@@ -203,6 +203,7 @@ void MainWindow::on_stateMachine_deadChanged(bool active)
    if (active) {
       // Stop enemy
       _enemyAnim->stop();
+      _enemyTimer.stop();
       (qobject_cast<QLabel *>(_enemy->widget()))->movie()->stop();
 
       // Stop step timer

@@ -12,7 +12,6 @@ class QStateMachine;
 class QVariantAnimation;
 
 // clazy:excludeall=connect-by-name
-
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
@@ -38,7 +37,8 @@ private Q_SLOTS:
 
 private:
    QGraphicsProxyWidget *createMovieItem() const;
-   void setItemMovieFileName(QGraphicsProxyWidget *item, const QString &movieFile);
+   void setItemMovieFileName(QGraphicsProxyWidget *item,
+                             const QString &movieFile);
    void displayMessage(const QString &message, int timeout = -1);
 
    QGraphicsScene *_scene;

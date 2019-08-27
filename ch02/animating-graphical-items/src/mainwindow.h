@@ -20,9 +20,11 @@ public:
 protected:
    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
+private Q_SLOTS:
+   void scheduleEnemyAppearance();
+
 private:
-   QGraphicsProxyWidget *createMovieItem(
-         const QString &movieFile) const;
+   QGraphicsProxyWidget *createMovieItem() const;
    void setItemMovieFileName(QGraphicsProxyWidget *item,
                              const QString &movieFile);
    void displayMessage(const QString &message, int timeout = -1);
@@ -30,6 +32,7 @@ private:
    QGraphicsScene *_scene;
    QGraphicsView *_view;
    QTimer _stepTimer;
+   QTimer _enemyTimer;
    QTimer _bannerTimer;
    QGraphicsProxyWidget *_player;
    QGraphicsProxyWidget *_enemy;
@@ -39,7 +42,6 @@ private:
    QPropertyAnimation *_enemyAnim;
    QVariantAnimation *_messageAnim;
    QPointF _ground;
-   QMovie *_enemyMovie;
 };
 
 #endif // MAINWINDOW_H

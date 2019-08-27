@@ -32,7 +32,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    };
 
    // Player
-   _player = createMovieItem(QStringLiteral(":/icons/running.gif"));
+   _player = createMovieItem();
+   setItemMovieFileName(_player,
+                        QStringLiteral(":/icons/running.gif"));
    _ground = QPointF{_view->width()/2.-_player->geometry().width()/2.,
                      _view->height()-_player->geometry().height()-20};
    _player->setPos(_ground);
@@ -46,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    _rotate->setDuration(1000);
 
    // Enemy
-   _enemy = createMovieItem(QStringLiteral(":/icons/enemy.gif"));
-   _enemyMovie = qobject_cast<QLabel *>(_enemy->widget())->movie();
+   _enemy = createMovieItem();
+   setItemMovieFileName(_enemy, QStringLiteral(":/icons/enemy.gif"));
 
    // Enemy move animation
    _enemyAnim = new QPropertyAnimation {_enemy, "pos" , this};
@@ -56,17 +58,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    _enemyAnim->setDuration(2000);
    _enemyAnim->setEndValue(QPointF {-_enemy->geometry().width(),
                                     _ground.y()});
+   connect(_enemyAnim, &QPropertyAnimation::finished,
+           this, &MainWindow::scheduleEnemyAppearance);
    _enemy->setPos(_enemyAnim->startValue().toPointF());
 
-   // Enemy's appearance
-   QTimer::singleShot(QRandomGenerator::global()->bounded(5000), // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
-      _enemyAnim, [this](){ _enemyAnim->start(); });
-   connect(_enemyAnim, &QPropertyAnimation::finished, this, [this](){
-      _enemyAnim->setDuration(_enemyAnim->duration() > 0 ?
-                                 _enemyAnim->duration()-200:2000);
-      QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
-                        _enemyAnim, [this](){ _enemyAnim->start(); });
-   });
+   // Enemy appearance timer
+   _enemyTimer.setSingleShot(true);
+   connect(&_enemyTimer, &QTimer::timeout,
+           _enemyAnim, [this](){ _enemyAnim->start(); });
 
    // Message text and rectangle
    _message = _scene->addText(QStringLiteral("default\nvalue"),
@@ -78,10 +77,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    path.addRoundedRect(_message->boundingRect().marginsAdded(
                            {margin, margin, margin, margin}), 15, 15);
    auto rect = _scene->addPath(path, Qt::NoPen,
-                               QColor(89, 60, 81, 192));
+                               QColor {89, 60, 81, 192});
    rect->setPos(_scene->sceneRect().width()/2-
-                  rect->boundingRect().width()/2+margin,
-                45);
+                rect->boundingRect().width()/2+margin, 45);
    rect->setTransformOriginPoint(rect->boundingRect().center());
    rect->setScale(0);
    _message->setParentItem(rect);
@@ -110,25 +108,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    // Step timer
    connect(&_stepTimer, &QTimer::timeout, this, [this, items, rect](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
-         // Remove message
-         rect->setScale(0);
-         _bannerTimer.stop();
-         _messageAnim->stop();
          // Stop enemy
          _enemyAnim->stop();
-         _enemyMovie->stop();
-         // Stop simulation
+         _enemyTimer.stop();
+         (qobject_cast<QLabel *>(_enemy->widget()))->movie()->stop();
+
+         // Stop step timer
          _stepTimer.stop();
-         // Stop player
+
+         // Stop and reset player position and rotation
          _jump->stop();
          _rotate->stop();
-         // Reset player position and rotation
          _player->setRotation(0);
          _player->setY(_ground.y()-16);
-         // Change animation
+
+         // Change movie to dying
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/dying.gif"));
-         // Display new message
+
+         // Display GAME OVER message
          displayMessage(QStringLiteral("<center>GAME OVER<br/>"
                         "press &lt;space&gt; to restart</center>"));
       }
@@ -137,6 +135,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
                            items[i]->x()-(i+1.):0.); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
       }
    });
+   _enemyTimer.start(QRandomGenerator::global()->bounded(5000));
    _stepTimer.start(1000/33);
 
    // Fix mainwindow size
@@ -160,36 +159,44 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                QStringLiteral(":/icons/running.gif"));
          });
       } else {
+         // Display controls message
          displayMessage(tr("<center>&lt;space&gt; = jump<br/>"
-                           "&lt;r&gt; = rotate</center>"), 5000);
+                        "&lt;r&gt; = rotate</center>"), 5000);
+
+         // Reset enemy animation duration
+         _enemyAnim->setDuration(2000);
+         (qobject_cast<QLabel *>(_enemy->widget()))->movie()->start();
+
+         _player->setPos(_ground);
          setItemMovieFileName(_player,
                               QStringLiteral(":/icons/running.gif"));
-         _player->setPos(_ground);
+
          _enemy->setPos(_enemyAnim->startValue().toPointF());
-         _enemyAnim->setDuration(2000);
-         _enemyMovie->start();
+         _enemyTimer.start(QRandomGenerator::global()->bounded(5000));
+
          _stepTimer.start();
-         QTimer::singleShot(QRandomGenerator::global()->bounded(5000),
-            _enemyAnim, [this](){ _enemyAnim->start(); });
       }
    } else if (event->key() == Qt::Key_R) {
       _rotate->start();
    }
 }
 
-QGraphicsProxyWidget *MainWindow::createMovieItem(
-      const QString &movieFile) const
+void MainWindow::scheduleEnemyAppearance()
+{
+   // Make enemy appear faster
+   _enemyAnim->setDuration(_enemyAnim->duration() > 0 ?
+                              _enemyAnim->duration()-200:2000);
+   // Schedule appearance
+   _enemyTimer.start(QRandomGenerator::global()->bounded(5000));
+}
+
+QGraphicsProxyWidget *MainWindow::createMovieItem() const
 {
    auto movieLabel = new QLabel;
-   movieLabel->setMovie(
-            new QMovie { movieFile, QByteArray(), movieLabel });
+   movieLabel->setMovie(new QMovie {movieLabel});
    movieLabel->setAttribute(Qt::WA_TranslucentBackground);
-   movieLabel->movie()->start();
-   auto item = _scene->addWidget(movieLabel);
-   item->resize(movieLabel->movie()->frameRect().size());
-   item->setTransformOriginPoint(item->boundingRect().center());
 
-   return item;
+   return _scene->addWidget(movieLabel);
 }
 
 void MainWindow::setItemMovieFileName(QGraphicsProxyWidget *item,
@@ -200,10 +207,12 @@ void MainWindow::setItemMovieFileName(QGraphicsProxyWidget *item,
    movie->setFileName(movieFile);
    movie->start();
    item->resize(movie->frameRect().size());
+   item->setTransformOriginPoint(item->boundingRect().center());
 }
 
 void MainWindow::displayMessage(const QString &message, int timeout)
 {
+   _bannerTimer.stop();
    _messageAnim->setDirection(QAbstractAnimation::Forward);
    _message->setHtml(message);
    _messageAnim->start();

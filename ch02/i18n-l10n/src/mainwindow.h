@@ -1,15 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QLocale>
+#include <QMainWindow>
 
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
 
 public:
-   explicit MainWindow(const QLocale &locale, QWidget *parent = nullptr);
+   explicit MainWindow(const QLocale &locale,
+                       QWidget *parent = nullptr);
 
 private:
    QLocale _locale;

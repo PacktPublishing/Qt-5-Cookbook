@@ -12,9 +12,7 @@
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
-   QMainWindow(parent),
-   _locale(locale),
-   _messagesSent(0)
+   QMainWindow {parent}, _locale(locale), _messagesSent(0)
 {
    // Set window title
    setWindowTitle(tr("i18n/l10n Example Application"));
@@ -22,23 +20,20 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    // Menu with simple menu item
    auto fileMenu = menuBar()->addMenu(tr("&File"));
    auto exitAction = fileMenu->addAction(
-            QIcon(QStringLiteral(":/icons/exit.svg")),
-            tr("E&xit"),
+            QIcon {QStringLiteral(":/icons/exit.svg")}, tr("E&xit"),
             QApplication::instance(), &QApplication::exit,
-            QKeySequence::Quit // No translation for standard actions
-            );
+            QKeySequence::Quit); // No i18n for standard actions
 
    auto colorAction = menuBar()->addMenu(tr("&Tools"))->addAction(
-            QIcon(QStringLiteral(":/icons/bgcolor.svg")),
+            QIcon {QStringLiteral(":/icons/bgcolor.svg")},
             tr("&Background Color"),
             this, [this](){
-               QPalette windowPalette { palette() };
+               QPalette windowPalette {palette()};
                windowPalette.setColor(
                         backgroundRole(), QColorDialog::getColor());
                setPalette(windowPalette);
             },
-            tr("Ctrl+T, Ctrl+B") // Enabling translation for shortcuts
-            );
+            tr("Ctrl+T, Ctrl+B")); // Enabling i18n for shortcuts
 
    // Main toolbar with simple action
    auto mainToolBar = addToolBar(tr("Main toolbar"));
@@ -47,27 +42,27 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    mainToolBar->addAction(colorAction);
 
    // Label
-   auto label = new QLabel { tr("i18n/l10n Example Application") };
+   auto label = new QLabel {tr("i18n/l10n Example Application")};
    label->setAlignment(Qt::AlignHCenter);
 
    // Ambiguous buttons
    auto playLayout = new QHBoxLayout;
    //: Play (the game).
-   playLayout->addWidget(new QPushButton { tr("Play") });
+   playLayout->addWidget(new QPushButton {tr("Play")});
    playLayout->addWidget(
-            new QPushButton { tr("Play", "Play (the song).") });
+            new QPushButton {tr("Play", "Play (the song).")});
 
    // Message buttons
-   auto sendButton = new QPushButton { tr("Send Message") };
-   auto sentLabel = new QLabel {
-         tr("%n message(s) sent", "", _messagesSent) };
+   auto sendButton = new QPushButton {tr("Send Message")};
+   auto sentLabel = new QLabel {tr("%n message(s) sent", "",
+                                   _messagesSent)};
    sentLabel->setAlignment(Qt::AlignHCenter);
    connect(sendButton, &QPushButton::clicked,
            this, [this, sentLabel](){
               sentLabel->setText(tr("%n message(s) sent", "",
                                     ++_messagesSent));
    });
-   auto resetButton = new QPushButton { tr("Reset Counter") };
+   auto resetButton = new QPushButton {tr("Reset Counter")};
    connect(resetButton, &QPushButton::clicked,
            this, [this, sentLabel](){
               sentLabel->setText(tr("%n message(s) sent", "",
@@ -78,12 +73,11 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    messageButtonsLayout->addWidget(resetButton);
 
    // Translating strings in variables
-   std::array<const char *, 5> moodOptions {
+   std::array<const char *, 4> moodOptions {
       QT_TR_NOOP("Good morning"),
       QT_TR_NOOP("Bad morning"),
       QT_TR_NOOP("Good afternoon"),
-      QT_TR_NOOP("Bad afternoon"),
-      nullptr
+      QT_TR_NOOP("Bad afternoon")
    };
    auto comboBox1 = new QComboBox;
    for (auto option : moodOptions) {
@@ -92,8 +86,7 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    connect(comboBox1,
            QOverload<int>::of(&QComboBox::currentIndexChanged),
            this, [this, moodOptions](int index){
-      // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
-      if (QLatin1String(moodOptions[static_cast<quint64>(index)]).
+      if (QLatin1String(moodOptions[static_cast<quint64>(index)]). // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
           startsWith(QStringLiteral("Good"))) {
          QMessageBox::information(this, tr("Information"),
                                   tr("Good mood!"));
@@ -121,7 +114,7 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    // Central widget
    auto centralWidget = new QWidget;
    setCentralWidget(centralWidget);
-   auto centralLayout = new QVBoxLayout { centralWidget };
+   auto centralLayout = new QVBoxLayout {centralWidget};
    centralLayout->addWidget(label);
    centralLayout->addLayout(playLayout);
    centralLayout->addLayout(messageButtonsLayout);
@@ -129,8 +122,8 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
    centralLayout->addWidget(comboBox1);
    centralLayout->addWidget(numberLabel);
    centralLayout->addWidget(imageLabel);
-   centralLayout->addSpacerItem(new QSpacerItem { 0, 0,
-                     QSizePolicy::Minimum, QSizePolicy::Expanding });
+   centralLayout->addSpacerItem(new QSpacerItem {0, 0,
+                     QSizePolicy::Minimum, QSizePolicy::Expanding});
 
    resize(640, 480);
 }

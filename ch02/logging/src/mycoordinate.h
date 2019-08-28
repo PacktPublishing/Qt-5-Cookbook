@@ -8,7 +8,7 @@ Q_DECLARE_LOGGING_CATEGORY(component1)
 class MyCoordinate
 {
 public:
-   MyCoordinate(qreal x, qreal y);
+   explicit MyCoordinate(qreal x, qreal y);
    qreal x() const;
    qreal y() const;
 private:
@@ -16,6 +16,6 @@ private:
    qreal _y;
 };
 
-QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate);
+QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate); // NOLINT(fuchsia-overloaded-operator)
 
 #endif // MYCOORDINATE_H

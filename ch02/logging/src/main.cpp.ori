@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
                QStringLiteral("Qt is awesome!");
    qDebug().nospace().noquote()
          << "Removing_" << "spaces_" << QStringLiteral("and quoting");
-   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
    qDebug("Formatting: %d+%d=%d", 2, 3, 5);
 
    // Logging using "core" category

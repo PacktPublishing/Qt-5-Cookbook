@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <QWebEngineView>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
    createStandardWidgets(tr("DockWidgets Example Application"));
 
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    listWidget->addItems({
       tr("First item"), tr("Second item"), tr("Third item")});
    const QList<QListWidgetItem *> &items = listWidget->findItems(
-            QStringLiteral("*"),Qt::MatchWildcard);
+            QStringLiteral("*"), Qt::MatchWildcard);
    for (auto item : items) {
       item->setIcon(QIcon {QStringLiteral(":/icons/qtlogo.svg")});
    }

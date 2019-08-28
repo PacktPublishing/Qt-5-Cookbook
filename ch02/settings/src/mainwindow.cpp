@@ -17,8 +17,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 
    // A list widget
    auto listWidget = new QListWidget;
-   listWidget->setSizePolicy(QSizePolicy::Expanding,
-                             QSizePolicy::Expanding);
    listWidget->addItems({
       tr("First item"), tr("Second item"), tr("Third item")});
    const QList<QListWidgetItem *> &items = listWidget->findItems(
@@ -39,8 +37,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    _leftDockWidget2 = new QDockWidget {tr("Calendar")};
    _leftDockWidget2->setObjectName(QStringLiteral("leftDockWidget2"));
    auto calendarWidgetWrapper = new QWidget;
-   calendarWidgetWrapper->setSizePolicy(QSizePolicy::Expanding,
-                                        QSizePolicy::Expanding);
    auto layout = new QVBoxLayout {calendarWidgetWrapper};
    layout->addWidget(new QCalendarWidget);
    layout->addItem(new QSpacerItem {0, 0,
@@ -57,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    _rightDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea |
                                      Qt::RightDockWidgetArea);
    auto webEngineView = new QWebEngineView;
-   webEngineView->setSizePolicy(QSizePolicy::Expanding,
-                                QSizePolicy::Expanding);
    webEngineView->setUrl(QStringLiteral("https://www.qt.io"));
    _rightDockWidget->setWidget(webEngineView);
    connect(_rightDockWidget, &QDockWidget::topLevelChanged,

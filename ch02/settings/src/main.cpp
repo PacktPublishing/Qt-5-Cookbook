@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
    QApplication app {argc, argv};
 
    QApplication::setOrganizationName(QStringLiteral("PacktPub"));
-   QApplication::setOrganizationDomain(
-      QStringLiteral("packtpub.com"));
+   QApplication::setOrganizationDomain(QStringLiteral("packtpub.com"));
    QApplication::setApplicationName(QStringLiteral("settings"));
 
    QApplication::setWindowIcon(

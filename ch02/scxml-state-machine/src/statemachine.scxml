@@ -6,26 +6,26 @@
             <qt:editorinfo geometry="101.34;239.38;-256.56;-306.67;566.08;347.53" scenegeometry="71.34;239.38;-185.22;-67.29;566.08;347.53"/>
             <state id="rushing">
                 <qt:editorinfo geometry="54.94;-195.82;-70.49;-50;130.49;100" scenegeometry="126.28;43.56;55.79;-6.44;130.49;100"/>
-                <transition type="internal" event="jump.start" target="jumping">
+                <transition event="jump.start" target="jumping">
                     <qt:editorinfo endTargetFactors="60.91;14.17" movePoint="54.85;-3.59"/>
                 </transition>
-                <transition type="internal" event="dye" target="dead">
+                <transition event="dye" target="dead">
                     <qt:editorinfo endTargetFactors="12.55;12.86"/>
                 </transition>
             </state>
             <state id="jumping">
                 <qt:editorinfo geometry="-72.99;-29.79;-156.56;-50;196.56;100" scenegeometry="-1.65;209.59;-158.21;159.59;196.56;100"/>
-                <transition type="internal" event="jump.stop" target="rushing">
+                <transition event="jump.stop" target="rushing">
                     <qt:editorinfo endTargetFactors="11.41;26.18" startTargetFactors="17.70;15.80" movePoint="-20.68;4.50"/>
                 </transition>
-                <transition type="external" event="jumping.start" target="jumping"/>
-                <transition type="internal" event="dye" target="dead">
+                <transition event="jumping.start" target="jumping"/>
+                <transition event="dye" target="dead">
                     <qt:editorinfo movePoint="4.50;9.89"/>
                 </transition>
             </state>
             <state id="dead">
                 <qt:editorinfo geometry="229.52;-29.14;-60;-50;120;100" scenegeometry="300.86;210.24;240.86;160.24;120;100"/>
-                <transition type="internal" event="restart" target="rushing">
+                <transition event="restart" target="rushing">
                     <qt:editorinfo endTargetFactors="87.27;20" startTargetFactors="76.10;8.12" movePoint="36.86;-13.49"/>
                 </transition>
             </state>
@@ -34,13 +34,13 @@
             <qt:editorinfo geometry="-6.90;26.98;-147.24;-272.40;563.93;171.71" scenegeometry="-36.90;26.98;-184.14;-245.42;563.93;171.71"/>
             <state id="notRotating">
                 <qt:editorinfo geometry="-0.24;-170.69;-86.63;-50;152.75;100" scenegeometry="-37.14;-143.71;-123.77;-193.71;152.75;100"/>
-                <transition type="internal" event="rotate.start" target="rotating">
+                <transition event="rotate.start" target="rotating">
                     <qt:editorinfo endTargetFactors="9.63;78.29" startTargetFactors="91.14;78.19" movePoint="6.14;14.12"/>
                 </transition>
             </state>
             <state id="rotating">
                 <qt:editorinfo geometry="294.33;-170.79;-60;-50;120;100" scenegeometry="257.43;-143.81;197.43;-193.81;120;100"/>
-                <transition type="internal" event="rotate.stop" target="notRotating">
+                <transition event="rotate.stop" target="notRotating">
                     <qt:editorinfo endTargetFactors="91.14;23.27" startTargetFactors="10.11;23.79" movePoint="6.75;-15.97"/>
                 </transition>
             </state>

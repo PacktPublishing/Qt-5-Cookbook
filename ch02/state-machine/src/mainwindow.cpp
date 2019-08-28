@@ -163,7 +163,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
       case Qt::Key_Space:
          Q_EMIT spacePressed();
          break;
-   case Qt::Key_R:
+      case Qt::Key_R:
          Q_EMIT rPressed();
          break;
    }

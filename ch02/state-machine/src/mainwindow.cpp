@@ -145,11 +145,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 
    _stateMachine->addState(parallel);
    _stateMachine->setInitialState(parallel);
+   _stateMachine->start();
 
    // Display controls message
    displayMessage(tr("<center>&lt;space&gt; = jump<br/>"
                      "&lt;r&gt; = rotate</center>"), 5000);
-   _stateMachine->start();
 
    // Fix mainwindow size
    setFixedSize(sizeHint());

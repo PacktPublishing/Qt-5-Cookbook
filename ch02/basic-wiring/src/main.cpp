@@ -42,8 +42,7 @@ int main(int argc, char *argv[])
                     label, [label](int value) {
                        label->setText("Value changed to " +
                                       QString::number(value) + "!");
-                    }
-   );
+                    });
 
    // Show main window
    mainWindow.setWindowTitle(QObject::tr("Basic Wiring Application"));

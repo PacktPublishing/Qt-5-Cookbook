@@ -2,9 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-// clazy:excludeall=connect-by-name
-
 #include <QTimer>
 
 class QGraphicsScene;
@@ -15,6 +12,7 @@ class QVariantAnimation;
 
 class StateMachine;
 
+// clazy:excludeall=connect-by-name
 class MainWindow : public QMainWindow
 {
    Q_OBJECT

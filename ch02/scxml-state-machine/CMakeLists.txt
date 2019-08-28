@@ -21,11 +21,15 @@ cmake_policy(SET CMP0071 NEW)
 set_property(SOURCE statemachine.h PROPERTY SKIP_AUTOMOC ON)
 qt5_add_statecharts(scxml-state-machine_SRC
    src/statemachine.scxml
-   OPTIONS --statemethods --output statemachine --classname StateMachine
+   OPTIONS --statemethods
+           --output statemachine
+           --classname StateMachine
 )
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${scxml-state-machine_SRC})
+add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+   ${scxml-state-machine_SRC}
+)
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets
    Qt5::Scxml

@@ -44,17 +44,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
    _jump = new QPropertyAnimation {_player, "pos"};
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
-   connect(_jump, &QAbstractAnimation::finished,
-           this, [this](){
-      _stateMachine->submitEvent(QStringLiteral("jump.stop"));
-   });
    _rotate = new QPropertyAnimation {_player, "rotation"};
    _rotate->setKeyValues({{0., 0.}, {1., 360.}});
    _rotate->setDuration(1000);
-   connect(_rotate, &QAbstractAnimation::finished,
-           this, [this](){
-      _stateMachine->submitEvent(QStringLiteral("rotate.stop"));
-   });
 
    // Enemy
    _enemy = createMovieItem();
@@ -110,6 +102,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
              _messageAnim->start();
    });
 
+   // State machine
+   _stateMachine = new StateMachine {this};
+   _stateMachine->setObjectName(QStringLiteral("stateMachine"));
+   connect(_stateMachine, &StateMachine::rotatingChanged,
+           _rotate, [this](bool active){
+              if (active) {
+                 _rotate->start();
+              }
+   });
+   connect(_jump, &QAbstractAnimation::finished,
+           this, [this](){
+      _stateMachine->submitEvent(QStringLiteral("jump.stop"));
+   });
+   connect(_rotate, &QAbstractAnimation::finished,
+           this, [this](){
+      _stateMachine->submitEvent(QStringLiteral("rotate.stop"));
+   });
+   _stateMachine->connectToEvent(QStringLiteral("jump.start"),
+                                 this, &MainWindow::jump);
+   _stateMachine->start();
+
    // Step timer
    connect(&_stepTimer, &QTimer::timeout, this, [this, items](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
@@ -120,19 +133,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
                            items[i]->x()-(i+1.):0.); // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
       }
    });
-
-   // State machine
-   _stateMachine = new StateMachine {this};
-   _stateMachine->setObjectName(QStringLiteral("stateMachine"));
-   connect(_stateMachine, &StateMachine::rotatingChanged,
-           _rotate, [this](bool active){
-              if (active) {
-                 _rotate->start();
-              }
-   });
-   _stateMachine->connectToEvent(QStringLiteral("jump.start"),
-                                 this, &MainWindow::jump);
-   _stateMachine->start();
 
    // Display controls message
    displayMessage(tr("<center>&lt;space&gt; = jump<br/>"

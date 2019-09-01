@@ -2,8 +2,7 @@
 
 Q_LOGGING_CATEGORY(component1, "myapp.component1")
 
-// NOLINTNEXTLINE(fuchsia-overloaded-operator)
-QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate)
+QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate) // NOLINT(fuchsia-overloaded-operator)
 {
    QDebugStateSaver saver(dbg);
    dbg.resetFormat();

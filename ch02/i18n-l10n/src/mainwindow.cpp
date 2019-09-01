@@ -87,7 +87,7 @@ MainWindow::MainWindow(const QLocale &locale, QWidget *parent) :
            QOverload<int>::of(&QComboBox::currentIndexChanged),
            this, [this, moodOptions](int index){
       if (QLatin1String(moodOptions[static_cast<quint64>(index)]). // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
-          startsWith(QStringLiteral("Good"))) {
+          startsWith(QLatin1String("Good"))) {
          QMessageBox::information(this, tr("Information"),
                                   tr("Good mood!"));
       } else {

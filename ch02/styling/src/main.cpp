@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
             QIcon {QStringLiteral(":/icons/qtlogo.svg")});
    QFile file {QStringLiteral(":/style.qss")};
    file.open(QIODevice::ReadOnly);
-   app.setStyleSheet(QString::fromLatin1(file.readAll()));
+   app.setStyleSheet(file.readAll()); // clazy:exclude=qt4-qstring-from-array
    MainWindow w;
 
    w.show();

@@ -12,8 +12,7 @@ class QVariantAnimation;
 
 class StateMachine;
 
-// clazy:excludeall=connect-by-name
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow // clazy:excludeall=connect-by-name
 {
    Q_OBJECT
 

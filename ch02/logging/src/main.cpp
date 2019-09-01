@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
    parser.process(app);
    int verbosityLevel = parser.value(verbosity).toInt();
 
-   QLoggingCategory::setFilterRules(QString::fromLatin1(
+   QLoggingCategory::setFilterRules(QStringLiteral(
                                        "myapp.core.debug=false\n"
                                        "myapp.component1=false\n"
                                        "myapp.*.warning=false"));
@@ -43,8 +43,7 @@ int main(int argc, char *argv[])
                QStringLiteral("Qt is awesome!");
    qDebug().nospace().noquote()
          << "Removing_" << "spaces_" << QStringLiteral("and quoting");
-   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-   qDebug("Formatting: %d+%d=%d", 2, 3, 5);
+   qDebug("Formatting: %d+%d=%d", 2, 3, 5); // NOLINT(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
 
    // Logging using "core" category
    qCDebug(core) << "Debug";

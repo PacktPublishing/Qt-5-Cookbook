@@ -19,8 +19,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-// NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
-MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
+MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
 {
    createStandardWidgets(
             tr("Handling Graphical Items Example Application"));
@@ -75,11 +74,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
             QMetaType::type("QEasingCurve"));
    for (int i = 0; i < metaObject->enumeratorCount(); ++i) {
       auto metaEnum = metaObject->enumerator(i);
-      if (QString::fromLatin1(metaEnum.name()) ==
-                                    QStringLiteral("Type")) {
+      if (QLatin1String(metaEnum.name()) == "Type") {
          for (int j = 0; j < metaEnum.keyCount(); ++j) {
-            easingCurve->addItem(
-                     QString::fromLatin1(metaEnum.key(j)));
+            easingCurve->addItem(metaEnum.key(j)); // clazy:exclude=qt4-qstring-from-array
          }
          break;
       }

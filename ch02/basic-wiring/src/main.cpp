@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
                     myCounter, &MyCounter::setValue);
    QObject::connect(myCounter, &MyCounter::valueChanged,
                     label, [label](int value) {
-                       label->setText("Value changed to " +
-                                      QString::number(value) + "!");
+                       label->setText(QObject::tr(
+                                  "Value changed to %1!").arg(value));
                     });
 
    // Show main window

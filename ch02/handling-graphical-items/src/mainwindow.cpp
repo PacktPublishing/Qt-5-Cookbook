@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
    _scene->setSceneRect(-5000, -5000, 10000, 10000);
    setCentralWidget(_view);
 
-   // Axis
+   // Axes
    _scene->addLine(-250, 0, 250, 0);
    _scene->addLine(0, -250, 0, 250);
    createGraphicsItems();

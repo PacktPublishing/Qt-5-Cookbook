@@ -144,7 +144,7 @@ void MainWindow::on_graphicsScene_selectionChanged()
       item->setScale(item->isSelected() ? 1.2:1);
       item->setGraphicsEffect(
                item->isSelected() | _scene->selectedItems().isEmpty()
-               ? nullptr:new QGraphicsBlurEffect {this });
+               ? nullptr:new QGraphicsBlurEffect {this});
    }
 }
 

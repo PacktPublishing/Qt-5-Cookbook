@@ -8,6 +8,7 @@ class QGraphicsScene;
 class QGraphicsTextItem;
 class QGraphicsView;
 class QGroupBox;
+class QPropertyAnimation;
 class QRadioButton;
 class QSlider;
 
@@ -39,6 +40,7 @@ private:
    QRadioButton *_centerSelected;
    QCheckBox *_fit;
    QGraphicsTextItem *_textItem;
+   QPropertyAnimation *_animation;
 };
 
 #endif // MAINWINDOW_H

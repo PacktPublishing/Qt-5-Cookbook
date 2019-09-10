@@ -90,14 +90,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
    dockerLayout->addWidget(animateGroupBox);
    connect(animateButton, &QPushButton::clicked,
            this, [this, durationSpinBox, easingCurve](){
-      auto animation = new QPropertyAnimation {_textItem, "pos"};
-      animation->setDuration(durationSpinBox->value()*1000);
-      animation->setEndValue(
+      _animation->setDuration(durationSpinBox->value()*1000);
+      _animation->setEndValue(
            QPointF {-_textItem->x()-_textItem->boundingRect().width(),
                    _textItem->y()});
-      animation->setEasingCurve(static_cast<QEasingCurve::Type>(
+      _animation->setEasingCurve(static_cast<QEasingCurve::Type>(
                                    easingCurve->currentIndex()));
-      animation->start();
+      _animation->start();
    });
    dockerLayout->addItem(new QSpacerItem {0, 0,
                                           QSizePolicy::Minimum,
@@ -261,4 +260,7 @@ void MainWindow::createGraphicsItems()
    _textItem->setTransformOriginPoint(
             _textItem->boundingRect().center());
    _textItem->setPos(75, 15);
+
+   // Text animation
+   _animation = new QPropertyAnimation {_textItem, "pos", this};
 }

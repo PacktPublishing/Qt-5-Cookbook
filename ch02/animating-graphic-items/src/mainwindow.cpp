@@ -6,6 +6,7 @@
 #include <QMovie>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
@@ -40,10 +41,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
    _player->setPos(_ground);
 
    // Player jump/rotate animation
-   _jump = new QPropertyAnimation {_player, "pos"};
+   _jump = new QPropertyAnimation {_player, "pos", this};
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
-   _rotate = new QPropertyAnimation {_player, "rotation"};
+   _rotate = new QPropertyAnimation {_player, "rotation", this};
    _rotate->setKeyValues({{0., 0.}, {1., 360.}});
    _rotate->setDuration(1000);
 
@@ -140,6 +141,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 
    // Fix mainwindow size
    setFixedSize(sizeHint());
+   qDebug() << _jump->parent();
+   qDebug() << _rotate->parent();
+   qDebug() << _enemyAnim->parent();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

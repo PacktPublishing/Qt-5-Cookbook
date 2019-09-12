@@ -22,7 +22,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcoreguidelines-pro-type-member-init, hicpp-member-init)
 {
    createStandardWidgets(
-            tr("Handling Graphical Items Example Application"));
+            tr("Handling Graphic Items Example Application"));
 
    // Docker widget
    auto dockerWidget = new QDockWidget {tr("Controls")};

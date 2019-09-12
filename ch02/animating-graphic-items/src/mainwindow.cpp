@@ -9,7 +9,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
-   setWindowTitle(tr("Animating Graphical Item Example Application"));
+   setWindowTitle(tr("Animating Graphic Items Example Application"));
 
    // Configure graphics view
    _scene = new QGraphicsScene;

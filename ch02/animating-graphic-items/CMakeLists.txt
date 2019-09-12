@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(animating-graphical-items)
+project(animating-graphic-items)
 
 include(FeatureSummary)
 
@@ -10,14 +10,14 @@ find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Widgets
 )
 
-set(animating-graphical-items_SRC
+set(animating-graphic-items_SRC
    src/main.cpp
    src/main.qrc
    src/mainwindow.cpp
 )
 
 add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
-   ${animating-graphical-items_SRC}
+   ${animating-graphic-items_SRC}
 )
 target_link_libraries(${PROJECT_NAME}
    Qt5::Widgets

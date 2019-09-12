@@ -6,7 +6,6 @@
 #include <QMovie>
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 {
@@ -107,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
                      "&lt;r&gt; = rotate</center>"), 5000);
 
    // Step timer
-   connect(&_stepTimer, &QTimer::timeout, this, [this, items, rect](){
+   connect(&_stepTimer, &QTimer::timeout, this, [this, items](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
          // Stop enemy
          _enemyAnim->stop();
@@ -141,9 +140,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
 
    // Fix mainwindow size
    setFixedSize(sizeHint());
-   qDebug() << _jump->parent();
-   qDebug() << _rotate->parent();
-   qDebug() << _enemyAnim->parent();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

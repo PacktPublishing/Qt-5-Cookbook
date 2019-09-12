@@ -159,8 +159,8 @@ void MainWindow::on_scaleSpinBox_valueChanged(double value)
 
 void MainWindow::on_centerSelected_clicked(bool checked)
 {
-   if (checked && !_scene->selectedItems().isEmpty()) {
-      auto items = _scene->selectedItems();
+   auto items = _scene->selectedItems();
+   if (checked && !items.isEmpty()) {
       QRectF selectedRect;
       for(auto selected : items) {
          selectedRect = selectedRect.united(

@@ -9,7 +9,7 @@
                 <transition event="jump.start" target="jumping">
                     <qt:editorinfo endTargetFactors="60.91;14.17" movePoint="54.85;-3.59"/>
                 </transition>
-                <transition event="dye" target="dead">
+                <transition event="die" target="dead">
                     <qt:editorinfo endTargetFactors="12.55;12.86"/>
                 </transition>
             </state>
@@ -19,7 +19,7 @@
                     <qt:editorinfo endTargetFactors="11.41;26.18" startTargetFactors="17.70;15.80" movePoint="-20.68;4.50"/>
                 </transition>
                 <transition event="jumping.start"/>
-                <transition event="dye" target="dead">
+                <transition event="die" target="dead">
                     <qt:editorinfo movePoint="4.50;9.89"/>
                 </transition>
             </state>

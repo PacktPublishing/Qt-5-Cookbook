@@ -126,7 +126,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
    // Step timer
    connect(&_stepTimer, &QTimer::timeout, this, [this, items](){
       if (_scene->collidingItems(_player).contains(_enemy)) {
-         _stateMachine->submitEvent(QStringLiteral("dye"));
+         _stateMachine->submitEvent(QStringLiteral("die"));
       }
       for (quint64 i = 0; i < 6; ++i) {
          items[i]->setX(items[i]->x() > -width() ?   // NOLINT(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -142,6 +142,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent} // NOLINT(cppcore
    setFixedSize(sizeHint());
 
    QMetaObject::connectSlotsByName(this);
+   _stateMachine->submitEvent("die");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

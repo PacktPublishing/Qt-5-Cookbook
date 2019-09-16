@@ -22,7 +22,6 @@ protected:
    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
-   void run();
    void spacePressed();
    void dye();
    void rPressed();

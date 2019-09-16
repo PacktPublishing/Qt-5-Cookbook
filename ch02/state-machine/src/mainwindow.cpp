@@ -40,10 +40,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow {parent}
                      _view->height()-_player->geometry().height()-20};
 
    // Player jump/rotate animation
-   _jump = new QPropertyAnimation {_player, "pos"};
+   _jump = new QPropertyAnimation {_player, "pos", this};
    _jump->setDuration(1000);
    _jump->setEndValue(_ground);
-   _rotate = new QPropertyAnimation {_player, "rotation"};
+   _rotate = new QPropertyAnimation {_player, "rotation", this};
    _rotate->setKeyValues({{0., 0.}, {1., 360.}});
    _rotate->setDuration(1000);
 
@@ -181,10 +181,8 @@ void MainWindow::on_running_entered()
    _enemy->setPos(_enemyAnim->startValue().toPointF());
    if (!_enemyTimer.isActive()) {
       _enemyTimer.start(QRandomGenerator::global()->bounded(5000));
+      _stepTimer.start(1000/33);
    }
-
-   // Start step timer
-   _stepTimer.start(1000/33);
 }
 
 void MainWindow::on_jumping_entered()

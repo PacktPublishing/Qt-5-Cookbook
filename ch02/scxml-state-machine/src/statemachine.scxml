@@ -18,7 +18,7 @@
                 <transition event="jump.stop" target="rushing">
                     <qt:editorinfo endTargetFactors="11.41;26.18" startTargetFactors="17.70;15.80" movePoint="-20.68;4.50"/>
                 </transition>
-                <transition event="jumping.start" target="jumping"/>
+                <transition event="jumping.start"/>
                 <transition event="dye" target="dead">
                     <qt:editorinfo movePoint="4.50;9.89"/>
                 </transition>

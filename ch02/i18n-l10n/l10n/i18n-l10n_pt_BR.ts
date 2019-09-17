@@ -111,7 +111,7 @@
         <location filename="../src/mainwindow.cpp" line="101"/>
         <source>This is a localized number: %1
 This is a localized datetime: %2</source>
-        <translation type="unfinished">Este é um número localizado: %1
+        <translation>Este é um número localizado: %1
 Esta é uma datahora localizada: %2</translation>
     </message>
 </context>

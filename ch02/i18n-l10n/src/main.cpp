@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
    QString language = parser.value(languageOption);
    QLocale locale = (language.isEmpty()) ?
             QLocale::system():QLocale(language);
+   QLocale::setDefault(locale);
 
    QTranslator qtTranslator;
    qtTranslator.load(locale, QStringLiteral("qt"),

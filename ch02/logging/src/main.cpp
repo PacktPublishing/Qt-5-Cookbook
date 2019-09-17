@@ -7,8 +7,8 @@
 // Create "core" category with all message types enabled
 Q_LOGGING_CATEGORY(core, "myapp.core")
 
-// Create "component2" category enabling message of types Warning
-// and higher (regarding severity: Debug->Info->Warning->Critical)
+// Create "component2" category enabling messages of types Warning
+// and higher (regarding severity: Debug < Info < Warning < Critical)
 Q_LOGGING_CATEGORY(component2, "myapp.component2", QtWarningMsg)
 
 int main(int argc, char *argv[])
@@ -78,4 +78,5 @@ int main(int argc, char *argv[])
    qCWarning(component2) << "Warning";
    qCCritical(component2) << "Critical";
 
+   return 0;
 }

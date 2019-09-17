@@ -12,9 +12,7 @@ QDebug operator<<(QDebug dbg, MyCoordinate myCoordinate) // NOLINT(fuchsia-overl
    return dbg;
 }
 
-MyCoordinate::MyCoordinate(qreal x, qreal y) :
-   _x(x),
-   _y(y)
+MyCoordinate::MyCoordinate(qreal x, qreal y) : _x(x), _y(y)
 {
 }
 

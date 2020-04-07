@@ -1,1 +1,5 @@
-{}
+{
+   "name": "My example plugin",
+   "version": "0.0.1",
+   "description": "This is an example plugin for a QtWidgets microkernel application."
+}

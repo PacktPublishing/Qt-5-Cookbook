@@ -18,7 +18,7 @@ public:
    virtual ~IUIController() Q_DECL_OVERRIDE;
 
    virtual void addMenuItem(const QString &menu, QAction *action) = 0;
-   virtual void addToolButton(const QString &objectName, QAction *action) = 0;
+   virtual void addToolButton(const QString &toolbar, QAction *action, Qt::ToolBarArea area = Qt::TopToolBarArea) = 0;
 
 protected:
    explicit IUIController(QObject *parent = nullptr);

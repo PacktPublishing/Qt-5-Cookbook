@@ -21,11 +21,17 @@ ExamplePlugin::ExamplePlugin(QObject *parent)
 bool ExamplePlugin::initialize()
 {
    qDebug() << "Initializing ExamplePlugin";
+
    auto uiController = ICore::self()->uiController();
-   auto myAction = new QAction {QIcon {":/icons/configure.svg"}, "&Configure"};
-   uiController->addMenuItem("&Edit", myAction);
-   uiController->addToolButton("main-toolbar", myAction);
-   connect (myAction, &QAction::triggered, this, []() { qDebug() << "Action triggered!"; });
+
+   auto editAction = new QAction {QIcon {":/icons/item.svg"}, "Edit item"};
+   uiController->addMenuItem("&Edit", editAction);
+   uiController->addToolButton("main-toolbar", editAction);
+   connect (editAction, &QAction::triggered, this, []() { qDebug() << "Action triggered!"; });
+
+   uiController->addToolButton("secondary-toolbar", new QAction {QIcon {":/icons/item.svg"}, "Action in another toolbar"}, Qt::RightToolBarArea);
+   uiController->addMenuItem("&File", new QAction {QIcon {":/icons/item.svg"}, "Another file item"});
+   uiController->addMenuItem("&Help", new QAction {QIcon {":/icons/item.svg"}, "Another help item"});
 
    return true;
 }

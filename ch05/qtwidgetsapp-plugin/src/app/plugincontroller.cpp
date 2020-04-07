@@ -50,7 +50,7 @@ void PluginController::loadPlugins()
          if (plugin) {
             qDebug() << "Initializing plugin" << fileName;
             plugin->initialize();
-            _loadedPlugins[fileName] = plugin;
+            _loadedPlugins[plugin] = loader.metaData();
          } else qDebug() << "Plugin" << fileName << "is not an IPlugin";
       } else qDebug() << "Error when loading plugin" << fileName;
    }

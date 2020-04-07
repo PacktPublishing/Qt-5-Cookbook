@@ -1,5 +1,6 @@
 #include "uicontroller.h"
 
+#include <QApplication>
 #include <QDebug>
 #include <QMainWindow>
 #include <QMenuBar>
@@ -12,7 +13,26 @@ UIController::UIController(QObject *parent)
    : IUIController(parent)
 {
    qDebug() << "Initializing UIController";
-   _mainWindow.show();
+
+   QMenu *fileMenu = nullptr;
+   _mainWindow.menuBar()->addMenu(fileMenu = new QMenu("&File", _mainWindow.menuBar()));
+   fileMenu->setObjectName("&File");
+   _menuSeparators[QStringLiteral("&File")] = fileMenu->addSeparator();
+   auto exitAction = fileMenu->addAction(
+            QIcon {QStringLiteral(":/icons/exit.svg")}, tr("E&xit"),
+            QApplication::instance(), &QApplication::exit,
+            Qt::CTRL + Qt::Key_Q);
+   auto mainToolBar = _mainWindow.addToolBar(QStringLiteral("main-toolbar"));
+   mainToolBar->setObjectName(QStringLiteral("main-toolbar"));
+   mainToolBar->addAction(exitAction);
+
+   QMenu *helpMenu = nullptr;
+   _helpAction = _mainWindow.menuBar()->addMenu(helpMenu = new QMenu("&Help", _mainWindow.menuBar()));
+   helpMenu->setObjectName("&Help");
+   _menuSeparators[QStringLiteral("&Help")] = helpMenu->addSeparator();
+   helpMenu->addAction(new QAction {QIcon {":/icons/plugins.svg"}, "About &Plugins"});
+
+   _mainWindow.showMaximized();
 }
 
 UIController::~UIController()
@@ -21,23 +41,24 @@ UIController::~UIController()
 
 void UIController::addMenuItem(const QString &menu, QAction *action)
 {
-   QMenu *myMenu = nullptr;
-   for (auto menuBarAction : _mainWindow.menuBar()->actions())
-      if (menuBarAction->menu()->title() == menu)
-         myMenu = menuBarAction->menu();
-   if (!myMenu)
-      _mainWindow.menuBar()->addMenu(myMenu = new QMenu(menu));
-   myMenu->addAction(action);
+   auto myMenu = _mainWindow.menuBar()->findChild<QMenu *>(menu);
+   if (!myMenu) {
+      _mainWindow.menuBar()->insertMenu(_helpAction, myMenu = new QMenu(menu, _mainWindow.menuBar()));
+      myMenu->setObjectName(menu);
+   }
+   if (_menuSeparators.value(menu))
+      myMenu->insertAction(_menuSeparators.value(menu), action);
+   else
+      myMenu->addAction(action);
 }
 
-void UIController::addToolButton(const QString &objectName, QAction *action)
+void UIController::addToolButton(const QString &toolbar, QAction *action, Qt::ToolBarArea area)
 {
-   QToolBar *myToolBar = nullptr;
-   for (auto toolBar : _mainWindow.findChildren<QToolBar *>())
-      if (toolBar->windowTitle() == objectName)
-         myToolBar = toolBar;
-   if (!myToolBar)
-      _mainWindow.addToolBar(myToolBar = new QToolBar(objectName));
+   auto myToolBar = _mainWindow.findChild<QToolBar *>(toolbar);
+   if (!myToolBar) {
+      _mainWindow.addToolBar(area, myToolBar = new QToolBar(toolbar));
+      myToolBar->setObjectName(toolbar);
+   }
    myToolBar->addAction(action);
 }
 

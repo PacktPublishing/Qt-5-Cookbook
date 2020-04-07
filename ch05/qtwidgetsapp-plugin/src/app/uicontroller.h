@@ -17,10 +17,12 @@ public:
    virtual ~UIController() Q_DECL_OVERRIDE;
 
    virtual void addMenuItem(const QString &menu, QAction *action) Q_DECL_OVERRIDE;
-   virtual void addToolButton(const QString &objectName, QAction *action) Q_DECL_OVERRIDE;
+   virtual void addToolButton(const QString &toolbar, QAction *action, Qt::ToolBarArea area = Qt::TopToolBarArea) Q_DECL_OVERRIDE;
 
 private:
    QMainWindow _mainWindow;
+   QAction *_helpAction;
+   QHash<QString, QAction *> _menuSeparators;
 };
 
 }

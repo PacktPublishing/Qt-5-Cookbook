@@ -8,3 +8,5 @@ target_link_libraries(exampleplugin2
    Qt5::Widgets
    QtWidgetsApp::Interfaces
 )
+
+install(TARGETS exampleplugin2 DESTINATION ${CMAKE_BINARY_DIR}/src/app/plugins/)

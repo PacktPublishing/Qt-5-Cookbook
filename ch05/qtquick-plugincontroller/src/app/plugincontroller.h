@@ -7,7 +7,8 @@
 class PluginController : public QObject
 {
    Q_OBJECT
-   Q_PROPERTY(QJsonArray pluginMetaData READ pluginMetaData NOTIFY pluginMetaDataChanged)
+   Q_PROPERTY(QJsonArray pluginMetaData
+              READ pluginMetaData NOTIFY pluginMetaDataChanged)
 
 public:
    explicit PluginController(QObject *parent = nullptr);

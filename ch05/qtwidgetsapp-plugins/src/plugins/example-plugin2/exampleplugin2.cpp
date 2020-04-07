@@ -36,7 +36,8 @@ bool ExamplePlugin2::initialize()
 
    uiController->addDockWidget(calendarWidgetWrapper);
 
-   connect(ICore::self()->pluginController(), &IPluginController::allPluginsLoaded, this, []() {
+   connect(ICore::self()->pluginController(),
+           &IPluginController::allPluginsLoaded, this, []() {
       qDebug() << "All plugins have been loaded!";
    });
 

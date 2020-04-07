@@ -21,7 +21,8 @@ public:
    static ICore *self();
 
    virtual QtWidgetsApp::IUIController *uiController() const = 0;
-   virtual QtWidgetsApp::IPluginController *pluginController() const = 0;
+   virtual QtWidgetsApp::IPluginController *pluginController()
+           const = 0;
 
 protected:
    explicit ICore(QObject *parent = nullptr);

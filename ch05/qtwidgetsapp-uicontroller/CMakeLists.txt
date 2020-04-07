@@ -8,7 +8,8 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-include_directories(${qtwidgetsapp_SOURCE_DIR}/src/ ${qtwidgetsapp_BINARY_DIR}/src/)
+include_directories(${qtwidgetsapp_SOURCE_DIR}/src/
+                    ${qtwidgetsapp_BINARY_DIR}/src/)
 
 find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Widgets

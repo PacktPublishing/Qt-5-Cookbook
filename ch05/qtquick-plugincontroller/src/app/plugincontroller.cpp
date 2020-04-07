@@ -17,10 +17,12 @@ PluginController::PluginController(QObject *parent) : QObject(parent)
 #endif
    QString contents;
    QJsonArray mergedArray;
-   foreach(const QString &fileName, dir.entryList(QStringList() << "*.json")) {
+   foreach(const QString &fileName,
+           dir.entryList(QStringList() << "*.json")) {
       QFile file(dir.absoluteFilePath(fileName));
       file.open(QIODevice::ReadOnly);
-      QJsonObject jsonObject = QJsonDocument::fromJson(file.readAll()).object();
+      QJsonObject jsonObject =
+              QJsonDocument::fromJson(file.readAll()).object();
       QDir pluginDir(dir);
       pluginDir.cd(fileName.split('.').first());
 #ifdef Q_OS_ANDROID

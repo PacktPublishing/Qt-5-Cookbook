@@ -9,7 +9,8 @@ namespace QtWidgetsApp
 class ExamplePlugin2 : public IPlugin
 {
    Q_OBJECT
-   Q_PLUGIN_METADATA(IID "com.packtpub.qt5.exampleplugin2" FILE "exampleplugin2.json")
+   Q_PLUGIN_METADATA(IID "com.packtpub.qt5.exampleplugin2"
+                     FILE "exampleplugin2.json")
 
 public:
    explicit ExamplePlugin2(QObject *parent = nullptr);

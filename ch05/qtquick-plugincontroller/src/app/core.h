@@ -8,7 +8,8 @@ class PluginController;
 class Core : public QObject
 {
    Q_OBJECT
-   Q_PROPERTY(PluginController * pluginController READ pluginController CONSTANT)
+   Q_PROPERTY(PluginController * pluginController
+              READ pluginController CONSTANT)
 
 public:
    static Core *self();

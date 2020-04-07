@@ -24,9 +24,11 @@ ApplicationWindow {
                stackView.pop(null)
                stackView.push(
                   (Qt.platform.os === "android") ?
-                     "assets:/plugins/" + modelData.pluginName + "/" + modelData.mainPage
+                     "assets:/plugins/" + modelData.pluginName + "/" +
+                       modelData.mainPage
                      :
-                     "file://" + modelData.pluginName + "/" + modelData.mainPage
+                     "file://" + modelData.pluginName + "/" +
+                       modelData.mainPage
                   )
                drawer.close()
             }
@@ -40,7 +42,8 @@ ApplicationWindow {
       initialItem: Item {
          Label {
             anchors.centerIn: parent
-            horizontalAlignment: Qt.AlignHCenter; verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
             text: "Hello from microkernel QtQuick application!"
          }
       }

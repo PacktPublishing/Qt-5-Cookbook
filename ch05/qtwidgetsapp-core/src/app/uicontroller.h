@@ -6,7 +6,8 @@
 namespace QtWidgetsApp
 {
 
-class QTWIDGETSAPPINTERFACES_EXPORT UIController : public IUIController
+class QTWIDGETSAPPINTERFACES_EXPORT UIController
+        : public IUIController
 {
    Q_OBJECT
 

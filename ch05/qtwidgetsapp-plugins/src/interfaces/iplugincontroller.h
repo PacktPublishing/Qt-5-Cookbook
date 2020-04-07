@@ -27,7 +27,8 @@ public:
       T *pluginOfType = nullptr;
       for (const auto &plugin : _loadedPlugins.keys())
          if (pluginOfType = dynamic_cast<T *>(plugin))
-            loadedPluginsByType[pluginOfType] = _loadedPlugins[plugin];
+            loadedPluginsByType[pluginOfType] =
+                    _loadedPlugins[plugin];
       return loadedPluginsByType;
    }
 

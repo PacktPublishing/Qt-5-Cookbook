@@ -30,7 +30,8 @@ void PluginController::loadPlugins()
 {
    auto pluginsDir = QDir(qApp->applicationDirPath());
    #if defined(Q_OS_WIN)
-   if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+   if (pluginsDir.dirName().toLower() == "debug" ||
+           pluginsDir.dirName().toLower() == "release")
       pluginsDir.cdUp();
    #elif defined(Q_OS_MAC)
    if (pluginsDir.dirName() == "MacOS") {
@@ -56,7 +57,8 @@ void PluginController::loadPlugins()
             qDebug() << "Initializing plugin" << fileName;
             plugin->initialize();
             _loadedPlugins[plugin] = loader.metaData();
-         } else qDebug() << "Plugin" << fileName << "is not an IPlugin";
+         } else
+             qDebug() << "Plugin" << fileName << "is not an IPlugin";
       } else qDebug() << "Error when loading plugin" << fileName;
    }
    Q_EMIT allPluginsLoaded();

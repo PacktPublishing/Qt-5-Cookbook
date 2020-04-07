@@ -85,7 +85,7 @@ bool UIController::initialize()
       (new AboutPluginsDialog(&_mainWindow))->exec();
    });
 
-   auto label = new QLabel { QStringLiteral("Hello from microkernel application!") };
+   auto label = new QLabel { QStringLiteral("Hello from microkernel QtWidgets application!") };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
    _mainWindow.setCentralWidget(label);
    _mainWindow.showMaximized();

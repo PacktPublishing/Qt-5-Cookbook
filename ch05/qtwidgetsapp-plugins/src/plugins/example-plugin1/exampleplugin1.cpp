@@ -1,4 +1,4 @@
-#include "exampleplugin.h"
+#include "exampleplugin1.h"
 
 #include <QAction>
 #include <QDebug>
@@ -9,18 +9,18 @@
 namespace QtWidgetsApp
 {
 
-ExamplePlugin::~ExamplePlugin()
+ExamplePlugin1::~ExamplePlugin1()
 {
 }
 
-ExamplePlugin::ExamplePlugin(QObject *parent)
+ExamplePlugin1::ExamplePlugin1(QObject *parent)
    : IPlugin(parent)
 {
 }
 
-bool ExamplePlugin::initialize()
+bool ExamplePlugin1::initialize()
 {
-   qDebug() << "Initializing ExamplePlugin";
+   qDebug() << "Initializing ExamplePlugin1";
 
    auto uiController = ICore::self()->uiController();
 

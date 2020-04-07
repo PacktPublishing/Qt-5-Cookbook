@@ -15,6 +15,8 @@ class QTWIDGETSAPPINTERFACES_EXPORT IPluginController : public QObject
 public:
    virtual ~IPluginController() Q_DECL_OVERRIDE;
 
+   virtual bool initialize() = 0;
+
 protected:
    explicit IPluginController(QObject *parent = nullptr);
 };

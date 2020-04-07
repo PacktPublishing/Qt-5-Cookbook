@@ -14,11 +14,16 @@ PluginController::PluginController(QObject *parent)
    : IPluginController(parent)
 {
    qDebug() << "Initializing PluginController";
-   loadPlugins();
 }
 
 PluginController::~PluginController()
 {
+}
+
+bool PluginController::initialize()
+{
+   loadPlugins();
+   return true;
 }
 
 void PluginController::loadPlugins()
@@ -54,6 +59,7 @@ void PluginController::loadPlugins()
          } else qDebug() << "Plugin" << fileName << "is not an IPlugin";
       } else qDebug() << "Error when loading plugin" << fileName;
    }
+   Q_EMIT allPluginsLoaded();
 }
 
 }

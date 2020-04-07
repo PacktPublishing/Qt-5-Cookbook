@@ -15,6 +15,8 @@ class QTWIDGETSAPPINTERFACES_EXPORT IUIController : public QObject
 public:
    virtual ~IUIController() Q_DECL_OVERRIDE;
 
+   virtual bool initialize() = 0;
+
 protected:
    explicit IUIController(QObject *parent = nullptr);
 };

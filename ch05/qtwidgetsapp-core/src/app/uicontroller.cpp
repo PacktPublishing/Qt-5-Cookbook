@@ -15,4 +15,9 @@ UIController::~UIController()
 {
 }
 
+bool UIController::initialize()
+{
+   return true;
+}
+
 }

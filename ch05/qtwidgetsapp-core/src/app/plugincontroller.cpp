@@ -15,4 +15,9 @@ PluginController::~PluginController()
 {
 }
 
+bool PluginController::initialize()
+{
+   return true;
+}
+
 }

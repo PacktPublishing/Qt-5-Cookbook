@@ -17,8 +17,11 @@ class QTWIDGETSAPPINTERFACES_EXPORT IUIController : public QObject
 public:
    virtual ~IUIController() Q_DECL_OVERRIDE;
 
+   virtual bool initialize() = 0;
+
    virtual void addMenuItem(const QString &menu, QAction *action) = 0;
    virtual void addToolButton(const QString &toolbar, QAction *action, Qt::ToolBarArea area = Qt::TopToolBarArea) = 0;
+   virtual void addDockWidget(QWidget *widget, Qt::DockWidgetArea area = Qt::RightDockWidgetArea) = 0;
 
 protected:
    explicit IUIController(QObject *parent = nullptr);

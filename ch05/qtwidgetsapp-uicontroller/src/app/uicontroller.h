@@ -16,8 +16,11 @@ public:
    explicit UIController(QObject *parent = nullptr);
    virtual ~UIController() Q_DECL_OVERRIDE;
 
+   virtual bool initialize() Q_DECL_OVERRIDE;
+
    virtual void addMenuItem(const QString &menu, QAction *action) Q_DECL_OVERRIDE;
    virtual void addToolButton(const QString &toolbar, QAction *action, Qt::ToolBarArea area = Qt::TopToolBarArea) Q_DECL_OVERRIDE;
+   virtual void addDockWidget(QWidget *widget, Qt::DockWidgetArea area = Qt::RightDockWidgetArea) Q_DECL_OVERRIDE;
 
 private:
    QMainWindow _mainWindow;

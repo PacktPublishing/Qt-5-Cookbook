@@ -36,6 +36,8 @@ Core::Core(QObject *parent)
    _self = this;
    _uiController = new UIController(this);
    _pluginController = new PluginController(this);
+   _uiController->initialize();
+   _pluginController->initialize();
 }
 
 }

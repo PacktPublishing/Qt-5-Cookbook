@@ -1,0 +1,5 @@
+{
+   "name": "My example plugin 1",
+   "version": "0.0.1",
+   "description": "An example plugin which creates menu items and toolbar buttons."
+}

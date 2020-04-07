@@ -90,16 +90,6 @@ bool UIController::initialize()
    _mainWindow.setCentralWidget(label);
    _mainWindow.showMaximized();
 
-   // We will move the following sentences into a plugin in next recipe
-   auto editAction = new QAction {QIcon {":/icons/item.svg"}, "Edit item"};
-   addMenuItem("&Edit", editAction);
-   addToolButton("main-toolbar", editAction);
-   connect (editAction, &QAction::triggered, this, []() { qDebug() << "Action triggered!"; });
-
-   addToolButton("secondary-toolbar", new QAction {QIcon {":/icons/item.svg"}, "Action in another toolbar"}, Qt::RightToolBarArea);
-   addMenuItem("&File", new QAction {QIcon {":/icons/item.svg"}, "Another file item"});
-   addMenuItem("&Help", new QAction {QIcon {":/icons/item.svg"}, "Another help item"});
-
    return true;
 }
 

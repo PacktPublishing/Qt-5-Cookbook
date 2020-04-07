@@ -1,0 +1,5 @@
+{
+   "name": "My example plugin 2",
+   "version": "0.0.1",
+   "description": "An example plugin which creates a new dockwidget."
+}

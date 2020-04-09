@@ -7,11 +7,11 @@ namespace MyApp
 
 UIController::UIController(QObject *parent) : IUIController {parent}
 {
-   qDebug() << "Initializing UIController";
 }
 
 bool UIController::initialize()
 {
+   qDebug() << "Initializing UIController";
    return true;
 }
 

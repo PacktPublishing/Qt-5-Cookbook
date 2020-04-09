@@ -8,7 +8,8 @@ include(FeatureSummary)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-include_directories(${qtquickapp_SOURCE_DIR}/src/ ${qtquickapp_BINARY_DIR}/src/)
+include_directories(${qtquickapp_SOURCE_DIR}/src/
+                    ${qtquickapp_BINARY_DIR}/src/)
 
 find_package(Qt5 CONFIG REQUIRED COMPONENTS
    Core

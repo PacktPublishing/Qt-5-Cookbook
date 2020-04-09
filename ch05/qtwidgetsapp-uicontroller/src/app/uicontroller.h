@@ -5,7 +5,7 @@
 
 #include <QMainWindow>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class QTWIDGETSAPPINTERFACES_EXPORT UIController
@@ -15,18 +15,18 @@ class QTWIDGETSAPPINTERFACES_EXPORT UIController
 
 public:
    explicit UIController(QObject *parent = nullptr);
-   virtual ~UIController() Q_DECL_OVERRIDE;
+   ~UIController() Q_DECL_OVERRIDE = default;
 
-   virtual bool initialize() Q_DECL_OVERRIDE;
+   bool initialize() Q_DECL_OVERRIDE;
 
-   virtual void addMenuItem(const QString &menu, QAction *action)
-    Q_DECL_OVERRIDE;
-   virtual void addToolButton(const QString &toolbar, QAction *action,
+   void addMenuItem(const QString &menu, QAction *action)
+        Q_DECL_OVERRIDE;
+   void addToolButton(const QString &toolbar, QAction *action,
                             Qt::ToolBarArea area = Qt::TopToolBarArea)
-    Q_DECL_OVERRIDE;
-   virtual void addDockWidget(QWidget *widget,
+        Q_DECL_OVERRIDE;
+   void addDockWidget(QWidget *widget,
                     Qt::DockWidgetArea area = Qt::RightDockWidgetArea)
-    Q_DECL_OVERRIDE;
+        Q_DECL_OVERRIDE;
 
 private:
    QMainWindow _mainWindow;
@@ -34,6 +34,6 @@ private:
    QHash<QString, QAction *> _menuSeparators;
 };
 
-}
+} // namespace MyApp
 
 #endif // _UICONTROLLER_H_

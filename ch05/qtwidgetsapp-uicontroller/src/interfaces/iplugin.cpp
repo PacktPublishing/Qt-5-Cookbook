@@ -1,15 +1,10 @@
 #include "iplugin.h"
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
-IPlugin::~IPlugin()
-{
-}
-
-IPlugin::IPlugin(QObject *parent)
-   : QObject(parent)
+IPlugin::IPlugin(QObject *parent) : QObject {parent}
 {
 }
 
-}
+} // namespace MyApp

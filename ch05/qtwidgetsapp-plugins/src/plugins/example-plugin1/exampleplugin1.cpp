@@ -6,12 +6,8 @@
 #include <interfaces/icore.h>
 #include <interfaces/iuicontroller.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
-
-ExamplePlugin1::~ExamplePlugin1()
-{
-}
 
 ExamplePlugin1::ExamplePlugin1(QObject *parent)
    : IPlugin(parent)
@@ -25,21 +21,26 @@ bool ExamplePlugin1::initialize()
    auto uiController = ICore::self()->uiController();
 
    auto editAction = new QAction {
-           QIcon {":/icons/item.svg"}, "Edit item"};
-   uiController->addMenuItem("&Edit", editAction);
-   uiController->addToolButton("main-toolbar", editAction);
+           QIcon {QStringLiteral(":/icons/item.svg")},
+           QStringLiteral("Edit item")};
+   uiController->addMenuItem(QStringLiteral("&Edit"), editAction);
+   uiController->addToolButton(QStringLiteral("main-toolbar"),
+                               editAction);
    connect (editAction, &QAction::triggered, this, []() {
        qDebug() << "Action triggered!"; });
 
-   uiController->addToolButton("secondary-toolbar", new QAction {
-             QIcon {":/icons/item.svg"}, "Action in another toolbar"},
-                               Qt::RightToolBarArea);
-   uiController->addMenuItem("&File", new QAction {
-                    QIcon {":/icons/item.svg"}, "Another file item"});
-   uiController->addMenuItem("&Help", new QAction {
-                    QIcon {":/icons/item.svg"}, "Another help item"});
+   uiController->addToolButton(QStringLiteral("secondary-toolbar"),
+            new QAction {QIcon {QStringLiteral(":/icons/item.svg")},
+                         QStringLiteral("Action in another toolbar")},
+            Qt::RightToolBarArea);
+   uiController->addMenuItem(QStringLiteral("&File"),
+            new QAction {QIcon {QStringLiteral(":/icons/item.svg")},
+                         QStringLiteral("Another file item")});
+   uiController->addMenuItem(QStringLiteral("&Help"),
+            new QAction {QIcon {QStringLiteral(":/icons/item.svg")},
+                         QStringLiteral("Another help item")});
 
    return true;
 }
 
-}
+} // namespace MyApp

@@ -2,17 +2,13 @@
 
 #include <QDebug>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 PluginController::PluginController(QObject *parent)
-   : IPluginController(parent)
+   : IPluginController {parent}
 {
    qDebug() << "Initializing PluginController";
-}
-
-PluginController::~PluginController()
-{
 }
 
 bool PluginController::initialize()
@@ -20,4 +16,4 @@ bool PluginController::initialize()
    return true;
 }
 
-}
+} // namespace MyApp

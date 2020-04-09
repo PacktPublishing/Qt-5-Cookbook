@@ -2,17 +2,12 @@
 
 #include <QDebug>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
-UIController::UIController(QObject *parent)
-   : IUIController(parent)
+UIController::UIController(QObject *parent) : IUIController {parent}
 {
    qDebug() << "Initializing UIController";
-}
-
-UIController::~UIController()
-{
 }
 
 bool UIController::initialize()
@@ -20,4 +15,4 @@ bool UIController::initialize()
    return true;
 }
 
-}
+} // namespace MyApp

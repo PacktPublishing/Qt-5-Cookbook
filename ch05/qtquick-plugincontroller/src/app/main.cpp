@@ -7,12 +7,13 @@
 int main(int argc, char *argv[])
 {
    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-   QGuiApplication app(argc, argv);
+   QGuiApplication app {argc, argv};
 
    Core::self();
    QQmlApplicationEngine engine;
-   engine.rootContext()->setContextProperty("core", Core::self());
-   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+   engine.rootContext()->setContextProperty(QStringLiteral("core"),
+                                            Core::self());
+   engine.load(QUrl {QStringLiteral("qrc:/main.qml")});
 
-   return app.exec();
+   return QGuiApplication::exec();
 }

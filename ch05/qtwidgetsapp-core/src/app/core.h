@@ -3,7 +3,7 @@
 
 #include <interfaces/icore.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class QTWIDGETSAPPINTERFACES_EXPORT Core : public ICore
@@ -11,20 +11,20 @@ class QTWIDGETSAPPINTERFACES_EXPORT Core : public ICore
    Q_OBJECT
 
 public:
-   virtual ~Core() Q_DECL_OVERRIDE;
+   ~Core() Q_DECL_OVERRIDE = default;
 
    static bool initialize();
 
-   virtual QtWidgetsApp::IUIController *uiController() const;
-   virtual QtWidgetsApp::IPluginController *pluginController() const;
+   MyApp::IUIController *uiController() const Q_DECL_OVERRIDE;
+   MyApp::IPluginController *pluginController() const Q_DECL_OVERRIDE;
 
 private:
    explicit Core(QObject *parent = nullptr);
 
-   QtWidgetsApp::IUIController *_uiController;
-   QtWidgetsApp::IPluginController *_pluginController;
+   MyApp::IUIController *_uiController;
+   MyApp::IPluginController *_pluginController;
 };
 
-}
+} // namespace MyApp
 
 #endif // _CORE_H_

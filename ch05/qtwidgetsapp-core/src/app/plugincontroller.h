@@ -3,7 +3,7 @@
 
 #include <interfaces/iplugincontroller.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class QTWIDGETSAPPINTERFACES_EXPORT PluginController
@@ -13,11 +13,11 @@ class QTWIDGETSAPPINTERFACES_EXPORT PluginController
 
 public:
    explicit PluginController(QObject *parent = nullptr);
-   virtual ~PluginController() Q_DECL_OVERRIDE;
+   ~PluginController() Q_DECL_OVERRIDE = default;
 
-   virtual bool initialize() Q_DECL_OVERRIDE;
+   bool initialize() Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace MyApp
 
 #endif // _PLUGINCONTROLLER_H_

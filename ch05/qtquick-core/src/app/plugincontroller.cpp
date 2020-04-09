@@ -1,5 +1,5 @@
 #include "plugincontroller.h"
 
-PluginController::PluginController(QObject *parent) : QObject(parent)
+PluginController::PluginController(QObject *parent) : QObject {parent}
 {
 }

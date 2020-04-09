@@ -4,9 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-   QApplication app(argc, argv);
+   QApplication app {argc, argv};
 
-   QtWidgetsApp::Core::initialize();
+   MyApp::Core::initialize();
 
-   app.exec();
+   return QApplication::exec();
 }

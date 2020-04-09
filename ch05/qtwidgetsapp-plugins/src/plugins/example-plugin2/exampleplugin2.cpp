@@ -6,15 +6,11 @@
 #include <QVBoxLayout>
 
 #include <interfaces/icore.h>
-#include <interfaces/iuicontroller.h>
 #include <interfaces/iplugincontroller.h>
+#include <interfaces/iuicontroller.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
-
-ExamplePlugin2::~ExamplePlugin2()
-{
-}
 
 ExamplePlugin2::ExamplePlugin2(QObject *parent)
    : IPlugin(parent)
@@ -44,4 +40,4 @@ bool ExamplePlugin2::initialize()
    return true;
 }
 
-}
+} // namespace MyApp

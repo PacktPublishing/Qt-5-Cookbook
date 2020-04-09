@@ -17,55 +17,60 @@
 #include <interfaces/iplugin.h>
 #include <interfaces/iplugincontroller.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class AboutPluginsDialog : public QDialog
 {
+    Q_OBJECT
+
 public:
-   AboutPluginsDialog(QWidget *parent = nullptr) : QDialog(parent)
+   explicit AboutPluginsDialog(QWidget *parent = nullptr)
+        : QDialog {parent}
    {
       setWindowTitle(QStringLiteral("Loaded Plugins"));
-      QVBoxLayout* layout = new QVBoxLayout(this);
+      auto layout = new QVBoxLayout {this};
       QTableWidget *tableWidget = nullptr;
-      layout->addWidget(tableWidget = new QTableWidget(this));
+      layout->addWidget(tableWidget = new QTableWidget {this});
       tableWidget->setColumnCount(3);
       tableWidget->horizontalHeader()->setStretchLastSection(true);
       tableWidget->setRowCount(
            ICore::self()->pluginController()->loadedPlugins().size());
       tableWidget->setHorizontalHeaderLabels(
-               QStringList() << "Name" << "Version" << "Description");
+                  QStringList {} << QStringLiteral("Name")
+                                 << QStringLiteral("Version")
+                                 << QStringLiteral("Description")
+                  );
       int i = 0;
-      for (const auto &pluginMetaData :
-        ICore::self()->pluginController()->loadedPlugins().values()) {
-         auto metaDataObject = pluginMetaData["MetaData"].toObject();
+      const QList<QJsonObject> &pluginsMetaData =
+          ICore::self()->pluginController()->loadedPlugins().values();
+      for (const auto &pluginMetaData : pluginsMetaData) {
+         auto metaDataObject =
+                pluginMetaData[QStringLiteral("MetaData")].toObject();
          tableWidget->setItem(i, 0,
-            new QTableWidgetItem(metaDataObject["name"].toString()));
+             new QTableWidgetItem {
+               metaDataObject[QStringLiteral("name")].toString()});
          tableWidget->setItem(i, 1,
-            new QTableWidgetItem(
-                               metaDataObject["version"].toString()));
+             new QTableWidgetItem {
+               metaDataObject[QStringLiteral("version")].toString()});
          tableWidget->setItem(i, 2,
-            new QTableWidgetItem(
-                           metaDataObject["description"].toString()));
+             new QTableWidgetItem {
+               metaDataObject[QStringLiteral("description")].
+                              toString()});
          ++i;
       }
       tableWidget->resizeColumnsToContents();
 
-      auto dialogButtonBox = new QDialogButtonBox(
-                                    QDialogButtonBox::Ok, this);
-      connect(dialogButtonBox, &QDialogButtonBox::accepted, this,
-              &QDialog::accept);
+      auto dialogButtonBox =
+              new QDialogButtonBox {QDialogButtonBox::Ok, this};
+      connect(dialogButtonBox, &QDialogButtonBox::accepted,
+              this, &QDialog::accept);
       layout->addWidget(dialogButtonBox);
    }
-   virtual QSize sizeHint() const { return QSize(800,400); }
+    QSize sizeHint() const Q_DECL_OVERRIDE { return {800,400}; }
 };
 
-UIController::UIController(QObject *parent)
-   : IUIController(parent)
-{
-}
-
-UIController::~UIController()
+UIController::UIController(QObject *parent) : IUIController {parent}
 {
 }
 
@@ -75,34 +80,39 @@ bool UIController::initialize()
 
    QMenu *fileMenu = nullptr;
    _mainWindow.menuBar()->addMenu(
-               fileMenu = new QMenu("&File", _mainWindow.menuBar()));
-   fileMenu->setObjectName("&File");
+               fileMenu = new QMenu {QStringLiteral("&File"),
+                                    _mainWindow.menuBar()}
+           );
+   fileMenu->setObjectName(QStringLiteral("&File"));
    _menuSeparators[QStringLiteral("&File")] =
            fileMenu->addSeparator();
    auto exitAction = fileMenu->addAction(
-            QIcon {QStringLiteral(":/icons/exit.svg")}, tr("E&xit"),
-            QApplication::instance(), &QApplication::exit,
-            Qt::CTRL + Qt::Key_Q);
-   auto mainToolBar =
-           _mainWindow.addToolBar(QStringLiteral("main-toolbar"));
+              QIcon {QStringLiteral(":/icons/exit.svg")}, tr("E&xit"),
+              QApplication::instance(), &QApplication::exit,
+              Qt::CTRL + Qt::Key_Q);
+   auto mainToolBar = _mainWindow.addToolBar(
+               QStringLiteral("main-toolbar"));
    mainToolBar->setObjectName(QStringLiteral("main-toolbar"));
    mainToolBar->addAction(exitAction);
 
    QMenu *helpMenu = nullptr;
    _helpAction = _mainWindow.menuBar()->addMenu(
-               helpMenu = new QMenu("&Help", _mainWindow.menuBar()));
-   helpMenu->setObjectName("&Help");
+               helpMenu = new QMenu {QStringLiteral("&Help"),
+                                    _mainWindow.menuBar()});
+   helpMenu->setObjectName(QStringLiteral("&Help"));
    _menuSeparators[QStringLiteral("&Help")] =
            helpMenu->addSeparator();
-   auto aboutPluginsAction = new QAction {
-           QIcon {":/icons/plugins.svg"}, "About &Plugins"};
+   auto aboutPluginsAction =
+           new QAction {QIcon {QStringLiteral(":/icons/plugins.svg")},
+                        QStringLiteral("About &Plugins")};
    helpMenu->addAction(aboutPluginsAction);
    connect(aboutPluginsAction, &QAction::triggered, this, [=]() {
-      (new AboutPluginsDialog(&_mainWindow))->exec();
+      (new AboutPluginsDialog {&_mainWindow})->exec();
    });
 
    auto label = new QLabel {
-    QStringLiteral("Hello from microkernel QtWidgets application!") };
+       QStringLiteral("Hello from microkernel QtWidgets application!")
+   };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
    _mainWindow.setCentralWidget(label);
    _mainWindow.showMaximized();
@@ -115,13 +125,14 @@ void UIController::addMenuItem(const QString &menu, QAction *action)
    auto myMenu = _mainWindow.menuBar()->findChild<QMenu *>(menu);
    if (!myMenu) {
       _mainWindow.menuBar()->insertMenu(_helpAction,
-                     myMenu = new QMenu(menu, _mainWindow.menuBar()));
+                    myMenu = new QMenu {menu, _mainWindow.menuBar()});
       myMenu->setObjectName(menu);
    }
-   if (_menuSeparators.value(menu))
+   if (_menuSeparators.value(menu)) {
       myMenu->insertAction(_menuSeparators.value(menu), action);
-   else
+   } else {
       myMenu->addAction(action);
+   }
 }
 
 void UIController::addToolButton(const QString &toolbar,
@@ -130,7 +141,8 @@ void UIController::addToolButton(const QString &toolbar,
 {
    auto myToolBar = _mainWindow.findChild<QToolBar *>(toolbar);
    if (!myToolBar) {
-      _mainWindow.addToolBar(area, myToolBar = new QToolBar(toolbar));
+      _mainWindow.addToolBar(area, myToolBar =
+              new QToolBar {toolbar});
       myToolBar->setObjectName(toolbar);
    }
    myToolBar->addAction(action);
@@ -144,4 +156,6 @@ void UIController::addDockWidget(QWidget *widget,
    _mainWindow.addDockWidget(area, dockWidget);
 }
 
-}
+} // namespace MyApp
+
+#include "uicontroller.moc"

@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class IPluginController;
@@ -16,19 +16,18 @@ class QTWIDGETSAPPINTERFACES_EXPORT ICore : public QObject
    Q_OBJECT
 
 public:
-   virtual ~ICore() Q_DECL_OVERRIDE;
+   ~ICore() Q_DECL_OVERRIDE = default;
 
    static ICore *self();
 
-   virtual QtWidgetsApp::IUIController *uiController() const = 0;
-   virtual QtWidgetsApp::IPluginController *pluginController()
-           const = 0;
+   virtual MyApp::IUIController *uiController() const = 0;
+   virtual MyApp::IPluginController *pluginController() const = 0;
 
 protected:
    explicit ICore(QObject *parent = nullptr);
    static ICore *_self;
 };
 
-}
+} // namespace MyApp
 
 #endif // _ICORE_H_

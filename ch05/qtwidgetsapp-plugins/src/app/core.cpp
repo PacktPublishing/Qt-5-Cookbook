@@ -3,41 +3,35 @@
 #include "plugincontroller.h"
 #include "uicontroller.h"
 
-namespace QtWidgetsApp
+namespace MyApp
 {
-
-Core::~Core()
-{
-}
 
 bool Core::initialize()
 {
-   if (_self)
-      return true;
-
-   new Core;
+   if (!_self) {
+       new Core;
+   }
 
    return true;
 }
 
-QtWidgetsApp::IUIController *Core::uiController() const
+MyApp::IUIController *Core::uiController() const
 {
    return _uiController;
 }
 
-QtWidgetsApp::IPluginController *Core::pluginController() const
+MyApp::IPluginController *Core::pluginController() const
 {
    return _pluginController;
 }
 
-Core::Core(QObject *parent)
-   : ICore(parent)
+Core::Core(QObject *parent) : ICore(parent)
 {
    _self = this;
-   _uiController = new UIController(this);
-   _pluginController = new PluginController(this);
+   _uiController = new UIController {this};
+   _pluginController = new PluginController {this};
    _uiController->initialize();
    _pluginController->initialize();
 }
 
-}
+} // namespace MyApp

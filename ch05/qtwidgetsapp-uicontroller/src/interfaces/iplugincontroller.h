@@ -7,7 +7,7 @@
 #include <QJsonObject>
 #include <QObject>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class IPlugin;
@@ -17,19 +17,21 @@ class QTWIDGETSAPPINTERFACES_EXPORT IPluginController : public QObject
    Q_OBJECT
 
 public:
-   virtual ~IPluginController() Q_DECL_OVERRIDE;
+   ~IPluginController() Q_DECL_OVERRIDE = default;
 
    virtual bool initialize() = 0;
 
    template<typename T = IPlugin>
    QHash<T *, QJsonObject> loadedPlugins() const {
-      QHash<T *, QJsonObject> loadedPluginsByType;
+      QHash<T *, QJsonObject> pluginsByType;
       T *pluginOfType = nullptr;
-      for (const auto &plugin : _loadedPlugins.keys())
-         if (pluginOfType = dynamic_cast<T *>(plugin))
-            loadedPluginsByType[pluginOfType] =
-                    _loadedPlugins[plugin];
-      return loadedPluginsByType;
+      const QList<IPlugin *> &keyList = _loadedPlugins.keys();
+      for (const auto &plugin : keyList) {
+         if ((pluginOfType = qobject_cast<T *>(plugin))) {
+            pluginsByType[pluginOfType] = _loadedPlugins[plugin];
+         }
+      }
+      return pluginsByType;
    }
 
 Q_SIGNALS:
@@ -41,6 +43,6 @@ protected:
    QHash<IPlugin *, QJsonObject> _loadedPlugins;
 };
 
-}
+} // namespace MyApp
 
 #endif // _IPLUGINCONTROLLER_H_

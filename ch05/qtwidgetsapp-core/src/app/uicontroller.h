@@ -3,7 +3,7 @@
 
 #include <interfaces/iuicontroller.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class QTWIDGETSAPPINTERFACES_EXPORT UIController
@@ -13,11 +13,11 @@ class QTWIDGETSAPPINTERFACES_EXPORT UIController
 
 public:
    explicit UIController(QObject *parent = nullptr);
-   virtual ~UIController() Q_DECL_OVERRIDE;
+   ~UIController() Q_DECL_OVERRIDE = default;
 
-   virtual bool initialize() Q_DECL_OVERRIDE;
+   bool initialize() Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace MyApp
 
 #endif // _UICONTROLLER_H_

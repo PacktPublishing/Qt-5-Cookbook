@@ -3,7 +3,7 @@
 
 #include <interfaces/iplugin.h>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class ExamplePlugin2 : public IPlugin
@@ -14,11 +14,11 @@ class ExamplePlugin2 : public IPlugin
 
 public:
    explicit ExamplePlugin2(QObject *parent = nullptr);
-   virtual ~ExamplePlugin2() Q_DECL_OVERRIDE;
+   ~ExamplePlugin2() Q_DECL_OVERRIDE = default;
 
-   virtual bool initialize();
+   bool initialize() Q_DECL_OVERRIDE;
 };
 
-}
+} // namespace MyApp
 
 #endif // _EXAMPLEPLUGIN2_H_

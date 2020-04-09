@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 class QTWIDGETSAPPINTERFACES_EXPORT IUIController : public QObject
@@ -13,7 +13,7 @@ class QTWIDGETSAPPINTERFACES_EXPORT IUIController : public QObject
    Q_OBJECT
 
 public:
-   virtual ~IUIController() Q_DECL_OVERRIDE;
+   ~IUIController() Q_DECL_OVERRIDE = default;
 
    virtual bool initialize() = 0;
 
@@ -21,6 +21,6 @@ protected:
    explicit IUIController(QObject *parent = nullptr);
 };
 
-}
+} // namespace MyApp
 
 #endif // _IUICONTROLLER_H_

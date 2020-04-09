@@ -1,15 +1,10 @@
 #include "iuicontroller.h"
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
-IUIController::~IUIController()
-{
-}
-
-IUIController::IUIController(QObject *parent)
-   : QObject(parent)
+IUIController::IUIController(QObject *parent) : QObject {parent}
 {
 }
 
-}
+} // namespace MyApp

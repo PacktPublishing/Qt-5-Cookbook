@@ -7,17 +7,13 @@
 
 #include "../interfaces/iplugin.h"
 
-namespace QtWidgetsApp
+namespace MyApp
 {
 
 PluginController::PluginController(QObject *parent)
-   : IPluginController(parent)
+   : IPluginController {parent}
 {
    qDebug() << "Initializing PluginController";
-}
-
-PluginController::~PluginController()
-{
 }
 
 bool PluginController::initialize()
@@ -28,7 +24,7 @@ bool PluginController::initialize()
 
 void PluginController::loadPlugins()
 {
-   auto pluginsDir = QDir(qApp->applicationDirPath());
+   auto pluginsDir = QDir {qApp->applicationDirPath()};
    #if defined(Q_OS_WIN)
    if (pluginsDir.dirName().toLower() == "debug" ||
            pluginsDir.dirName().toLower() == "release")
@@ -40,16 +36,16 @@ void PluginController::loadPlugins()
       pluginsDir.cdUp();
    }
    #endif
-   if (!pluginsDir.cd("plugins")) {
-       qDebug("Plugin directory does not exist! Creating...");
-       pluginsDir.mkdir ("plugins");
-       pluginsDir.cd("plugins");
+   if (!pluginsDir.cd(QStringLiteral("plugins"))) {
+       qDebug() << "Plugin directory does not exist! Creating...";
+       pluginsDir.mkdir(QStringLiteral("plugins"));
+       pluginsDir.cd(QStringLiteral("plugins"));
    }
    const auto entryList = pluginsDir.entryList(QDir::Files);
    qDebug() << entryList.count() << "plugins found!" << entryList;
    for (const QString &fileName : entryList) {
       qDebug() << "Loading plugin" << fileName;
-      QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+      QPluginLoader loader {pluginsDir.absoluteFilePath(fileName)};
       auto pluginObject = loader.instance();
       if (pluginObject) {
          auto plugin = qobject_cast<IPlugin *>(pluginObject);
@@ -57,11 +53,14 @@ void PluginController::loadPlugins()
             qDebug() << "Initializing plugin" << fileName;
             plugin->initialize();
             _loadedPlugins[plugin] = loader.metaData();
-         } else
+         } else {
              qDebug() << "Plugin" << fileName << "is not an IPlugin";
-      } else qDebug() << "Error when loading plugin" << fileName;
+         }
+      } else {
+          qDebug() << "Error when loading plugin" << fileName;
+      }
    }
    Q_EMIT allPluginsLoaded();
 }
 
-}
+} // namespace MyApp

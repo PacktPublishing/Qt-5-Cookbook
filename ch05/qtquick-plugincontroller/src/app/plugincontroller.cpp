@@ -19,7 +19,7 @@ PluginController::PluginController(QObject *parent) : QObject {parent}
    const auto &entryList = dir.entryList(
                QStringList {} << QStringLiteral("*.json"));
    for(const auto &fileName : entryList) {
-       QFile file {dir.absoluteFilePath(fileName)};
+      QFile file {dir.absoluteFilePath(fileName)};
       file.open(QIODevice::ReadOnly);
       QJsonObject jsonObject =
               QJsonDocument::fromJson(file.readAll()).object();

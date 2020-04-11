@@ -17,6 +17,7 @@ class QTWIDGETSAPPINTERFACES_EXPORT IPluginController : public QObject
    Q_OBJECT
 
 public:
+   explicit IPluginController(QObject *parent = nullptr);
    ~IPluginController() Q_DECL_OVERRIDE = default;
 
    virtual bool initialize() = 0;
@@ -38,8 +39,6 @@ Q_SIGNALS:
    void allPluginsLoaded();
 
 protected:
-   explicit IPluginController(QObject *parent = nullptr);
-
    QHash<IPlugin *, QJsonObject> _loadedPlugins;
 };
 

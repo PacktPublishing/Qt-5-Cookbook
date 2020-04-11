@@ -13,12 +13,10 @@ class QTWIDGETSAPPINTERFACES_EXPORT IPluginController : public QObject
    Q_OBJECT
 
 public:
+   explicit IPluginController(QObject *parent = nullptr);
    ~IPluginController() Q_DECL_OVERRIDE = default;
 
    virtual bool initialize() = 0;
-
-protected:
-   explicit IPluginController(QObject *parent = nullptr);
 };
 
 } // namespace MyApp

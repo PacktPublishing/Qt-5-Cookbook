@@ -13,11 +13,11 @@ namespace MyApp
 PluginController::PluginController(QObject *parent)
    : IPluginController {parent}
 {
-   qDebug() << "Initializing PluginController";
 }
 
 bool PluginController::initialize()
 {
+   qDebug() << "Initializing PluginController";
    loadPlugins();
    return true;
 }

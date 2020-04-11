@@ -16,6 +16,7 @@ class QTWIDGETSAPPINTERFACES_EXPORT ICore : public QObject
    Q_OBJECT
 
 public:
+   explicit ICore(QObject *parent = nullptr);
    ~ICore() Q_DECL_OVERRIDE = default;
 
    static ICore *self();
@@ -24,7 +25,6 @@ public:
    virtual MyApp::IPluginController *pluginController() const = 0;
 
 protected:
-   explicit ICore(QObject *parent = nullptr);
    static ICore *_self;
 };
 

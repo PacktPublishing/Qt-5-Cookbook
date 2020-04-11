@@ -47,5 +47,6 @@ ApplicationWindow {
             text: "Hello from microkernel QtQuick application!"
          }
       }
-   }
+    }
+    Component.onCompleted: drawer.open()
 }

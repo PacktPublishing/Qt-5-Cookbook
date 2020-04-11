@@ -2,4 +2,5 @@
 
 PluginController::PluginController(QObject *parent) : QObject {parent}
 {
+   qRegisterMetaType<PluginController *>("PluginController *");
 }

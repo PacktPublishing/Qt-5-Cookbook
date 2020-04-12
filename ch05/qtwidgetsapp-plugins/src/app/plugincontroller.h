@@ -6,8 +6,7 @@
 namespace MyApp
 {
 
-class QTWIDGETSAPPINTERFACES_EXPORT PluginController
-        : public IPluginController
+class PluginController : public IPluginController
 {
    Q_OBJECT
 

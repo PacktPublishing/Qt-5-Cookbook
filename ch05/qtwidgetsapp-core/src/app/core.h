@@ -6,7 +6,7 @@
 namespace MyApp
 {
 
-class QTWIDGETSAPPINTERFACES_EXPORT Core : public ICore
+class Core : public ICore
 {
    Q_OBJECT
 

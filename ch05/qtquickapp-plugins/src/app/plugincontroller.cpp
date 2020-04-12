@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QUrl>
 
 PluginController::PluginController(QObject *parent) : QObject {parent}
 {
@@ -26,11 +27,11 @@ PluginController::PluginController(QObject *parent) : QObject {parent}
       QDir pluginDir {dir};
       pluginDir.cd(fileName.split('.').first());
 #ifdef Q_OS_ANDROID
-      jsonObject[QLatin1String("pluginName")] =
+      jsonObject[QLatin1String("pluginPath")] =
               fileName.split('.').first();
 #else
-      jsonObject[QLatin1String("pluginName")] =
-              pluginDir.absolutePath();
+      jsonObject[QLatin1String("pluginPath")] =
+              QUrl::fromLocalFile(pluginDir.absolutePath()).toString();
 #endif
       mergedArray.append(jsonObject);
       file.close();

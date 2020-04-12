@@ -115,6 +115,7 @@ bool UIController::initialize()
    };
    label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
    _mainWindow.setCentralWidget(label);
+   _mainWindow.resize(800,600);
    _mainWindow.showMaximized();
 
    return true;

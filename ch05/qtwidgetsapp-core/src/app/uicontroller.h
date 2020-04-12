@@ -6,8 +6,7 @@
 namespace MyApp
 {
 
-class QTWIDGETSAPPINTERFACES_EXPORT UIController
-        : public IUIController
+class UIController : public IUIController
 {
    Q_OBJECT
 

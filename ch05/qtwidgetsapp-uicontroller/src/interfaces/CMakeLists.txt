@@ -15,3 +15,6 @@ target_link_libraries(qtwidgetsappinterfaces
 
 generate_export_header(qtwidgetsappinterfaces EXPORT_FILE_NAME
                        qtwidgetsappinterfacesexport.h)
+
+install(TARGETS qtwidgetsappinterfaces
+        DESTINATION ${CMAKE_BINARY_DIR}/src/app/)

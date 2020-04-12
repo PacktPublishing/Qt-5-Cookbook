@@ -2,7 +2,6 @@ set(qtwidgetsappinterfaces_SRC
    icore.cpp
    iplugincontroller.cpp
    iuicontroller.cpp
-   iplugin.cpp
 )
 
 add_library(qtwidgetsappinterfaces SHARED

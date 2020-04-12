@@ -9,11 +9,6 @@
 namespace MyApp
 {
 
-ExamplePlugin1::ExamplePlugin1(QObject *parent)
-   : IPlugin(parent)
-{
-}
-
 bool ExamplePlugin1::initialize()
 {
    qDebug() << "Initializing ExamplePlugin1";

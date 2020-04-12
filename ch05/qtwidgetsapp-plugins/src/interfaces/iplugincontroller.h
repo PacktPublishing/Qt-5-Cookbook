@@ -28,7 +28,7 @@ public:
       T *pluginOfType = nullptr;
       const QList<IPlugin *> &keyList = _loadedPlugins.keys();
       for (const auto &plugin : keyList) {
-         if ((pluginOfType = qobject_cast<T *>(plugin))) {
+         if ((pluginOfType = dynamic_cast<T *>(plugin))) {
             pluginsByType[pluginOfType] = _loadedPlugins[plugin];
          }
       }

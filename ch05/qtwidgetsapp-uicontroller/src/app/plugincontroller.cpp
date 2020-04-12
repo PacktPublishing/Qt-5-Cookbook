@@ -51,8 +51,9 @@ void PluginController::loadPlugins()
          auto plugin = qobject_cast<IPlugin *>(pluginObject);
          if (plugin) {
             qDebug() << "Initializing plugin" << fileName;
-            plugin->initialize();
-            _loadedPlugins[plugin] = loader.metaData();
+            if (plugin->initialize()) {
+               _loadedPlugins[plugin] = loader.metaData();
+            }
          } else {
              qDebug() << "Plugin" << fileName << "is not an IPlugin";
          }

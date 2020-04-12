@@ -31,7 +31,7 @@ PluginController::PluginController(QObject *parent) : QObject {parent}
               fileName.split('.').first();
 #else
       jsonObject[QLatin1String("pluginPath")] =
-              QUrl::fromLocalFile(pluginDir.absolutePath()).toString();
+             QUrl::fromLocalFile(pluginDir.absolutePath()).toString();
 #endif
       mergedArray.append(jsonObject);
       file.close();

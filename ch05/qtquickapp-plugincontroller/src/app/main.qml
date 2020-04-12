@@ -24,11 +24,10 @@ ApplicationWindow {
                stackView.pop(null)
                stackView.push(
                   (Qt.platform.os === "android") ?
-                     "assets:/plugins/" + modelData.pluginName + "/" +
+                     "assets:/plugins/" + modelData.pluginPath + "/" +
                        modelData.mainPage
                      :
-                     "file://" + modelData.pluginName + "/" +
-                       modelData.mainPage
+                     modelData.pluginPath + "/" + modelData.mainPage
                   )
                drawer.close()
             }

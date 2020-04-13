@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 
 project(qtquickapp)
 
-include(GenerateExportHeader)
 include(FeatureSummary)
 
 set(CMAKE_AUTOMOC ON)
